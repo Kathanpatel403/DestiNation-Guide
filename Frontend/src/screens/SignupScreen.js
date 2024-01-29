@@ -5,6 +5,7 @@ import {
   Image,
   TextInput,
   ImageBackground,
+  ToastAndroid
 } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -27,17 +28,21 @@ export default function SignUpScreen() {
         const uid = userCredential.user.uid;
 
         const userRoleRef = doc(collection(firestore, 'userRoles'), uid);
-
         setDoc(userRoleRef, {
           role: "user",
+          email: email,
+          name: name,
         }).then(() => {
           console.log("User role set successfully.");
         }).catch(() => {
           console.error("Error setting user role:", error);
         })
 
+        ToastAndroid.show(`User created successfully!}`, ToastAndroid.SHORT);
+
         navigation.navigate("LogIn");
       } catch (err) {
+        ToastAndroid.show(`got error: ${err.message}`, ToastAndroid.SHORT);
         console.log("got error: ", err.message);
       }
     }
