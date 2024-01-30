@@ -38,7 +38,7 @@ export default function SignUpScreen() {
           console.error("Error setting user role:", error);
         })
 
-        ToastAndroid.show(`User created successfully!}`, ToastAndroid.SHORT);
+        ToastAndroid.show(`User created successfully!`, ToastAndroid.SHORT);
 
         navigation.navigate("LogIn");
       } catch (err) {

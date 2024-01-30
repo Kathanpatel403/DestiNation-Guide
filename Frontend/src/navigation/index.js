@@ -17,6 +17,7 @@ import AdminRemoveUser from "../screens/AdminRemoveUsers";
 import AdminUpdateUser from "../screens/AdminUpdateUsers";
 import AdminAddPlacesScreen from "../screens/AdminAddPlacesScreen";
 import MapScreen from "../screens/MapScreen"
+import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -56,11 +57,6 @@ export default function AppNavigation() {
             name="AdminRemove"
             options={{ headerShown: false }}
             component={AdminRemoveUser}
-          />
-          <Stack.Screen
-          name="LogIn"
-          options={{ headerShown: false }}
-          component={LoginScreen}
           />
           <Stack.Screen
             name="AdminManage"
@@ -113,6 +109,11 @@ export default function AppNavigation() {
           name="LogIn"
           options={{ headerShown: false }}
           component={LoginScreen}
+          />
+          <Stack.Screen
+          name="ForgotPassword"
+          options={{ headerShown: false }}
+          component={ForgotPasswordScreen}
           />
           <Stack.Screen
             name="AdminHome"

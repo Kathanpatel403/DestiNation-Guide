@@ -17,7 +17,6 @@ import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 
 
-
 export default function LoginScreen() {
 	const navigation = useNavigation();
 	const [email, setEmail] = useState("");
@@ -113,7 +112,7 @@ export default function LoginScreen() {
 							value={password}
 							onChangeText={(value) => setPassword(value)}
 						/>
-						<TouchableOpacity className="flex items-end">
+						<TouchableOpacity onPress={() => navigation.navigate("ForgotPassword")} className="flex items-end">
 							<Text className="text-gray-700 mb-5">Forgot Password?</Text>
 						</TouchableOpacity>
 						<TouchableOpacity
