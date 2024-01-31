@@ -15,22 +15,64 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import { useEffect, useState } from "react";
 import { MagnifyingGlassIcon } from "react-native-heroicons/outline";
 import Categories from "../components/categories";
 import SortCategories from "../components/sortCategories";
 import Destinations from "../components/destinations";
 import { useNavigation } from "@react-navigation/native";
+import { auth, firestore } from "../../config/firebase";
+import { doc, getDoc} from "firebase/firestore";
+import { useFocusEffect } from "@react-navigation/native";
+import { DrawerActions } from "@react-navigation/native";
+
 
 const ios = Platform.OS == "ios";
 const topMargin = ios ? "mt-3" : "mt-10";
 
 export default function HomeScreen() {
   const navigation = useNavigation();
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchUserData();
+    }, [])
+  );
+
   const handleProfileNavigation = () => {
     navigation.navigate("Profile"); // Replace 'Profile' with your ProfileScreen's navigation name
   };
   const handleLogoNavigation = () => {
     navigation.navigate("Welcome"); // Replace 'Profile' with your ProfileScreen's navigation name
+  };
+
+  const fetchUserData = async () => {
+    const user = auth.currentUser;
+
+    if (user) {
+      const uid = user.uid;
+      const userRoleRef = doc(firestore, "userRoles", uid);
+
+      try {
+        const docSnapshot = await getDoc(userRoleRef);
+
+        if (docSnapshot.exists()) {
+          const data = docSnapshot.data();
+          const photo = docSnapshot.data().photoURL;
+          setUserData(data);
+        } else {
+          ToastAndroid.show("User data not found.", ToastAndroid.SHORT);
+        }
+      } catch (error) {
+        ToastAndroid.show(`Error fetching user data: ${error}`, ToastAndroid.SHORT);
+        console.error("Error fetching user data:", error);
+      }
+    }
   };
 
   return (
@@ -54,14 +96,18 @@ export default function HomeScreen() {
               height: wp(50),
               width: wp(30),
               marginLeft: -25,
-              marginBottom: -10,
+              marginBottom: -15,
+              marginTop: 20,
             }}
           />
           </TouchableOpacity>
-          <TouchableOpacity onPress={handleProfileNavigation}>
+          <TouchableOpacity 
+          onPress={handleProfileNavigation}
+          
+          >
             <Image
-              source={require("../../assets/images/avatar.png")}
-              style={{ height: wp(18), width: wp(15) }}
+            source={userData?.photoURL ? { uri: userData.photoURL } : require('../../assets/images/avatar.png')}
+              style={{ width: 70, height: 70, marginTop: 20, marginRight: 15, borderRadius: 50 }}
             />
           </TouchableOpacity>
         </View>

@@ -18,6 +18,9 @@ import AdminUpdateUser from "../screens/AdminUpdateUsers";
 import AdminAddPlacesScreen from "../screens/AdminAddPlacesScreen";
 import MapScreen from "../screens/MapScreen"
 import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
+import SettingScreen from "../screens/SettingScreen";
+import BookmarkScreen from "../screens/BookmarkScreen";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -69,6 +72,11 @@ export default function AppNavigation() {
             component={AdminDashboard}
           />
           <Stack.Screen
+          name="LogIn"
+          options={{ headerShown: false }}
+          component={LoginScreen}
+          />
+          <Stack.Screen
             name="Home"
             options={{ headerShown: false }}
             component={HomeScreen}
@@ -77,6 +85,16 @@ export default function AppNavigation() {
             name="Profile"
             options={{ headerShown: false }}
             component={ProfileScreen}
+          />
+          <Stack.Screen
+            name="Settings"
+            options={{ headerShown: false }}
+            component={SettingScreen}
+          />
+          <Stack.Screen
+            name="Bookmarks"
+            options={{ headerShown: false }}
+            component={BookmarkScreen}
           />
           <Stack.Screen
             name="CategoryDetails"
@@ -170,6 +188,16 @@ export default function AppNavigation() {
             name="Profile"
             options={{ headerShown: false }}
             component={ProfileScreen}
+          />
+          <Stack.Screen
+            name="Settings"
+            options={{ headerShown: false }}
+            component={SettingScreen}
+          />
+          <Stack.Screen
+            name="Bookmarks"
+            options={{ headerShown: false }}
+            component={BookmarkScreen}
           />
           <Stack.Screen
             name="CategoryDetails"

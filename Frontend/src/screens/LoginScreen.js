@@ -53,7 +53,7 @@ export default function LoginScreen() {
 					const data = docSnapshot.data().name;
 					setUserData(data);
 
-					if (role === "admin") {
+					if (role === "Admin") {
 						ToastAndroid.show(`Logging in as: ${data}`, ToastAndroid.SHORT);
 						console.log("logging in");
 						navigation.navigate("AdminHome");
