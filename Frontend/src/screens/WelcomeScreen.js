@@ -12,17 +12,17 @@ const WelcomeScreen = () => {
   const navigation = useNavigation();
   const user = useAuth();
 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      if (user) {
-        navigation.navigate("Home");
-      } else {
-        navigation.navigate("LogIn");
-      }
-    }, 1500);
+  // useEffect(() => {
+  //   const timeout = setTimeout(() => {
+  //     if (user) {
+  //       navigation.navigate("Home");
+  //     } else {
+  //       navigation.navigate("LogIn");
+  //     }
+  //   }, 1500);
 
-    return () => clearTimeout(timeout);
-  }, [navigation]);
+  //   return () => clearTimeout(timeout);
+  // }, [navigation]);
 
   // Use useFocusEffect to navigate to Home after 3 seconds when the screen comes into focus
   useFocusEffect(() => {

@@ -13,7 +13,6 @@ import {
 import React from "react";
 import {
   widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { useEffect, useState } from "react";
 import { MagnifyingGlassIcon } from "react-native-heroicons/outline";
@@ -23,8 +22,7 @@ import Destinations from "../components/destinations";
 import { useNavigation } from "@react-navigation/native";
 import { auth, firestore } from "../../config/firebase";
 import { doc, getDoc} from "firebase/firestore";
-import { useFocusEffect } from "@react-navigation/native";
-import { DrawerActions } from "@react-navigation/native";
+import { useFocusEffect, DrawerActions } from "@react-navigation/native";
 
 
 const ios = Platform.OS == "ios";
@@ -45,7 +43,7 @@ export default function HomeScreen() {
   );
 
   const handleProfileNavigation = () => {
-    navigation.navigate("Profile"); // Replace 'Profile' with your ProfileScreen's navigation name
+    navigation.navigate("Profile");
   };
   const handleLogoNavigation = () => {
     navigation.navigate("Welcome"); // Replace 'Profile' with your ProfileScreen's navigation name

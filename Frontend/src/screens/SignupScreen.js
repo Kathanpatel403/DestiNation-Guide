@@ -40,7 +40,7 @@ export default function SignUpScreen() {
 
         ToastAndroid.show(`User created successfully!`, ToastAndroid.SHORT);
 
-        navigation.navigate("LogIn");
+        navigation.navigate("Home");
       } catch (err) {
         ToastAndroid.show(`got error: ${err.message}`, ToastAndroid.SHORT);
         console.log("got error: ", err.message);

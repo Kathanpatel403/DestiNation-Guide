@@ -21,7 +21,6 @@ import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
 import SettingScreen from "../screens/SettingScreen";
 import BookmarkScreen from "../screens/BookmarkScreen";
 
-
 const Stack = createNativeStackNavigator();
 
 export default function AppNavigation() {
@@ -29,8 +28,8 @@ export default function AppNavigation() {
 
   if (user) {
     return (
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Welcome">
+      <NavigationContainer >
+        <Stack.Navigator>
           <Stack.Screen
             name="Welcome"
             options={{ headerShown: false }}
@@ -70,11 +69,6 @@ export default function AppNavigation() {
             name="AdminDashboard"
             options={{ headerShown: false }}
             component={AdminDashboard}
-          />
-          <Stack.Screen
-          name="LogIn"
-          options={{ headerShown: false }}
-          component={LoginScreen}
           />
           <Stack.Screen
             name="Home"
@@ -119,95 +113,19 @@ export default function AppNavigation() {
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Welcome">
           <Stack.Screen
-          name="SignUp"
-          options={{ headerShown: false }}
-          component={SignUpScreen}
-          />
-          <Stack.Screen
-          name="LogIn"
-          options={{ headerShown: false }}
-          component={LoginScreen}
-          />
-          <Stack.Screen
-          name="ForgotPassword"
-          options={{ headerShown: false }}
-          component={ForgotPasswordScreen}
-          />
-          <Stack.Screen
-            name="AdminHome"
+            name="LogIn"
             options={{ headerShown: false }}
-            component={AdminHomeScreen}
+            component={LoginScreen}
           />
           <Stack.Screen
-            name="AdminAddPlace"
+            name="SignUp"
             options={{ headerShown: false }}
-            component={AdminAddPlacesScreen}
+            component={SignUpScreen}
           />
           <Stack.Screen
-            name="AdminRemove"
+            name="ForgotPassword"
             options={{ headerShown: false }}
-            component={AdminRemoveUser}
-          />
-          <Stack.Screen
-            name="AdminUpdate"
-            options={{ headerShown: false }}
-            component={AdminUpdateUser}
-          />
-          <Stack.Screen
-            name="AdminManage"
-            options={{ headerShown: false }}
-            component={AdminManageUsers}
-          />
-          <Stack.Screen
-            name="AdminAdd"
-            options={{ headerShown: false }}
-            component={AdminAddUser}
-          />
-          <Stack.Screen
-            name="AdminDashboard"
-            options={{ headerShown: false }}
-            component={AdminDashboard}
-          />
-          <Stack.Screen
-            name="MapScreen"
-            options={{ headerShown: false }}
-            component={MapScreen}
-          />
-          <Stack.Screen
-            name="Home"
-            options={{ headerShown: false }}
-            component={HomeScreen}
-          />
-
-          <Stack.Screen
-            name="Welcome"
-            options={{ headerShown: false }}
-            component={WelcomeScreen}
-          />
-          <Stack.Screen
-            name="Profile"
-            options={{ headerShown: false }}
-            component={ProfileScreen}
-          />
-          <Stack.Screen
-            name="Settings"
-            options={{ headerShown: false }}
-            component={SettingScreen}
-          />
-          <Stack.Screen
-            name="Bookmarks"
-            options={{ headerShown: false }}
-            component={BookmarkScreen}
-          />
-          <Stack.Screen
-            name="CategoryDetails"
-            options={{ headerShown: false }}
-            component={CategoryDetails}
-          />
-          <Stack.Screen
-            name="Destination"
-            options={{ headerShown: false }}
-            component={DestinationScreen}
+            component={ForgotPasswordScreen}
           />
         </Stack.Navigator>
       </NavigationContainer>
