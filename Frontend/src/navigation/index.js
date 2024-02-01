@@ -30,10 +30,10 @@ export default function AppNavigation() {
     return (
       <NavigationContainer >
         <Stack.Navigator>
-          <Stack.Screen
-            name="Welcome"
+        <Stack.Screen
+            name="Home"
             options={{ headerShown: false }}
-            component={WelcomeScreen}
+            component={HomeScreen}
           />
           <Stack.Screen
             name="AdminHome"
@@ -71,9 +71,14 @@ export default function AppNavigation() {
             component={AdminDashboard}
           />
           <Stack.Screen
-            name="Home"
+            name="Welcome"
             options={{ headerShown: false }}
-            component={HomeScreen}
+            component={WelcomeScreen}
+          />
+          <Stack.Screen
+            name="LogIn"
+            options={{ headerShown: false }}
+            component={LoginScreen}
           />
           <Stack.Screen
             name="Profile"
