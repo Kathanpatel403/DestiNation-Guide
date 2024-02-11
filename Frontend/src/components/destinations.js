@@ -20,7 +20,7 @@ const Destinations = () => {
         const data = await fetchData('api/destinations/');
 
         // Limit the number of items to 10
-        setDestinationData(data.destinations.slice(0, 10));
+        setDestinationData(data.destinations);
       } catch (error) {
         // Handle error, e.g., show an error message to the user
         console.error('Error fetching destinations:', error);
@@ -40,7 +40,7 @@ const Destinations = () => {
         className="flex justify-end relative p-4 py-6 space-y-2 mb-5"
       >
         <Image
-          source={{ uri: item.image[0] }} // Assuming the first image URL is used
+          source={{ uri: item.Image[0] }} // Assuming the first image URL is used
           style={{ width: wp(44), height: wp(65), borderRadius: 35 }}
           className="absolute"
         />
@@ -66,10 +66,10 @@ const Destinations = () => {
         </TouchableOpacity>
 
         <Text style={{ fontSize: wp(4) }} className="text-white font-semibold">
-          {item.name}
+          {item.Name}
         </Text>
         <Text style={{ fontSize: wp(2.2) }} className="text-white">
-          {item.shortDescription}
+          {item.ShortDescription}
         </Text>
       </TouchableOpacity>
     );

@@ -46,6 +46,27 @@ export default function DestinationScreen(props) {
     // Add more items as needed
   ];
   
+  const formatFeeWithLineBreaks = (fee) => {
+    if (!fee || typeof fee !== 'string') {
+      return null;
+    }
+  
+    const parts = fee.split(',');
+    const formattedString = parts.reduce((result, part, index) => {
+      const trimmedPart = part.trim();
+      if (index === 0) {
+        return trimmedPart;
+      } else {
+        return `${result}\n${trimmedPart}`;
+      }
+    }, '');
+  
+    return (
+      <Text style={{ fontSize: wp(4.5), color: "#f2f2f2" }}>
+        {formattedString}
+      </Text>
+    );
+  };
  
 
   
@@ -70,7 +91,7 @@ export default function DestinationScreen(props) {
   const handleDirectionPress = () => {
     // Navigate to the MapScreen when the "Direction" button is pressed
     navigation.navigate('MapScreen', {
-      destinationName: item.name,
+      destinationName: item.Name,
       destinationLatitude: item.latitude,
       destinationLongitude: item.longitude,
     });
@@ -112,10 +133,10 @@ export default function DestinationScreen(props) {
       listener: handleScroll,
     }
   )}
-  renderItem={({ item: image,index }) => (
+  renderItem={({ item: Image,index }) => (
     <Animated.Image
       animation="fadeIn"
-      source={{ uri: item.image[index] }}
+      source={{ uri: item.Image[index] }}
       style={{
         resizeMode: "cover",
         marginTop: 10,
@@ -203,7 +224,7 @@ export default function DestinationScreen(props) {
                   color: theme.textDark,
                 }}
               >
-                {item?.name}
+                {item?.Name}
               </AnimatedText>
             </View>
           </Animatable.View>
@@ -211,6 +232,11 @@ export default function DestinationScreen(props) {
             showsVerticalScrollIndicator={false}
             style={{ padding: wp(5), paddingBottom: hp(1) }}
           >
+
+
+
+
+
            <Animatable.View
   animation="fadeInUpBig"
   delay={200}
@@ -251,7 +277,7 @@ export default function DestinationScreen(props) {
         letterSpacing:0.5
       }}
     >
-      {item?.description}
+      {item?.LongDescription}
     </AnimatedText>
   </LinearGradient>
 </Animatable.View>
@@ -309,13 +335,177 @@ export default function DestinationScreen(props) {
         textAlign: 'justify',
         lineHeight: hp(2.5),
         letterSpacing:0.5}}>
-      {item?.city}, {item?.state},{" "}
-      {item?.country},{"\n"}({item?.latitude},{" "}
+      {item?.City}, {item?.State},{" "}
+      {item?.Country},{"\n"}({item?.latitude},{" "}
       {item?.longitude})
     </Text>
   </View>
 </Animatable.View>
+<Animatable.View
+  animation="fadeInUpBig"
+  delay={200}
+  style={{
+    backgroundColor: "#e3e3e3",
+    borderRadius: wp(3),
+    padding: wp(2),
+  
+    flexDirection: "row", // Use a flex container to align text and icon horizontally
+    alignItems: "center", 
+    backgroundColor: "#e3e3e3", // Adjust background color as needed
+    borderRadius: wp(5), // Slightly increased border radius
+    padding: wp(4),
+    marginBottom: hp(3),
+    shadowColor: '#fff',
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8, // For Android shadow
+    borderWidth: 1, // Border width
+    borderColor: "#ccc",// Align items vertically in the flex container
+  }}
+>
+ 
+<View
+    style={{
+      flexWrap: "wrap",
+      flexDirection: "row",
+      alignItems: "center",
+      
+    }}
+  >
+    <Text
+      style={{
+        fontSize: wp(5),
+        fontWeight: "bold",
+        color: theme.textDark,
+        textAlign:'center'
+      }}
+    >
+      Best Month to Visit {'\t\t'}
+    </Text>
 
+    <View
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        fontColor:'white',
+        marginVertical: hp(1),
+        backgroundColor : "#999999",
+        padding: wp(2),
+        borderRadius: wp(4),
+        marginRight: wp(2),
+      }}
+    >
+      <View
+        style={{
+          width: wp(3),
+          height: wp(3),
+          borderRadius: wp(2),
+          backgroundColor: "#000",
+          alignItems: "center",
+          justifyContent: "center",
+          marginRight: wp(1),
+          marginLeft:wp(1)
+
+        }}
+      >
+        <FontAwesome name="circle" size={wp(1.5)} color="#FFF" />
+      </View>
+      {/* Format the item?.Fee value with line breaks on commas */}
+      {formatFeeWithLineBreaks(item?.BMTV)}
+    </View>
+  </View>
+
+  {/* Text Content */}
+ 
+</Animatable.View> 
+
+
+<Animatable.View
+  animation="fadeInUpBig"
+  delay={200}
+  style={{
+    backgroundColor: "#e3e3e3",
+    borderRadius: wp(3),
+    padding: wp(2),
+  
+    flexDirection: "row", // Use a flex container to align text and icon horizontally
+    alignItems: "center", 
+    backgroundColor: "#e3e3e3", // Adjust background color as needed
+    borderRadius: wp(5), // Slightly increased border radius
+    padding: wp(4),
+    marginBottom: hp(3),
+    shadowColor: '#fff',
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8, // For Android shadow
+    borderWidth: 1, // Border width
+    borderColor: "#ccc",// Align items vertically in the flex container
+  }}
+>
+ 
+<View
+    style={{
+      flexWrap: "wrap",
+      flexDirection: "row",
+      alignItems: "center",
+      
+    }}
+  >
+    <Text
+      style={{
+        fontSize: wp(5),
+        fontWeight: "bold",
+        color: theme.textDark,
+        textAlign:'center'
+      }}
+    >
+      Traffic At Place{'\t\t'}
+    </Text>
+
+    <View
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        fontColor:'white',
+        marginVertical: hp(1),
+        backgroundColor : "#999999",
+        padding: wp(2),
+        borderRadius: wp(4),
+        marginRight: wp(2),
+      }}
+    >
+      <View
+        style={{
+          width: wp(3),
+          height: wp(3),
+          borderRadius: wp(2),
+          backgroundColor: "#000",
+          alignItems: "center",
+          justifyContent: "center",
+          marginRight: wp(1),
+          marginLeft:wp(1)
+
+        }}
+      >
+        <FontAwesome name="circle" size={wp(1.5)} color="#FFF" />
+      </View>
+      {/* Format the item?.Fee value with line breaks on commas */}
+      <Text style={{ fontSize: wp(3.7),
+        color: 'white',
+        marginTop: hp(0.1),
+        textAlign: 'justify',
+        lineHeight: hp(2.5),
+        letterSpacing:0.5}}>
+      {item?.TIP}
+    </Text>
+    </View>
+  </View>
+
+  {/* Text Content */}
+ 
+</Animatable.View> 
             {/* Activities Section */}
             <Animatable.View
   animation="fadeInUpBig"
@@ -352,7 +542,7 @@ export default function DestinationScreen(props) {
       alignItems: "center",
     }}
   >
-    {item?.activities?.map((activity, index) => (
+    {item?.Activities?.map((Activities, index) => (
       <View
         key={index}
         style={{
@@ -379,14 +569,11 @@ export default function DestinationScreen(props) {
         >
           <FontAwesome name="circle" size={wp(1.5)} color="#FFF" />
         </View>
-        <Text style={{ fontSize: wp(4.5), color: "#f2f2f2" }}>{activity}</Text>
+        <Text style={{ fontSize: wp(4.5), color: "#f2f2f2" }}>{Activities}</Text>
       </View>
     ))}
   </View>
 </Animatable.View>
-
-
-
 
             {/* Amenities Section */}
             <Animatable.View
@@ -424,7 +611,7 @@ export default function DestinationScreen(props) {
       alignItems: "center",
     }}
   >
-  {item?.amenities?.map((amenity, index) => (
+  {item?.Amenities?.map((Amenities, index) => (
       <View
         key={index}
         style={{
@@ -451,7 +638,7 @@ export default function DestinationScreen(props) {
         >
           <FontAwesome name="circle" size={wp(1.5)} color="#FFF" />
         </View>
-        <Text style={{ fontSize: wp(4.5), color: "#f2f2f2" }}>{amenity}</Text>
+        <Text style={{ fontSize: wp(4.5), color: "#f2f2f2" }}>{Amenities}</Text>
       </View>
     ))}
   </View>
@@ -539,6 +726,84 @@ export default function DestinationScreen(props) {
   ))}
 </Animatable.View> */} 
 
+
+
+<Animatable.View
+  animation="fadeInUpBig"
+  delay={200}
+  style={{
+    backgroundColor: "#e3e3e3",
+    borderRadius: wp(3),
+    padding: wp(2),
+  
+    flexDirection: "row", // Use a flex container to align text and icon horizontally
+    alignItems: "center", 
+    backgroundColor: "#e3e3e3", // Adjust background color as needed
+    borderRadius: wp(5), // Slightly increased border radius
+    padding: wp(4),
+    marginBottom: hp(3),
+    shadowColor: '#fff',
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8, // For Android shadow
+    borderWidth: 1, // Border width
+    borderColor: "#ccc",// Align items vertically in the flex container
+  }}
+>
+ 
+<View
+    style={{
+      flexWrap: "wrap",
+      flexDirection: "row",
+      alignItems: "center",
+    }}
+  >
+    <Text
+      style={{
+        fontSize: wp(5),
+        fontWeight: "bold",
+        color: theme.textDark,
+      }}
+    >
+      Entry Fees{'\t\t\t\t'} 
+    </Text>
+
+    <View
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        fontColor:'white',
+        marginVertical: hp(1),
+        backgroundColor : "#999999",
+        padding: wp(2),
+        borderRadius: wp(4),
+        marginRight: wp(2),
+      }}
+    >
+      <View
+        style={{
+          width: wp(3),
+          height: wp(3),
+          borderRadius: wp(2),
+          backgroundColor: "#000",
+          alignItems: "center",
+          justifyContent: "center",
+          marginRight: wp(1),
+          marginLeft:wp(1)
+
+        }}
+      >
+        <FontAwesome name="circle" size={wp(1.5)} color="#FFF" />
+      </View>
+      {/* Format the item?.Fee value with line breaks on commas */}
+      {formatFeeWithLineBreaks(item?.Fee)}
+    </View>
+  </View>
+
+  {/* Text Content */}
+ 
+</Animatable.View>
 
 <Animatable.View
         animation="fadeInUpBig"

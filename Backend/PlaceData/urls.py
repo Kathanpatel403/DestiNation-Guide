@@ -1,7 +1,8 @@
 # urls.py
 from django.urls import path
-from .views import get_all_destinations
+from . import views
 
 urlpatterns = [
-    path('api/destinations/', get_all_destinations, name='get_all_destinations')
+    path('api/destinations/', views.get_all_destinations, name='get_all_destinations'),
+    path('api/places/add/', views.add_place, name='add_place'),
 ]

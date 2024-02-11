@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text, } from 'react-native';
-import MapView, { Marker, Polyline,Callout } from 'react-native-maps';
+import MapView, { Marker, Polyline, Callout } from 'react-native-maps';
 import * as Location from 'expo-location';
+import { useNavigation } from '@react-navigation/native';
 
 const MapScreen = ({ route }) => {
+  const navigation = useNavigation();
   const { destinationName, destinationLatitude, destinationLongitude } = route.params;
   const [userLocation, setUserLocation] = useState(null);
   const [directions, setDirections] = useState([]);
@@ -12,7 +14,7 @@ const MapScreen = ({ route }) => {
 
   const handleMapLayout = () => {
     // After the map layout is calculated, set the callout to be visible
-    
+
   };
   useEffect(() => {
     let isMounted = true;
@@ -52,7 +54,7 @@ const MapScreen = ({ route }) => {
     };
 
     getLocation();
-    setCalloutVisible(true);  
+    setCalloutVisible(true);
     return () => {
       // Cleanup function to execute when the component is unmounted
       isMounted = false;
@@ -81,21 +83,18 @@ const MapScreen = ({ route }) => {
           />
           {/* Destination Marker */}
           <Marker
-  coordinate={{
-    latitude: destinationLatitude,
-    longitude: destinationLongitude,
-  }}
-  
-  
->
- 
-              <Callout>
-                <View style={styles.customMarker}>
-                  <Text style={styles.markerText}>{destinationName}</Text>
-                </View>
-              </Callout>
-            
-</Marker>
+            coordinate={{
+              latitude: destinationLatitude,
+              longitude: destinationLongitude,
+            }}
+          >
+            <Callout>
+              <View style={styles.customMarker}>
+                <Text style={styles.markerText}>{destinationName}</Text>
+              </View>
+            </Callout>
+
+          </Marker>
 
 
 
@@ -138,16 +137,16 @@ const styles = StyleSheet.create({
     backgroundColor: 'grey',
     padding: 5,
     borderRadius: 5,
-    borderColor:'black'
+    borderColor: 'black'
   },
   markerText: {
     color: 'white',
     fontWeight: 'bold',
-    textAlign:'center',
-    
+    textAlign: 'center',
+
   },
 
- 
+
 });
 
 
