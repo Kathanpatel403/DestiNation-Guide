@@ -72,5 +72,3 @@ def give_rec(title, sig=sig):
 
     title_name_list = title_name.tolist()
     return (title_name_list)
-
-

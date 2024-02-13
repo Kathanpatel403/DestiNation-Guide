@@ -1,10 +1,25 @@
-import { View, Text, TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
-import { sortCategoryData } from '../constants';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+// SortCategories.js
 
-export default function SortCategories() {
-  const [activeSort, setActiveSort] = useState('All');
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { HeartIcon } from 'react-native-heroicons/solid';
+import { useNavigation } from '@react-navigation/native';
+import { fetchData } from '../services/api';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+
+export default function SortCategories({ onSelectSortCategory }) {
+  const [activeSort, setActiveSort] = useState('Popular');
+
+  const handleSortSelection = (sort) => {
+    setActiveSort(sort);
+    onSelectSortCategory(sort); // Pass selected sort category to parent component
+  };
+
+  const sortCategoryData = ['All', 'Popular', 'Recommendation']; // Update available sort categories
 
   return (
     <View
@@ -30,10 +45,9 @@ export default function SortCategories() {
 
         return (
           <TouchableOpacity
-            onPress={() => setActiveSort(sort)}
+            onPress={() => handleSortSelection(sort)} // Updated onPress handler
             key={index}
             style={{
-              // flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
               padding: wp(3.5),
@@ -56,3 +70,107 @@ export default function SortCategories() {
     </View>
   );
 }
+
+const Destinations = ({ selectedSortCategory }) => {
+  const [destinationData, setDestinationData] = useState([]);
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    const fetchDestinations = async () => {
+      try {
+        let data;
+        if (selectedSortCategory === 'Recommendation') {
+          // Fetch recommendations based on the selected sort category
+          const response = await fetchData(`api/recommendations/Inorbit Mall`);
+          
+          if (response && response.recommendations) {
+            // Now, fetch details of each recommendation from the backend
+            const recommendedPlaces = response.recommendations;
+            data = recommendedPlaces;
+          } else {
+            throw new Error('Invalid response format for recommendations');
+          }
+        } else if (selectedSortCategory === 'Popular') {
+          // Fetch destinations sorted by likes
+          const response = await fetchData('api/destinations/sorted-by-likes');
+          if (response && response.destinations) {
+            data = response.destinations;
+          } else {
+            throw new Error('Invalid response format for destinations');
+          }
+        } else {
+          // Fetch destinations based on other sort categories
+          const response = await fetchData('api/destinations/');
+          if (response && response.destinations) {
+            data = response.destinations;
+          } else {
+            throw new Error('Invalid response format for destinations');
+          }
+        }
+        // Limit the number of items to 10
+        setDestinationData(data.slice(0, 10));
+      } catch (error) {
+        // Handle error, e.g., show an error message to the user
+        console.error('Error fetching destinations:', error);
+      }
+    };
+  
+    fetchDestinations();
+  }, [selectedSortCategory]);
+  
+
+  const DestinationCard = ({ item }) => {
+    const [isFavourite, toggleFavourite] = useState(false);
+
+    return (
+      <TouchableOpacity
+        onPress={() => navigation.navigate('Destination', { ...item })}
+        style={{ width: wp(44), height: wp(65) }}
+        className="flex justify-end relative p-4 py-6 space-y-2 mb-5"
+      >
+        <Image
+          source={{ uri: item.Image[0] }} // Assuming the first image URL is used
+          style={{ width: wp(44), height: wp(65), borderRadius: 35 }}
+          className="absolute"
+        />
+        <LinearGradient
+          colors={['transparent', 'rgba(0,0,0,0.8)']}
+          style={{
+            width: wp(44),
+            height: hp(15),
+            borderBottomLeftRadius: 35,
+            borderBottomRightRadius: 35,
+          }}
+          start={{ x: 0.5, y: 0 }}
+          end={{ x: 0.5, y: 1 }}
+          className="absolute bottom-0"
+        />
+
+        <TouchableOpacity
+          onPress={() => toggleFavourite(!isFavourite)}
+          style={{ backgroundColor: 'rgba(255,255,255,0.4)' }}
+          className="absolute top-1 right-3 rounded-full p-3"
+        >
+          <HeartIcon size={wp(5)} color={isFavourite ? 'red' : 'white'} />
+        </TouchableOpacity>
+
+        <Text style={{ fontSize: wp(4) }} className="text-white font-semibold">
+          {item.Name}
+        </Text>
+        <Text style={{ fontSize: wp(2.2) }} className="text-white">
+          {item.ShortDescription}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
+
+  return (
+    <View className="mx-4 flex-row justify-between flex-wrap">
+      {destinationData.map((item, index) => (
+        <DestinationCard key={index} item={item} />
+      ))}
+    </View>
+  );
+};
+
+export { SortCategories, Destinations };

@@ -17,8 +17,8 @@ import {
 import { useEffect, useState } from "react";
 import { MagnifyingGlassIcon } from "react-native-heroicons/outline";
 import Categories from "../components/categories";
-import SortCategories from "../components/sortCategories";
-import Destinations from "../components/destinations";
+import {SortCategories,Destinations} from "../components/sortCategories";
+
 import { useNavigation } from "@react-navigation/native";
 import { auth, firestore } from "../../config/firebase";
 import { doc, getDoc} from "firebase/firestore";
@@ -47,6 +47,12 @@ export default function HomeScreen() {
   };
   const handleLogoNavigation = () => {
     navigation.navigate("Welcome"); // Replace 'Profile' with your ProfileScreen's navigation name
+  };
+
+  const [selectedSortCategory, setSelectedSortCategory] = useState('Popular');
+
+  const handleSortCategorySelect = (sort) => {
+    setSelectedSortCategory(sort);
   };
 
   const fetchUserData = async () => {
@@ -136,15 +142,16 @@ export default function HomeScreen() {
             <Categories />
           </View>
 
-          {/* sort categories */}
-          <View className="mb-4 ">
-            <SortCategories />
-          </View>
+            {/* sort categories */}
+            <View>
+      {/* sort categories */}
+      <View style={{ marginBottom: 20 }}>
+        <SortCategories onSelectSortCategory={handleSortCategorySelect} />
+      </View>
 
-          {/* destinations */}
-          <View>
-            <Destinations />
-          </View>
+      {/* destinations */}
+      <Destinations selectedSortCategory={selectedSortCategory} />
+    </View>
         </ScrollView>
       </SafeAreaView>
     </ImageBackground>

@@ -150,10 +150,15 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
+from .utils import get_local_ip
+
+local_ip_address = get_local_ip()
+
+# Set CORS_ALLOWED_ORIGINS
 CORS_ALLOWED_ORIGINS = [
-    "exp://192.168.1.7:8081",
-    "http://192.168.1.5:19006",
-    "http://192.168.1.7:19000",
-      "http://127.0.0.1:8000",
-        "http://192.168.1.5:8000"  # Update with the correct URL of your Expo development server
+    f"exp://{local_ip_address}:8081",
+    f"http://192.168.1.5:19006",
+    f"http://192.168.1.7:19000",
+    f"http://127.0.0.1:8000",
+    f"http://192.168.1.5:8000"
 ]
