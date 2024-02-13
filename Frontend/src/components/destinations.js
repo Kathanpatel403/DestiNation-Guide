@@ -1,6 +1,6 @@
 // components/Destinations.js
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ToastAndroid } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { HeartIcon } from 'react-native-heroicons/solid';
 import { useNavigation } from '@react-navigation/native';
@@ -9,6 +9,9 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+
+import { auth, firestore, storage } from "../../config/firebase";
+import { getFirestore, doc, getDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 
 const Destinations = () => {
   const [destinationData, setDestinationData] = useState([]);
@@ -32,6 +35,64 @@ const Destinations = () => {
 
   const DestinationCard = ({ item }) => {
     const [isFavourite, toggleFavourite] = useState(false);
+
+    const placeid = item.Place_id;
+
+    useEffect(() => {
+      const fetchBookmarkStatus = async () => {
+        try {
+          const user = auth.currentUser;
+
+          if (user) {
+            const uid = user.uid;
+            const userRoleRef = doc(firestore, "userRoles", uid);
+
+            const userSnapshot = await getDoc(userRoleRef);
+            const userData = userSnapshot.data();
+
+            if (userData && userData.BookmarkedPlaces && userData.BookmarkedPlaces.includes(placeid)) {
+              toggleFavourite(true);
+            }
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      };
+
+      fetchBookmarkStatus();
+    }, []);
+
+    const handleBookmark = async () => {
+      console.log(placeid);
+      try {
+        const user = auth.currentUser;
+        if (user) {
+          const uid = user.uid;
+          const userRoleRef = doc(firestore, "userRoles", uid);
+
+          const userSnapshot = await getDoc(userRoleRef);
+          const userData = userSnapshot.data();
+
+          if (userData && userData.BookmarkedPlaces && userData.BookmarkedPlaces.includes(placeid)) {
+            // The placeId is already bookmarked, remove it from BookmarkedPlaces
+            await updateDoc(userRoleRef, { BookmarkedPlaces: arrayRemove(placeid) });
+            console.log("Bookmark removed from firestore successfully!");
+            ToastAndroid.show("Bookmark removed successfully!", ToastAndroid.SHORT);
+            toggleFavourite(false);
+          } else {
+            await updateDoc(userRoleRef, { BookmarkedPlaces: arrayUnion(placeid) });
+            console.log("bookmark added to firestore successfully!");
+            ToastAndroid.show("Bookmark added successfully!", ToastAndroid.SHORT);
+            toggleFavourite(!isFavourite);
+          }
+        } else {
+          ToastAndroid.show("User data not found.", ToastAndroid.SHORT);
+        }
+      } catch (error) {
+        ToastAndroid.show(`Error fetching user data: ${error}`, ToastAndroid.SHORT);
+        console.error("Error fetching user data:", error);
+      }
+    }
 
     return (
       <TouchableOpacity
@@ -58,7 +119,7 @@ const Destinations = () => {
         />
 
         <TouchableOpacity
-          onPress={() => toggleFavourite(!isFavourite)}
+          onPress={handleBookmark}
           style={{ backgroundColor: 'rgba(255,255,255,0.4)' }}
           className="absolute top-1 right-3 rounded-full p-3"
         >
