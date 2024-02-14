@@ -27,9 +27,11 @@ export default function LoginScreen() {
 	const handleLogin = async () => {
 		if (email && password) {
 			try {
+				console.log("Trying to login with user!");
+				console.log("email trying to login is: ", email);
 				await signInWithEmailAndPassword(auth, email, password);
-
-				fetchUserRole();
+				console.log("Login successful!");
+				await fetchUserRole();
 			} catch (err) {
 				ToastAndroid.show(`got error: ${err.message}`, ToastAndroid.SHORT);
 				console.log("got error: ", err.message);

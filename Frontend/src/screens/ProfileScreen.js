@@ -187,6 +187,13 @@ const ProfileScreen = () => {
       </TouchableOpacity>
 
       <TouchableOpacity
+      onPress={() => {navigation.navigate("Bookmarks")}}
+      className="py-2 px-4 mt-[50px] ml-[50px] mr-[50px] bg-gray-400 rounded-xl"
+    >
+      <Text className="text-xl font-bold text-center text-black">Your BookMarks</Text>
+    </TouchableOpacity>
+
+      <TouchableOpacity
         onPress={handleLogout}
         className="py-2 px-4 mt-[50px] ml-[50px] mr-[50px] bg-gray-400 rounded-xl"
       >

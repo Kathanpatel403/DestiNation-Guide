@@ -86,6 +86,7 @@ const CategoryDetails = () => {
             />
           </View>
         </View>
+        
         {/* Categories */}
         <ScrollView contentContainerStyle={styles.categoryContainer}>
           {categories.map((cat, index) => (

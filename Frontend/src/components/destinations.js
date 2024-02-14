@@ -21,11 +21,9 @@ const Destinations = () => {
     const fetchDestinations = async () => {
       try {
         const data = await fetchData('api/destinations/');
-
-        // Limit the number of items to 10
+        // console.log(data);
         setDestinationData(data.destinations);
       } catch (error) {
-        // Handle error, e.g., show an error message to the user
         console.error('Error fetching destinations:', error);
       }
     };
@@ -74,7 +72,7 @@ const Destinations = () => {
           const userData = userSnapshot.data();
 
           if (userData && userData.BookmarkedPlaces && userData.BookmarkedPlaces.includes(placeid)) {
-            // The placeId is already bookmarked, remove it from BookmarkedPlaces
+
             await updateDoc(userRoleRef, { BookmarkedPlaces: arrayRemove(placeid) });
             console.log("Bookmark removed from firestore successfully!");
             ToastAndroid.show("Bookmark removed successfully!", ToastAndroid.SHORT);

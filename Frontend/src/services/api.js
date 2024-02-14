@@ -12,7 +12,7 @@
 // };
 
 
-let BASE_URL = `http://192.168.123.141:8000/`
+let BASE_URL = `http://192.168.21.141:8000/`
 console.log(BASE_URL)
 
 export const fetchData = async (endpoint) => {
@@ -26,6 +26,7 @@ export const fetchData = async (endpoint) => {
   }
 };
 
+export default BASE_URL;
 
 // export const fetchData = async (endpoint) => {
 //   try {
