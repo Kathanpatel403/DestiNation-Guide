@@ -10,16 +10,18 @@ import LoginScreen from "../screens/LoginScreen";
 import SignUpScreen from "../screens/SignupScreen";
 import useAuth from "../../hooks/useAuth";
 import AdminHomeScreen from "../screens/AdminHomeScreen";
-import AdminManageUsers from "../screens/AdminManageUsers";
 import AdminDashboard from "../screens/AdminDashboard";
 import AdminAddUser from "../screens/AdminAddUser";
-import AdminRemoveUser from "../screens/AdminRemoveUsers";
-import AdminUpdateUser from "../screens/AdminUpdateUsers";
 import AdminAddPlacesScreen from "../screens/AdminAddPlacesScreen";
 import MapScreen from "../screens/MapScreen"
 import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
 import SettingScreen from "../screens/SettingScreen";
 import BookmarkScreen from "../screens/BookmarkScreen";
+import UserInformation from "../screens/UserInformationScreen";
+import UpdateUserInfoScreen from "../screens/UpdateUserInfoScreen";
+import AdminMainScreen from "../screens/AdminMainScreen";
+import AdminRemovePlace from "../screens/AdminRemovePlace";
+import AdminUpdatePlace from "../screens/AdminUpdatePlace";
 
 const Stack = createNativeStackNavigator();
 
@@ -30,7 +32,7 @@ export default function AppNavigation() {
     return (
       <NavigationContainer >
         <Stack.Navigator>
-        <Stack.Screen
+          <Stack.Screen
             name="Home"
             options={{ headerShown: false }}
             component={HomeScreen}
@@ -45,10 +47,11 @@ export default function AppNavigation() {
             options={{ headerShown: false }}
             component={AdminAddPlacesScreen}
           />
+          
           <Stack.Screen
-            name="AdminUpdate"
+            name="AdminMain"
             options={{ headerShown: false }}
-            component={AdminUpdateUser}
+            component={AdminMainScreen}
           />
           <Stack.Screen
             name="AdminAdd"
@@ -56,14 +59,14 @@ export default function AppNavigation() {
             component={AdminAddUser}
           />
           <Stack.Screen
-            name="AdminRemove"
+            name="AdminRemovePlace"
             options={{ headerShown: false }}
-            component={AdminRemoveUser}
+            component={AdminRemovePlace}
           />
           <Stack.Screen
-            name="AdminManage"
+            name="AdminUpdatePlace"
             options={{ headerShown: false }}
-            component={AdminManageUsers}
+            component={AdminUpdatePlace}
           />
           <Stack.Screen
             name="AdminDashboard"
@@ -79,6 +82,16 @@ export default function AppNavigation() {
             name="LogIn"
             options={{ headerShown: false }}
             component={LoginScreen}
+          />
+          <Stack.Screen
+            name="UserInformation"
+            options={{ headerShown: false }}
+            component={UserInformation}
+          />
+          <Stack.Screen
+            name="UpdateInfo"
+            options={{ headerShown: false }}
+            component={UpdateUserInfoScreen}
           />
           <Stack.Screen
             name="Profile"
@@ -126,6 +139,11 @@ export default function AppNavigation() {
             name="SignUp"
             options={{ headerShown: false }}
             component={SignUpScreen}
+          />
+          <Stack.Screen
+            name="UserInformation"
+            options={{ headerShown: false }}
+            component={UserInformation}
           />
           <Stack.Screen
             name="ForgotPassword"

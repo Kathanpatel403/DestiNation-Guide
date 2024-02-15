@@ -6,6 +6,7 @@ from rest_framework.decorators import api_view
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+from django.db import models
 
 
 @api_view(['GET'])
@@ -45,3 +46,35 @@ def get_bookmarked_places(request):
         return Response({'bookmarked_places': serializer.data})
     except Exception as e:
         return JsonResponse({'error': str(e)})
+    
+@api_view(['POST'])
+def get_searched_places(request):
+    try:
+        data = json.loads(request.body)
+        user_input = data.get('user_input', '')
+        print(data)
+
+        matching_places = Place_Data.objects.filter(
+            models.Q(Name__icontains=user_input) |
+            models.Q(Category__icontains=user_input) |
+            models.Q(City__icontains=user_input) |
+            models.Q(State__icontains=user_input) |
+            models.Q(LongDescription__icontains=user_input) |
+            models.Q(ShortDescription__icontains=user_input) |
+            models.Q(Activities__icontains=user_input) |
+            models.Q(Amenities__icontains=user_input)
+        )
+
+        print(matching_places)
+        for place in matching_places:
+            print("Place Data - Name:", place.Name)
+        if matching_places.exists():
+            serializer = PlaceDataSerializer(matching_places, many=True)
+            serialized_data = serializer.data
+            return Response({'matching_places': serialized_data})
+        else:
+            return JsonResponse({'message': 'No matching places found'}, status=404, safe=False)
+
+    except Exception as e:
+        print("Error:", e)
+        return JsonResponse({'error': str(e)}, safe=False)

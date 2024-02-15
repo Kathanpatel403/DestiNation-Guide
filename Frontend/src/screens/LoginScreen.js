@@ -58,7 +58,7 @@ export default function LoginScreen() {
 					if (role === "Admin") {
 						ToastAndroid.show(`Logging in as: ${data}`, ToastAndroid.SHORT);
 						console.log("logging in");
-						navigation.navigate("AdminHome");
+						navigation.navigate("AdminMain");
 						setEmail('');
 						setPassword('');
 					} else if (role === "user") {

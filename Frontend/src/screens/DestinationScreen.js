@@ -292,11 +292,6 @@ export default function DestinationScreen(props) {
             showsVerticalScrollIndicator={false}
             style={{ padding: wp(5), paddingBottom: hp(1) }}
           >
-
-
-
-
-
             <Animatable.View
               animation="fadeInUpBig"
               delay={200}

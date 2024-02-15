@@ -10,7 +10,7 @@ import {
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { auth, firestore } from "../../config/firebase";
 import { collection, doc, setDoc } from 'firebase/firestore';
 
@@ -34,13 +34,11 @@ export default function SignUpScreen() {
           name: name,
         }).then(() => {
           console.log("User role set successfully.");
+          navigation.navigate("UserInformation");
+          ToastAndroid.show(`User created successfully!`, ToastAndroid.SHORT);
         }).catch(() => {
           console.error("Error setting user role:", error);
         })
-
-        ToastAndroid.show(`User created successfully!`, ToastAndroid.SHORT);
-
-        navigation.navigate("Home");
       } catch (err) {
         ToastAndroid.show(`got error: ${err.message}`, ToastAndroid.SHORT);
         console.log("got error: ", err.message);
