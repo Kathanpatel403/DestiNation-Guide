@@ -24,3 +24,5 @@ class Place_Data(models.Model):
 
     class Meta:
         db_table = 'PlaceData'    
+
+

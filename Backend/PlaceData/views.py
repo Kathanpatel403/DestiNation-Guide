@@ -4,7 +4,9 @@ from .models import Place_Data
 from .serializers import PlaceDataSerializer
 from rest_framework.decorators import api_view
 from django.http import JsonResponse
-from .Recommendation import give_rec  # Import the recommendation function
+from .Recommendation import give_rec
+import json
+
 
 @api_view(['GET'])
 def get_all_destinations(request):
@@ -63,3 +65,32 @@ def get_destinations_sorted_by_likes(request):
         return Response({'destinations': serializer.data})
     except Exception as e:
         return Response({'error': str(e)}, status=500)
+    
+
+
+
+@api_view(['GET'])
+def get_places_by_category(request, category):
+    if request.method == 'GET':
+        # Query places based on the provided category
+        places = Place_Data.objects.filter(Category__icontains=category)
+        
+        # Serialize the places data
+        serialized_places = []
+        for place in places:
+            # Preprocess categories to remove leading and trailing spaces
+            categories = [cat.strip() for cat in place.Category]
+            # Check if the specified category is in the place's categories
+            if category.lower() in [cat.lower() for cat in categories]:
+                serialized_places.append({
+                    'name': place.Name,
+                    'category': place.Category,
+                    # Add other fields you want to include in the response
+                })
+        
+        return JsonResponse({'places': serialized_places}, status=200)
+    else:
+        return JsonResponse({'error': 'Method not allowed'}, status=405) 
+
+    
+       

@@ -10,7 +10,7 @@ import {
   StatusBar,
   SafeAreaView,
   FlatList,
-  Image,
+  Image,ToastAndroid
 } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -25,14 +25,15 @@ import { ChevronLeftIcon, HeartIcon } from "react-native-heroicons/solid";
 import { theme } from "../theme";
 import { styled } from "nativewind";
 import logoImage from "../../assets/images/logo.png";
-
+import { auth, firestore, storage } from "../../config/firebase";
+import { getFirestore, doc, getDoc, updateDoc, setDoc, collection, arrayUnion, arrayRemove } from "firebase/firestore"; 
 const ios = Platform.OS == "ios";
 
 const AnimatedText = Animatable.createAnimatableComponent(Text);
 
 export default function DestinationScreen(props) {
   const item = props.route.params;
-
+  const placeid = item.Place_id;
   const navigation = useNavigation();
   const [isFavourite, toggleFavourite] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -70,17 +71,75 @@ export default function DestinationScreen(props) {
  
 
   
+  const handleBookmark = async () => {
+    console.log(placeid);
+    try {
+      const user = auth.currentUser;
+      if (user) {
+        const uid = user.uid;
+        const userRoleRef = doc(firestore, "userRoles", uid);
+
+        const userSnapshot = await getDoc(userRoleRef);
+        const userData = userSnapshot.data();
+
+        if (userData && userData.BookmarkedPlaces && userData.BookmarkedPlaces.includes(placeid)) {
+          // The placeId is already bookmarked, remove it from BookmarkedPlaces
+          await updateDoc(userRoleRef, { BookmarkedPlaces: arrayRemove(placeid) });
+          console.log("Bookmark removed from firestore successfully!");
+          ToastAndroid.show("Bookmark removed successfully!", ToastAndroid.SHORT);
+          toggleFavourite(false);
+        } else {
+          await updateDoc(userRoleRef, { BookmarkedPlaces: arrayUnion(placeid) });
+          console.log("bookmark added to firestore successfully!");
+          ToastAndroid.show("Bookmark added successfully!", ToastAndroid.SHORT);
+          toggleFavourite(!isFavourite);
+        }
+      } else {
+        ToastAndroid.show("User data not found.", ToastAndroid.SHORT);
+      }
+    } catch (error) {
+      ToastAndroid.show(`Error fetching user data: ${error}`, ToastAndroid.SHORT);
+      console.error("Error fetching user data:", error);
+    }
+  }
+
   const fadeAnim = new Animated.Value(0);
   const flatListRef = useRef();
-  
+
   useEffect(() => {
+
+    const fetchBookmarkStatus = async () => {
+      try {
+        const user = auth.currentUser;
+
+        if (user) {
+          const uid = user.uid;
+          const userRoleRef = doc(firestore, "userRoles", uid);
+
+          // Fetch user data
+          const userSnapshot = await getDoc(userRoleRef);
+          const userData = userSnapshot.data();
+
+          // Check if the current placeId is in the user's bookmarked places
+          if (userData && userData.BookmarkedPlaces && userData.BookmarkedPlaces.includes(placeid)) {
+            toggleFavourite(!isFavourite);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    // Call the function to fetch bookmark status when the component mounts
+    fetchBookmarkStatus();
+
     Animated.timing(fadeAnim, {
       toValue: 1,
       duration: 1000,
       easing: Easing.ease,
       useNativeDriver: true,
     }).start();
-  }, [fadeAnim]);
+  }, [], [fadeAnim]);
   
   const handleScroll = (event) => {
     const offsetX = event.nativeEvent.contentOffset.x;
@@ -177,7 +236,7 @@ export default function DestinationScreen(props) {
               <ChevronLeftIcon size={wp(7)} strokeWidth={4} color="white" />
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => toggleFavourite(!isFavourite)}
+              onPress={handleBookmark}
               style={{
                 padding: wp(6),
                 marginRight: wp(2),

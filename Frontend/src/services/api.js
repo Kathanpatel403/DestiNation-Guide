@@ -12,7 +12,7 @@
 // };
 
 
-let BASE_URL = `http://192.168.1.7:8000/`
+let BASE_URL = `http://192.168.1.6:8000/`
 console.log(BASE_URL)
 
 export const fetchData = async (endpoint) => {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, ScrollView, Image } from "react-native";
 import {
   widthPercentageToDP as wp,
@@ -10,10 +10,34 @@ import { categoriesData } from "../constants";
 
 const Categories = () => {
   const navigation = useNavigation();
-
+  const [places, setPlaces] = useState([]);
   const handleSeeAll = () => {
     // Navigate to the category details page
     navigation.navigate("CategoryDetails", { categories: categoriesData });
+  };
+  const fetchPlacesByCategory = async (category) => {
+    try {
+      const response = await fetch(`http://192.168.1.6:8000/api/places/category/${category}`);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      setPlaces(data.places);
+    } catch (error) {
+      console.error('Error fetching places:', error);
+    }
+  };
+
+  useEffect(() => {
+    // Example: Fetch places for the first category on component mount
+    if (categoriesData.length > 0) {
+      fetchPlacesByCategory(categoriesData[0].title);
+    }
+  }, []);
+
+  const handleCategoryPress = (category) => {
+    // Fetch places data based on the selected category
+    fetchPlacesByCategory(category);
   };
 
   return (
@@ -45,6 +69,7 @@ const Categories = () => {
           <TouchableOpacity
             key={index}
             style={{ alignItems: "center", marginRight: wp(4) }}
+            onPress={() => handleCategoryPress(cat.title)}
           >
             <Image
               source={cat.image}
@@ -56,6 +81,13 @@ const Categories = () => {
               {cat.title}
             </Text>
           </TouchableOpacity>
+        ))}
+      </ScrollView>
+
+      {/* Render places based on the selected category */}
+      <ScrollView>
+        {places.map((place, index) => (
+          <Text key={index}>{place.name}</Text>
         ))}
       </ScrollView>
     </View>

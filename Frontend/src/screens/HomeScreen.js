@@ -16,8 +16,8 @@ import {
 } from "react-native-responsive-screen";
 import { useEffect, useState } from "react";
 import { MagnifyingGlassIcon } from "react-native-heroicons/outline";
-import Categories from "../components/categories";
-import {SortCategories,Destinations} from "../components/sortCategories";
+// import Categories from "../components/categories";
+import {SortCategories,Destinations,Categories} from "../components/sortCategories";
 
 import { useNavigation } from "@react-navigation/native";
 import { auth, firestore } from "../../config/firebase";
