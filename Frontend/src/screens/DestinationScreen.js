@@ -28,7 +28,6 @@ import logoImage from "../../assets/images/logo.png";
 import { auth, firestore, storage } from "../../config/firebase";
 import { getFirestore, doc, getDoc, updateDoc, setDoc, collection, arrayUnion, arrayRemove } from "firebase/firestore";
 
-
 const ios = Platform.OS == "ios";
 
 const AnimatedText = Animatable.createAnimatableComponent(Text);

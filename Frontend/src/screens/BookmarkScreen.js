@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity, ToastAndroid } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, ToastAndroid, Image, ImageBackground, ScrollView } from 'react-native';
 import { HeartIcon } from 'react-native-heroicons/solid';
 import { auth, firestore, storage } from "../../config/firebase";
 import { getFirestore, doc, getDoc, updateDoc, setDoc, collection, arrayUnion, arrayRemove } from "firebase/firestore";
@@ -9,52 +9,48 @@ import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import { LinearGradient } from 'expo-linear-gradient';
+import { theme } from "../theme";
+import { ChevronLeftIcon } from "react-native-heroicons/solid";
 
 const BookmarkScreen = () => {
     const [bookmarkedPlaces, setBookmarkedPlaces] = useState([]);
     const navigation = useNavigation();
 
-    const userData = [];
-    const data = [];
-
-
-    const fetchBookmarkedPlacesFromFirestore = async () => {
-        const user = auth.currentUser;
-
-        const uid = user.uid;
-        console.log(uid);
-        const userRoleRef = doc(firestore, "userRoles", uid);
-
-        const userSnapshot = await getDoc(userRoleRef);
-        const userData = userSnapshot.data().BookmarkedPlaces;
-        console.log(userData);
-
-        try {
-            console.log("bookmarked places in bookmarkscreen: ", bookmarkedPlaces);
-            const response = await fetch(`http://192.168.21.141:8000/api/get_bookmarked_places`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    BookmarkedPlaces: userData,
-                }),
-            });
-
-            if (!response.ok) {
-                throw new Error('Error fetching bookmarked places');
-            }
-
-            const data = await response.json();
-            // setBookmarkedPlaces(data.destinations);
-            console.log('Response from backend:', data);
-        } catch (error) {
-            console.error('Error sending BookmarkedPlaces to backend:', error);
-            ToastAndroid.show('Error sending BookmarkedPlaces to backend', ToastAndroid.SHORT);
-        }
-    };
-
     useEffect(() => {
+        const fetchBookmarkedPlacesFromFirestore = async () => {
+            const user = auth.currentUser;
+
+            const uid = user.uid;
+            const userRoleRef = doc(firestore, "userRoles", uid);
+
+            const userSnapshot = await getDoc(userRoleRef);
+            const userData = userSnapshot.data().BookmarkedPlaces;
+
+            try {
+                const response = await fetch(`http://192.168.21.141:8000/api/get_bookmarked_places`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        BookmarkedPlaces: userData,
+                    }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Error fetching bookmarked places');
+                }
+
+                const data = await response.json();
+                setBookmarkedPlaces(data.bookmarked_places);
+                console.log("Bookmark fetched from backend!");
+            } catch (error) {
+                console.error('Error sending BookmarkedPlaces to backend:', error);
+                ToastAndroid.show('Error sending BookmarkedPlaces to backend', ToastAndroid.SHORT);
+            }
+        };
+
         fetchBookmarkedPlacesFromFirestore();
     }, []);
 
@@ -162,11 +158,42 @@ const BookmarkScreen = () => {
     };
 
     return (
-        <View className="mx-4 flex-row justify-between flex-wrap">
-            {bookmarkedPlaces.map((item, index) => (
-                <DestinationCard key={index} item={item} />
-            ))}
-        </View>
+        <ImageBackground
+            source={require("../../assets/images/home3.jpg")} // Change the path to your image
+            style={{ flex: 1 }}
+        >
+        <ScrollView>
+            <View className="font-bold items-center">
+                <TouchableOpacity
+                    onPress={() => navigation.goBack()}
+                    style={{
+                        padding: wp(4),
+                        marginLeft: wp(2),
+                        marginRight: wp(82),
+                        backgroundColor: 'white',
+                        borderRadius: wp(5),
+                        marginTop: wp(10)
+                    }}
+                >
+                    <ChevronLeftIcon size={wp(7)} strokeWidth={4} color="black" />
+                </TouchableOpacity>
+
+                <Text style={{
+                    fontSize: wp(7),
+                    fontWeight: "bold",
+                    marginTop: hp(3),
+                    marginBottom: hp(5),
+                    color: theme.textDark,
+                }}>Bookmarked Places</Text>
+
+                <View className="mx-4 flex-row mt-[10px] justify-between flex-wrap">
+                    {bookmarkedPlaces.map((item, index) => (
+                        <DestinationCard key={index} item={item} />
+                    ))}
+                </View>
+            </View>
+            </ScrollView>
+        </ImageBackground>
     );
 };
 

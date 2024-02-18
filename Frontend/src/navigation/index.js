@@ -22,6 +22,7 @@ import UpdateUserInfoScreen from "../screens/UpdateUserInfoScreen";
 import AdminMainScreen from "../screens/AdminMainScreen";
 import AdminRemovePlace from "../screens/AdminRemovePlace";
 import AdminUpdatePlace from "../screens/AdminUpdatePlace";
+import SearchPlaceScreen from "../screens/SearchPlaceScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -123,6 +124,12 @@ export default function AppNavigation() {
             options={{ headerShown: false }}
             component={DestinationScreen}
           />
+          <Stack.Screen
+            name="SearchPlace"
+            options={{ headerShown: false }}
+            component={SearchPlaceScreen}
+          />
+
         </Stack.Navigator>
       </NavigationContainer>
     );

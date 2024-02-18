@@ -78,3 +78,31 @@ def get_searched_places(request):
     except Exception as e:
         print("Error:", e)
         return JsonResponse({'error': str(e)}, safe=False)
+    
+@api_view(["POST"])
+def delete_place(request):
+    if request.method == 'POST':
+        try:
+            # Get Place_id or Name from the request data
+            data = json.loads(request.body)
+            place_id = data.get('Place_id')
+            place_name = data.get('Name')
+
+            # Use either Place_id or Name to identify the document to be deleted
+            if place_id:
+                place_data = Place_Data.objects.get(Place_id=place_id)
+            elif place_name:
+                place_data = Place_Data.objects.get(Name=place_name)
+            else:
+                return JsonResponse({'error': 'Place_id or Name not provided'}, status=400)
+            print(place_name)
+
+            # Delete the document
+            place_data.delete()
+            return JsonResponse({'message': 'Place deleted successfully'}, status=200)
+        except Place_Data.DoesNotExist:
+            return JsonResponse({'error': 'Place not found'}, status=404)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+
+    return JsonResponse({'error': 'Method not allowed'}, status=405)
