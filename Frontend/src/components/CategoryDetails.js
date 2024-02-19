@@ -19,7 +19,7 @@ import {
 import { MagnifyingGlassIcon } from "react-native-heroicons/outline";
 import { theme } from "../theme";
 
-import { ChevronLeftIcon } from "react-native-heroicons/solid";
+import { ChevronLeftIcon, HeartIcon } from "react-native-heroicons/solid";
 const CategoryDetails = () => {
   const navigation = useNavigation();
   const route = useRoute();
@@ -35,7 +35,8 @@ const CategoryDetails = () => {
     navigation.goBack();
   };
 
-  const handleCategoryPress = (categoryId) => { 
+  const handleCategoryPress = (categoryId) => {
+    // Your logic for handling category press
     console.log(`Category ${categoryId} pressed`);
   };
 
@@ -50,7 +51,7 @@ const CategoryDetails = () => {
 
   return (
     <ImageBackground
-      source={require("../../assets/images/home3.jpg")}  
+      source={require("../../assets/images/home3.jpg")} // Change the path to your image
       style={{ flex: 1 }}
     >
       <View style={styles.container}>
@@ -85,7 +86,6 @@ const CategoryDetails = () => {
             />
           </View>
         </View>
-        
         {/* Categories */}
         <ScrollView contentContainerStyle={styles.categoryContainer}>
           {categories.map((cat, index) => (

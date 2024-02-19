@@ -1,9 +1,9 @@
-export const sortCategoryData = ["All", "Popular", "Recommended", "More"];
+export const sortCategoryData = ["All", "Popular", "Recommended"];
 
 export const categoriesData = [
   {
     title: "Historical",
-    image: require("../../assets/images/historical.jpg"),
+    image: require("../../assets/images/ocean.png"),
   },
   {
     title: "Mountains",

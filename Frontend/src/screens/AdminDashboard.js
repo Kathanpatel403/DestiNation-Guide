@@ -12,7 +12,7 @@ const AdminDashboard = () => {
     return (
         
         <ImageBackground
-            source={require("../../assets/images/home3.jpg")} 
+            source={require("../../assets/images/home3.jpg")} // Change the path to your image
             style={{ flex: 1 }}
         >
             <TouchableOpacity
@@ -31,22 +31,31 @@ const AdminDashboard = () => {
 
             <Text className='text-2xl font-bold mt-[100px] ml-[70px]'>Admin Dashboard</Text>
             <View className='flex-1 justify-center items-center p-4'>
+                {/* User Statistics Section */}
                 <View className='mb-4'>
                     <Text className='text-xl font-bold mb-2'>User Statistics</Text>
+                    {/* Include charts or statistics components here */}
                     <Text>Number of Users: 1000</Text>
                     <Text>Active Users: 800</Text>
+                    {/* Add more metrics as needed */}
                 </View>
 
+                {/* System Performance Section */}
                 <View className='mb-4'>
                     <Text className='text-xl font-bold mb-2'>System Performance</Text>
+                    {/* Include charts or performance metrics components here */}
                     <Text>Server Uptime: 99.9%</Text>
                     <Text>Response Time: 50ms</Text>
+                    {/* Add more performance metrics as needed */}
                 </View>
 
+                {/* Recent Activities Section */}
                 <View>
                     <Text className='text-xl font-bold mb-2'>Recent Activities</Text>
+                    {/* Include a list or logs of recent activities */}
                     <Text>Admin added a new place.</Text>
                     <Text>User updated their profile.</Text>
+                    {/* Add more recent activities as needed */}
                 </View>
             </View>
         </ImageBackground>

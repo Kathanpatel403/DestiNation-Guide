@@ -1,10 +1,10 @@
 import React from "react";
-import { View, Text, Image, TouchableOpacity, ToastAndroid, FlatList, ImageBackground, ScrollView } from "react-native";
+import { View, Text, Image, TouchableOpacity, ToastAndroid, FlatList, ImageBackground, Animated, Easing, ScrollView } from "react-native";
 import { useState, useEffect } from "react";
 import { signOut, sendPasswordResetEmail } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
 import { auth, firestore, storage } from "../../config/firebase";
-import { doc, getDoc, updateDoc, collection } from "firebase/firestore";
+import { getFirestore, doc, getDoc, updateDoc, setDoc, collection } from "firebase/firestore";
 
 import { ChevronLeftIcon } from "react-native-heroicons/solid";
 import {
@@ -22,6 +22,7 @@ const ProfileScreen = () => {
   const [categoryPreferences, setCategoryPreferences] = useState([]);
 
   useEffect(() => {
+    // Request permission to access the camera roll
     (async () => {
       const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (status !== 'granted') {
@@ -156,7 +157,7 @@ const ProfileScreen = () => {
 
   return (
     <ImageBackground
-      source={require("../../assets/images/home3.jpg")}
+      source={require("../../assets/images/home3.jpg")} // Change the path to your image
       style={{ flex: 1 }}
     >
         
@@ -165,7 +166,7 @@ const ProfileScreen = () => {
             style={{
               padding: wp(4),
               marginLeft: wp(2),
-              backgroundColor: "gray",
+              backgroundColor: "white",
               borderRadius: wp(5),
               marginRight: wp(82),
               marginTop: wp(10),
@@ -191,28 +192,28 @@ const ProfileScreen = () => {
                 animation="fadeInUpBig"
                 delay={200}
                 style={{
-                  backgroundColor: "#e3e3e3", 
+                  backgroundColor: "#e3e3e3", // Lighter background color
                   borderRadius: wp(2),
                   padding: wp(2),
                   marginBottom: hp(1),
                   marginLeft: wp(2),
                   marginRight: wp(2),
                   marginTop: wp(3),
-                  alignItems: "flex-start", 
+                  alignItems: "flex-start", // Align text to the left
                   shadowColor: "#fff",
                   shadowOffset: { width: 0, height: 5 },
                   shadowOpacity: 0.3,
                   shadowRadius: 8,
                   elevation: 8,
                   borderWidth: 1,
-                  borderColor: "#ccc", 
+                  borderColor: "#ccc", // Light border color
                 }}
               >
                 <Text
                   style={{
                     fontSize: wp(4),
                     fontWeight: "bold",
-                    color: "#333", 
+                    color: "#333", // Darker text color
                     marginBottom: hp(1),
                   }}
                 >
@@ -224,27 +225,27 @@ const ProfileScreen = () => {
                 animation="fadeInUpBig"
                 delay={200}
                 style={{
-                  backgroundColor: "#e3e3e3",
+                  backgroundColor: "#e3e3e3", // Lighter background color
                   borderRadius: wp(2),
                   padding: wp(2),
                   marginBottom: hp(1),
                   marginLeft: wp(2),
                   marginRight: wp(2),
-                  alignItems: "flex-start", 
+                  alignItems: "flex-start", // Align text to the left
                   shadowColor: "#fff",
                   shadowOffset: { width: 0, height: 5 },
                   shadowOpacity: 0.3,
                   shadowRadius: 8,
                   elevation: 8,
                   borderWidth: 1,
-                  borderColor: "#ccc", 
+                  borderColor: "#ccc", // Light border color
                 }}
               >
                 <Text
                   style={{
                     fontSize: wp(4),
                     fontWeight: "bold",
-                    color: "#333", 
+                    color: "#333", // Darker text color
                     marginBottom: hp(1),
                   }}
                 >
@@ -256,27 +257,27 @@ const ProfileScreen = () => {
                 animation="fadeInUpBig"
                 delay={200}
                 style={{
-                  backgroundColor: "#e3e3e3", 
+                  backgroundColor: "#e3e3e3", // Lighter background color
                   borderRadius: wp(2),
                   padding: wp(2),
                   marginBottom: hp(1),
                   marginLeft: wp(2),
                   marginRight: wp(2),
-                  alignItems: "flex-start", 
+                  alignItems: "flex-start", // Align text to the left
                   shadowColor: "#fff",
                   shadowOffset: { width: 0, height: 5 },
                   shadowOpacity: 0.3,
                   shadowRadius: 8,
                   elevation: 8,
                   borderWidth: 1,
-                  borderColor: "#ccc", 
+                  borderColor: "#ccc", // Light border color
                 }}
               >
                 <Text
                   style={{
                     fontSize: wp(4),
                     fontWeight: "bold",
-                    color: "#333", 
+                    color: "#333", // Darker text color
                     marginBottom: hp(2),
                   }}
                 >
@@ -301,27 +302,27 @@ const ProfileScreen = () => {
                 animation="fadeInUpBig"
                 delay={200}
                 style={{
-                  backgroundColor: "#e3e3e3", 
+                  backgroundColor: "#e3e3e3", // Lighter background color
                   borderRadius: wp(2),
                   padding: wp(2),
                   marginBottom: hp(1),
                   marginLeft: wp(2),
                   marginRight: wp(2),
-                  alignItems: "flex-start", 
+                  alignItems: "flex-start", // Align text to the left
                   shadowColor: "#fff",
                   shadowOffset: { width: 0, height: 5 },
                   shadowOpacity: 0.3,
                   shadowRadius: 8,
                   elevation: 8,
                   borderWidth: 1,
-                  borderColor: "#ccc", 
+                  borderColor: "#ccc", // Light border color
                 }}
               >
                 <Text
                   style={{
                     fontSize: wp(4),
                     fontWeight: "bold",
-                    color: "#333", 
+                    color: "#333", // Darker text color
                     marginBottom: hp(2),
                   }}
                 >

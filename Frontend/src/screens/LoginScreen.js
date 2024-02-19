@@ -5,15 +5,16 @@ import {
 	Image,
 	TextInput,
 	ImageBackground,
+	Alert,
 	ToastAndroid
 } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { auth, firestore } from "../../config/firebase";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
 
 
 export default function LoginScreen() {
@@ -26,11 +27,9 @@ export default function LoginScreen() {
 	const handleLogin = async () => {
 		if (email && password) {
 			try {
-				console.log("Trying to login with user!");
-				console.log("email trying to login is: ", email);
 				await signInWithEmailAndPassword(auth, email, password);
-				console.log("Login successful!");
-				await fetchUserRole();
+
+				fetchUserRole();
 			} catch (err) {
 				ToastAndroid.show(`got error: ${err.message}`, ToastAndroid.SHORT);
 				console.log("got error: ", err.message);
@@ -81,7 +80,7 @@ export default function LoginScreen() {
 
 	return (
 		<ImageBackground
-			source={require("../../assets/images/home3.jpg")} 
+			source={require("../../assets/images/home3.jpg")} // Change the path to your image
 			style={{ flex: 1 }}
 		>
 			<View className="flex-1 ">

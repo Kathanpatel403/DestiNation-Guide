@@ -6,6 +6,7 @@ import {
     heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { ChevronLeftIcon } from "react-native-heroicons/solid";
+import { theme } from '../theme';
 
 const AdminAddPlacesScreen = () => {
     const navigation = useNavigation();
@@ -28,7 +29,7 @@ const AdminAddPlacesScreen = () => {
     return (
 
         <ImageBackground
-            source={require("../../assets/images/home3.jpg")}
+            source={require("../../assets/images/home3.jpg")} // Change the path to your image
             style={{ flex: 1 }}
         >
             <TouchableOpacity

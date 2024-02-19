@@ -10,9 +10,10 @@ import {
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
-import { auth } from "../../config/firebase";
-import { useState } from "react";
-import { sendPasswordResetEmail } from "firebase/auth";
+import { auth, firestore } from "../../config/firebase";
+import { useState, useEffect } from "react";
+import { signInWithEmailAndPassword, getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
 
 
 export default function ForgotPasswordScreen() {

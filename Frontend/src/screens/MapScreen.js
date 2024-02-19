@@ -13,6 +13,7 @@ const MapScreen = ({ route }) => {
   const [calloutVisible, setCalloutVisible] = useState(true);
 
   const handleMapLayout = () => {
+    // After the map layout is calculated, set the callout to be visible
 
   };
   useEffect(() => {
@@ -44,7 +45,7 @@ const MapScreen = ({ route }) => {
             // Calculate distance
             const distanceValue = data.routes[0].legs.reduce((total, leg) => total + leg.distance.value, 0);
             console.log(distanceValue);
-            setDistance((distanceValue / 1000).toFixed(2));
+            setDistance((distanceValue / 1000).toFixed(2)); // Convert to kilometers
           }
         }
       } catch (error) {
@@ -55,6 +56,7 @@ const MapScreen = ({ route }) => {
     getLocation();
     setCalloutVisible(true);
     return () => {
+      // Cleanup function to execute when the component is unmounted
       isMounted = false;
     };
   }, [destinationLatitude, destinationLongitude]);
@@ -141,6 +143,13 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
+
   },
+
+
 });
+
+
+
+
 export default MapScreen;

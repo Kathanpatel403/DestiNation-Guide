@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, ImageBackground } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, ImageBackground } from 'react-native';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -12,7 +12,7 @@ const SettingScreen = () => {
 
     return (
         <ImageBackground
-            source={require("../../assets/images/home3.jpg")}
+            source={require("../../assets/images/home3.jpg")} // Change the path to your image
             style={{ flex: 1 }}
         >
             <View>

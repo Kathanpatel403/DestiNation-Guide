@@ -34,11 +34,13 @@ export default function SignUpScreen() {
           name: name,
         }).then(() => {
           console.log("User role set successfully.");
-          navigation.navigate("UserInformation");
-          ToastAndroid.show(`User created successfully!`, ToastAndroid.SHORT);
         }).catch(() => {
           console.error("Error setting user role:", error);
         })
+
+        ToastAndroid.show(`User created successfully!`, ToastAndroid.SHORT);
+
+        navigation.navigate("Home");
       } catch (err) {
         ToastAndroid.show(`got error: ${err.message}`, ToastAndroid.SHORT);
         console.log("got error: ", err.message);
@@ -48,7 +50,7 @@ export default function SignUpScreen() {
 
   return (
     <ImageBackground
-      source={require("../../assets/images/home3.jpg")}
+      source={require("../../assets/images/home3.jpg")} // Change the path to your image
       style={{ flex: 1 }}
     >
       <View className="flex-1 ">
@@ -99,6 +101,7 @@ export default function SignUpScreen() {
           <Text className="text-xl text-gray-700 font-bold text-center py-5">
             Or
           </Text>
+          
           <View className="flex-row justify-center">
             <Text className="text-black font-semibold">
               Already have an account?

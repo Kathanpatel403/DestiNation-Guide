@@ -48,7 +48,6 @@ export default function AppNavigation() {
             options={{ headerShown: false }}
             component={AdminAddPlacesScreen}
           />
-          
           <Stack.Screen
             name="AdminMain"
             options={{ headerShown: false }}
@@ -78,11 +77,6 @@ export default function AppNavigation() {
             name="Welcome"
             options={{ headerShown: false }}
             component={WelcomeScreen}
-          />
-          <Stack.Screen
-            name="LogIn"
-            options={{ headerShown: false }}
-            component={LoginScreen}
           />
           <Stack.Screen
             name="UserInformation"
@@ -146,11 +140,6 @@ export default function AppNavigation() {
             name="SignUp"
             options={{ headerShown: false }}
             component={SignUpScreen}
-          />
-          <Stack.Screen
-            name="UserInformation"
-            options={{ headerShown: false }}
-            component={UserInformation}
           />
           <Stack.Screen
             name="ForgotPassword"

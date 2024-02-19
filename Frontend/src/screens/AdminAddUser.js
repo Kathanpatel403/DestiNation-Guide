@@ -3,19 +3,18 @@ import {
     View,
     Text,
     TouchableOpacity,
+    Image,
     TextInput,
     ImageBackground,
-    ToastAndroid
 } from "react-native";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth, firestore } from "../../config/firebase";
 import { useNavigation } from '@react-navigation/native';
-import { collection, doc, setDoc } from 'firebase/firestore';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+  } from "react-native-responsive-screen";
 import { ChevronLeftIcon } from "react-native-heroicons/solid";
+import { theme } from '../theme';
 
 const AdminAddUser = () => {
     const navigation = useNavigation();
@@ -26,31 +25,16 @@ const AdminAddUser = () => {
     const handleAddUser = async () => {
         if (email && password) {
             try {
-                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                console.log("user created.")
-                const uid = userCredential.user.uid;
-
-                const userRoleRef = doc(collection(firestore, 'userRoles'), uid);
-                setDoc(userRoleRef, {
-                    role: "user",
-                    email: email,
-                    name: name,
-                }).then(() => {
-                    console.log("User created successfully.");
-                    ToastAndroid.show(`User created successfully!`, ToastAndroid.SHORT);
-                }).catch(() => {
-                    console.error("Error setting user role:", error);
-                })
+                await createUserWithEmailAndPassword(auth, email, password);
+                navigation.navigate("Home");
             } catch (err) {
-                ToastAndroid.show(`got error: ${err.message}`, ToastAndroid.SHORT);
                 console.log("got error: ", err.message);
             }
         }
     };
-    
     return (
         <ImageBackground
-            source={require("../../assets/images/home3.jpg")}
+            source={require("../../assets/images/home3.jpg")} // Change the path to your image
             style={{ flex: 1 }}
         >
             <TouchableOpacity

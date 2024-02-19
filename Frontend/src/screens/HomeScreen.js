@@ -7,6 +7,7 @@ import {
   StatusBar,
   Image,
   Platform,
+  TextInput,
   ImageBackground,
 } from "react-native";
 import React from "react";
@@ -15,13 +16,13 @@ import {
 } from "react-native-responsive-screen";
 import { useEffect, useState } from "react";
 import { MagnifyingGlassIcon } from "react-native-heroicons/outline";
-import Categories from "../components/categories";
-import SortCategories from "../components/sortCategories";
-import Destinations from "../components/destinations";
+// import Categories from "../components/categories";
+import {SortCategories,Destinations,Categories} from "../components/sortCategories";
+
 import { useNavigation } from "@react-navigation/native";
 import { auth, firestore } from "../../config/firebase";
-import { doc, getDoc } from "firebase/firestore";
-import { useFocusEffect } from "@react-navigation/native";
+import { doc, getDoc} from "firebase/firestore";
+import { useFocusEffect, DrawerActions } from "@react-navigation/native";
 
 
 const ios = Platform.OS == "ios";
@@ -45,7 +46,13 @@ export default function HomeScreen() {
     navigation.navigate("Profile");
   };
   const handleLogoNavigation = () => {
-    navigation.navigate("Home");
+    navigation.navigate("Welcome"); // Replace 'Profile' with your ProfileScreen's navigation name
+  };
+
+  const [selectedSortCategory, setSelectedSortCategory] = useState('Popular');
+
+  const handleSortCategorySelect = (sort) => {
+    setSelectedSortCategory(sort);
   };
 
   const fetchUserData = async () => {
@@ -74,7 +81,7 @@ export default function HomeScreen() {
 
   return (
     <ImageBackground
-      source={require("../../assets/images/home3.jpg")}
+      source={require("../../assets/images/home3.jpg")} // Change the path to your image
       style={{ flex: 1 }}
     >
       <SafeAreaView className="flex-1 ">
@@ -83,25 +90,27 @@ export default function HomeScreen() {
           backgroundColor="transparent"
           barStyle="light-content"
         />
-
+        {/* avatar */}
         <View className="mx-5 flex-row justify-between items-center  -mb-4">
+          {/* <Text style={{fontSize: wp(7)}} className="font-bold text-neutral-700">DestiNation Guide</Text> */}
           <TouchableOpacity onPress={handleLogoNavigation}>
-            <Image
-              source={require("../../assets/images/logo.png")}
-              style={{
-                height: wp(50),
-                width: wp(30),
-                marginLeft: -25,
-                marginBottom: -15,
-                marginTop: 20,
-              }}
-            />
+              <Image
+            source={require("../../assets/images/logo.png")}
+            style={{
+              height: wp(50),
+              width: wp(30),
+              marginLeft: -25,
+              marginBottom: -15,
+              marginTop: 20,
+            }}
+          />
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={handleProfileNavigation}
+          <TouchableOpacity 
+          onPress={handleProfileNavigation}
+          
           >
             <Image
-              source={userData?.photoURL ? { uri: userData.photoURL } : require('../../assets/images/avatar.png')}
+            source={userData?.photoURL ? { uri: userData.photoURL } : require('../../assets/images/avatar.png')}
               style={{ width: 70, height: 70, marginTop: 20, marginRight: 15, borderRadius: 50 }}
             />
           </TouchableOpacity>
@@ -120,7 +129,6 @@ export default function HomeScreen() {
             </View>
           </TouchableOpacity>
         </View>
-
         <ScrollView
           showsVerticalScrollIndicator={false}
           className={"space-y-6 " + topMargin}
@@ -132,17 +140,18 @@ export default function HomeScreen() {
             <Categories />
           </View>
 
-          {/* sort categories */}
-          <View className="mb-4 ">
-            <SortCategories />
-          </View>
+            {/* sort categories */}
+            <View>
+      {/* sort categories */}
+      <View style={{ marginBottom: 20 }}>
+        <SortCategories onSelectSortCategory={handleSortCategorySelect} />
+      </View>
 
-          {/* destinations */}
-          <View>
-            <Destinations />
-          </View>
+      {/* destinations */}
+      <Destinations selectedSortCategory={selectedSortCategory} />
+    </View>
         </ScrollView>
       </SafeAreaView>
-    </ImageBackground >
+    </ImageBackground>
   );
 }

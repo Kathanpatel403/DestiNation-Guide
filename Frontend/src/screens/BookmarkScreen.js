@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, ToastAndroid, Image, ImageBackground, ScrollView } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, ToastAndroid, Image, ImageBackground, ScrollView } from 'react-native';
 import { HeartIcon } from 'react-native-heroicons/solid';
-import { auth, firestore } from "../../config/firebase";
-import { doc, getDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
+import { auth, firestore, storage } from "../../config/firebase";
+import { getFirestore, doc, getDoc, updateDoc, setDoc, collection, arrayUnion, arrayRemove } from "firebase/firestore";
 import { BASE_URL } from "../services/api";
 import { useNavigation } from '@react-navigation/native';
 import {
@@ -12,7 +12,7 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { theme } from "../theme";
 import { ChevronLeftIcon } from "react-native-heroicons/solid";
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect } from '@react-navigation/native';
 
 const BookmarkScreen = () => {
     const [bookmarkedPlaces, setBookmarkedPlaces] = useState([]);
@@ -22,12 +22,6 @@ const BookmarkScreen = () => {
         fetchBookmarkedPlacesFromFirestore();
     }, []);
 
-    useFocusEffect(
-        React.useCallback(() => {
-            fetchBookmarkedPlacesFromFirestore();
-        }, [])
-    );
-
     const fetchBookmarkedPlacesFromFirestore = async () => {
         const user = auth.currentUser;
 
@@ -36,7 +30,7 @@ const BookmarkScreen = () => {
 
         const userSnapshot = await getDoc(userRoleRef);
         const userData = userSnapshot.data().BookmarkedPlaces;
-
+        console.log(userData)
         try {
             const response = await fetch(`${BASE_URL}api/get_bookmarked_places`, {
                 method: 'POST',
@@ -47,7 +41,6 @@ const BookmarkScreen = () => {
                     BookmarkedPlaces: userData,
                 }),
             });
-
             if (!response.ok) {
                 throw new Error('Error fetching bookmarked places');
             }
@@ -129,7 +122,7 @@ const BookmarkScreen = () => {
                 className="flex justify-end relative p-4 py-6 space-y-2 mb-5"
             >
                 <Image
-                    source={{ uri: item.Image[0] }}
+                    source={{ uri: item.Image[0] }} // Assuming the first image URL is used
                     style={{ width: wp(44), height: wp(65), borderRadius: 35 }}
                     className="absolute"
                 />
@@ -166,39 +159,39 @@ const BookmarkScreen = () => {
 
     return (
         <ImageBackground
-            source={require("../../assets/images/home3.jpg")}
+            source={require("../../assets/images/home3.jpg")} // Change the path to your image
             style={{ flex: 1 }}
         >
-            <ScrollView>
-                <View className="font-bold items-center">
-                    <TouchableOpacity
-                        onPress={() => navigation.goBack()}
-                        style={{
-                            padding: wp(4),
-                            marginLeft: wp(2),
-                            marginRight: wp(82),
-                            backgroundColor: 'white',
-                            borderRadius: wp(5),
-                            marginTop: wp(10)
-                        }}
-                    >
-                        <ChevronLeftIcon size={wp(7)} strokeWidth={4} color="black" />
-                    </TouchableOpacity>
+        <ScrollView>
+            <View className="font-bold items-center">
+                <TouchableOpacity
+                    onPress={() => navigation.goBack()}
+                    style={{
+                        padding: wp(4),
+                        marginLeft: wp(2),
+                        marginRight: wp(82),
+                        backgroundColor: 'white',
+                        borderRadius: wp(5),
+                        marginTop: wp(10)
+                    }}
+                >
+                    <ChevronLeftIcon size={wp(7)} strokeWidth={4} color="black" />
+                </TouchableOpacity>
 
-                    <Text style={{
-                        fontSize: wp(7),
-                        fontWeight: "bold",
-                        marginTop: hp(3),
-                        marginBottom: hp(5),
-                        color: theme.textDark,
-                    }}>Bookmarked Places</Text>
+                <Text style={{
+                    fontSize: wp(7),
+                    fontWeight: "bold",
+                    marginTop: hp(3),
+                    marginBottom: hp(5),
+                    color: theme.textDark,
+                }}>Bookmarked Places</Text>
 
-                    <View className="mx-4 flex-row mt-[10px] justify-between flex-wrap">
-                        {bookmarkedPlaces.map((item, index) => (
-                            <DestinationCard key={index} item={item} />
-                        ))}
-                    </View>
+                <View className="mx-4 flex-row mt-[10px] justify-between flex-wrap">
+                    {bookmarkedPlaces.map((item, index) => (
+                        <DestinationCard key={index} item={item} />
+                    ))}
                 </View>
+            </View>
             </ScrollView>
         </ImageBackground>
     );

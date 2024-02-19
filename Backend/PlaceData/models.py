@@ -20,6 +20,9 @@ class Place_Data(models.Model):
     FeeLink = models.TextField()
     BMTV = models.CharField(max_length=255)
     TIP = models.IntegerField()
+    Likes = models.IntegerField()
 
     class Meta:
         db_table = 'PlaceData'    
+
+

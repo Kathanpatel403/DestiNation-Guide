@@ -7,6 +7,7 @@ import {
     StatusBar,
     Image,
     Platform,
+    TextInput,
     ImageBackground,
 } from "react-native";
 import React from "react";
@@ -15,19 +16,19 @@ import {
 } from "react-native-responsive-screen";
 import { useEffect, useState } from "react";
 import { MagnifyingGlassIcon } from "react-native-heroicons/outline";
-import Categories from "../components/categories";
-import SortCategories from "../components/sortCategories";
-import Destinations from "../components/destinations";
+// import Categories from "../components/categories";
+import { SortCategories, Destinations, Categories } from "../components/sortCategories";
+
 import { useNavigation } from "@react-navigation/native";
 import { auth, firestore } from "../../config/firebase";
 import { doc, getDoc } from "firebase/firestore";
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, DrawerActions } from "@react-navigation/native";
 
 
 const ios = Platform.OS == "ios";
 const topMargin = ios ? "mt-3" : "mt-10";
 
-export default function AdminMainScreen() {
+export default function HomeScreen() {
     const navigation = useNavigation();
     const [userData, setUserData] = useState(null);
 
@@ -45,7 +46,13 @@ export default function AdminMainScreen() {
         navigation.navigate("Profile");
     };
     const handleLogoNavigation = () => {
-        navigation.navigate("Welcome");
+        navigation.navigate("Welcome"); // Replace 'Profile' with your ProfileScreen's navigation name
+    };
+
+    const [selectedSortCategory, setSelectedSortCategory] = useState('Popular');
+
+    const handleSortCategorySelect = (sort) => {
+        setSelectedSortCategory(sort);
     };
 
     const fetchUserData = async () => {
@@ -74,7 +81,7 @@ export default function AdminMainScreen() {
 
     return (
         <ImageBackground
-            source={require("../../assets/images/home3.jpg")}
+            source={require("../../assets/images/home3.jpg")} // Change the path to your image
             style={{ flex: 1 }}
         >
             <SafeAreaView className="flex-1 ">
@@ -143,13 +150,14 @@ export default function AdminMainScreen() {
                     </View>
 
                     {/* sort categories */}
-                    <View className="mb-4 ">
-                        <SortCategories />
-                    </View>
-
-                    {/* destinations */}
                     <View>
-                        <Destinations />
+                        {/* sort categories */}
+                        <View style={{ marginBottom: 20 }}>
+                            <SortCategories onSelectSortCategory={handleSortCategorySelect} />
+                        </View>
+
+                        {/* destinations */}
+                        <Destinations selectedSortCategory={selectedSortCategory} />
                     </View>
                 </ScrollView>
             </SafeAreaView>

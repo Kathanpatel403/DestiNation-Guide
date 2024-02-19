@@ -40,7 +40,7 @@ const SearchPlaceScreen = () => {
             });
 
             if (!response.ok) {
-                throw new Error('Error fetching bookmarked places');
+                throw new Error('Error fetching searched places');
             }
 
             const data = await response.json();
@@ -212,4 +212,4 @@ const SearchPlaceScreen = () => {
     )
 }
 
-export default SearchPlaceScreen
+export default SearchPlaceScreen;

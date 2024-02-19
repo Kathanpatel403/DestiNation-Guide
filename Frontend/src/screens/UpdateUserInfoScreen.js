@@ -61,14 +61,24 @@ export default function UpdateUserInfoScreen() {
             }
 
             // Check if the 'locations' field is provided and not empty
-            if (locations.length !== 0) {
-                updateObject.LocationPreference = locations;
+            // if (locations.length !== 0) {
+            //     updateObject.LocationPreference = locations;
+            // }
+
+            // // Check if the 'categories' field is provided and not empty
+            // if (categories.length !== 0) {
+            //     updateObject.CategoryPreference = categories;
+            // }
+
+            if (Array.isArray(locations) && locations.some(value => value.trim() !== '')) {
+                updateObject.LocationPreference = locations.map(value => value.trim());
+            }
+            
+            // Check if the 'categories' field is provided, not null, and the array has non-empty elements
+            if (Array.isArray(categories) && categories.some(value => value.trim() !== '')) {
+                updateObject.CategoryPreference = categories.map(value => value.trim());
             }
 
-            // Check if the 'categories' field is provided and not empty
-            if (categories.length !== 0) {
-                updateObject.CategoryPreference = categories;
-            }
             console.log(updateObject)
             updateDoc(userRoleRef, updateObject).then(() => {
                 console.log("Preferences set successfully.");

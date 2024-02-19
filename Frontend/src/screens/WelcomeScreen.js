@@ -4,8 +4,8 @@ import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
-import FloatingLogo from "../components/floatingLogo";
-import TypingEffect from "../components/TypingEffect"; 
+import FloatingLogo from "../components/floatingLogo"; // Assuming you have a FloatingLogo component
+import TypingEffect from "../components/TypingEffect"; // Assuming the correct path
 import useAuth from "../../hooks/useAuth";
 
 const WelcomeScreen = () => {
@@ -43,7 +43,7 @@ const WelcomeScreen = () => {
 
   return (
     <ImageBackground
-      source={require("../../assets/images/home3.jpg")}
+      source={require("../../assets/images/home3.jpg")} // Change the path to your image
       style={{ flex: 1 }}
     >
       <View className="flex-1 flex justify-end">
