@@ -1,0 +1,11 @@
+# urls.py
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('api/destinations/', views.get_all_destinations, name='get_all_destinations'),
+    path('api/places/add/', views.add_place, name='add_place'),
+    path('api/get_bookmarked_places', views.get_bookmarked_places, name='get_bookmarked_places'),
+    path('api/get_searched_places', views.get_searched_places, name='get_searched_places'),
+    path('api/delete_place', views.delete_place, name='delete_place'),
+]
