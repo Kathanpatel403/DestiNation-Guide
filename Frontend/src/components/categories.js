@@ -7,6 +7,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { theme } from "../theme";
 import { categoriesData } from "../constants";
+import { BASE_URL } from "../services/api"
 
 const Categories = () => {
   const navigation = useNavigation();
@@ -17,7 +18,7 @@ const Categories = () => {
   };
   const fetchPlacesByCategory = async (category) => {
     try {
-      const response = await fetch(`http://192.168.1.6:8000/api/places/category/${category}`);
+      const response = await fetch(`${BASE_URL}api/places/category/${category}`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }

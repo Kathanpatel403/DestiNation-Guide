@@ -17,11 +17,11 @@ import {
 import { useEffect, useState } from "react";
 import { MagnifyingGlassIcon } from "react-native-heroicons/outline";
 // import Categories from "../components/categories";
-import {SortCategories,Destinations,Categories} from "../components/sortCategories";
+import { SortCategories, Destinations, Categories } from "../components/sortCategories";
 
 import { useNavigation } from "@react-navigation/native";
 import { auth, firestore } from "../../config/firebase";
-import { doc, getDoc} from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { useFocusEffect, DrawerActions } from "@react-navigation/native";
 
 
@@ -91,31 +91,38 @@ export default function HomeScreen() {
           barStyle="light-content"
         />
         {/* avatar */}
-        <View className="mx-5 flex-row justify-between items-center  -mb-4">
+        <View className="mx-5 flex-row justify-between items-center -mb-4">
           {/* <Text style={{fontSize: wp(7)}} className="font-bold text-neutral-700">DestiNation Guide</Text> */}
           <TouchableOpacity onPress={handleLogoNavigation}>
-              <Image
-            source={require("../../assets/images/logo.png")}
-            style={{
-              height: wp(50),
-              width: wp(30),
-              marginLeft: -25,
-              marginBottom: -15,
-              marginTop: 20,
-            }}
-          />
+            <Image
+              source={require("../../assets/images/logo.png")}
+              style={{
+                height: wp(50),
+                width: wp(30),
+                marginLeft: -25,
+                marginBottom: -15,
+                marginTop: 20,
+              }}
+            />
           </TouchableOpacity>
-          <TouchableOpacity 
-          onPress={handleProfileNavigation}
-          
+
+          <TouchableOpacity
+            onPress={handleProfileNavigation}
           >
             <Image
-            source={userData?.photoURL ? { uri: userData.photoURL } : require('../../assets/images/avatar.png')}
-              style={{ width: 70, height: 70, marginTop: 20, marginRight: 15, borderRadius: 50 }}
+              source={userData?.photoURL ? { uri: userData.photoURL } : require('../../assets/images/avatar.png')}
+              className="rounded-full"
+              style={{
+                height: wp(20),
+                width: wp(20),
+                marginLeft: -25,
+                marginBottom: -15,
+                marginTop: 15,
+              }}
             />
           </TouchableOpacity>
         </View>
-        <View className="mx-5 mb-4 ">
+        <View className="mx-5">
           <TouchableOpacity onPress={() => { navigation.navigate("SearchPlace") }}>
             <View
               className="flex-row items-center bg-neutral-100 rounded-full p-4 space-x-2 pl-6 "
@@ -129,27 +136,26 @@ export default function HomeScreen() {
             </View>
           </TouchableOpacity>
         </View>
+
         <ScrollView
           showsVerticalScrollIndicator={false}
           className={"space-y-6 " + topMargin}
         >
-          {/* search bar */}
 
           {/* categories */}
           <View className="mb-4">
             <Categories />
           </View>
 
-            {/* sort categories */}
-            <View>
-      {/* sort categories */}
-      <View style={{ marginBottom: 20 }}>
-        <SortCategories onSelectSortCategory={handleSortCategorySelect} />
-      </View>
+          {/* sort categories */}
+          <View>
+            <View style={{ marginBottom: 20 }}>
+              <SortCategories onSelectSortCategory={handleSortCategorySelect} />
+            </View>
 
-      {/* destinations */}
-      <Destinations selectedSortCategory={selectedSortCategory} />
-    </View>
+            {/* destinations */}
+            <Destinations selectedSortCategory={selectedSortCategory} />
+          </View>
         </ScrollView>
       </SafeAreaView>
     </ImageBackground>

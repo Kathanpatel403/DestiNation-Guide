@@ -8,7 +8,7 @@ import { getFirestore, doc, getDoc, updateDoc, setDoc, collection } from "fireba
 
 import { ChevronLeftIcon } from "react-native-heroicons/solid";
 import {
-  widthPercentageToDP as wp,  
+  widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from "react-native-responsive-screen";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
@@ -160,234 +160,245 @@ const ProfileScreen = () => {
       source={require("../../assets/images/home3.jpg")} // Change the path to your image
       style={{ flex: 1 }}
     >
-        
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
+
+      <TouchableOpacity
+        onPress={() => navigation.goBack()}
+        style={{
+          padding: wp(4),
+          marginLeft: wp(2),
+          backgroundColor: "white",
+          borderRadius: wp(5),
+          marginRight: wp(82),
+          marginTop: wp(10),
+        }}
+      >
+        <ChevronLeftIcon size={wp(7)} strokeWidth={4} color="black" />
+      </TouchableOpacity>
+      <View className="flex-row justify-center items-center">
+        <TouchableOpacity onPress={handleImagePress}>
+          <Image
+            // style={{ width: 120, height: 120, marginTop: 20, marginLeft: 100, marginBottom: 20, borderRadius: 100 }}
             style={{
               padding: wp(4),
-              marginLeft: wp(2),
               backgroundColor: "white",
-              borderRadius: wp(5),
-              marginRight: wp(82),
-              marginTop: wp(10),
+              marginTop: hp(1),
+              marginBottom: hp(3),
+              width: wp(30),
+              height: wp(30),
+              borderRadius: wp(100)
+            }}
+            className=""
+            source={userData?.photoURL ? { uri: userData.photoURL } : require('../../assets/images/avatar.png')}
+          />
+        </TouchableOpacity>
+      </View>
+
+      <ScrollView
+        showsVerticalScrollIndicator={true}
+        nestedScrollEnabled={true}
+        style={{ borderStyle: "solid", borderWidth: 1, borderColor: "#5000ca", borderRadius: 5, marginLeft: 5, marginRight: 10 }}
+      >
+        <View className="flex rounded-sm shadow-md">
+          <Animatable.View
+            animation="fadeInUpBig"
+            delay={200}
+            style={{
+              backgroundColor: "#e3e3e3", // Lighter background color
+              borderRadius: wp(2),
+              padding: wp(2),
+              marginBottom: hp(1),
+              marginLeft: wp(2),
+              marginRight: wp(2),
+              marginTop: wp(3),
+              alignItems: "flex-start", // Align text to the left
+              shadowColor: "#fff",
+              shadowOffset: { width: 0, height: 5 },
+              shadowOpacity: 0.3,
+              shadowRadius: 8,
+              elevation: 8,
+              borderWidth: 1,
+              borderColor: "#ccc", // Light border color
             }}
           >
-            <ChevronLeftIcon size={wp(7)} strokeWidth={4} color="black" />
-          </TouchableOpacity>
+            <Text
+              style={{
+                fontSize: wp(4),
+                fontWeight: "bold",
+                color: "#333", // Darker text color
+                marginBottom: hp(1),
+              }}
+            >
+              Name: {userData?.name}
+            </Text>
+          </Animatable.View>
 
-          <TouchableOpacity onPress={handleImagePress}>
-            <Image
-              style={{ width: 120, height: 120, marginTop: 20, marginLeft: 100, marginBottom: 20, borderRadius: 100 }}
-              source={userData?.photoURL ? { uri: userData.photoURL } : require('../../assets/images/avatar.png')}
-            />
-          </TouchableOpacity>
-
-          <ScrollView
-            showsVerticalScrollIndicator={true}
-            nestedScrollEnabled={true}
-            style={{ borderStyle: "solid", borderWidth: 1, borderColor: "#5000ca", borderRadius: 5, marginLeft: 5, marginRight: 10 }}
+          <Animatable.View
+            animation="fadeInUpBig"
+            delay={200}
+            style={{
+              backgroundColor: "#e3e3e3", // Lighter background color
+              borderRadius: wp(2),
+              padding: wp(2),
+              marginBottom: hp(1),
+              marginLeft: wp(2),
+              marginRight: wp(2),
+              alignItems: "flex-start", // Align text to the left
+              shadowColor: "#fff",
+              shadowOffset: { width: 0, height: 5 },
+              shadowOpacity: 0.3,
+              shadowRadius: 8,
+              elevation: 8,
+              borderWidth: 1,
+              borderColor: "#ccc", // Light border color
+            }}
           >
-            <View className="flex rounded-sm shadow-md">
-              <Animatable.View
-                animation="fadeInUpBig"
-                delay={200}
-                style={{
-                  backgroundColor: "#e3e3e3", // Lighter background color
-                  borderRadius: wp(2),
-                  padding: wp(2),
-                  marginBottom: hp(1),
-                  marginLeft: wp(2),
-                  marginRight: wp(2),
-                  marginTop: wp(3),
-                  alignItems: "flex-start", // Align text to the left
-                  shadowColor: "#fff",
-                  shadowOffset: { width: 0, height: 5 },
-                  shadowOpacity: 0.3,
-                  shadowRadius: 8,
-                  elevation: 8,
-                  borderWidth: 1,
-                  borderColor: "#ccc", // Light border color
-                }}
-              >
-                <Text
-                  style={{
-                    fontSize: wp(4),
-                    fontWeight: "bold",
-                    color: "#333", // Darker text color
-                    marginBottom: hp(1),
-                  }}
-                >
-                  Name: {userData?.name}
-                </Text>
-              </Animatable.View>
+            <Text
+              style={{
+                fontSize: wp(4),
+                fontWeight: "bold",
+                color: "#333", // Darker text color
+                marginBottom: hp(1),
+              }}
+            >
+              Email: {userData?.email}
+            </Text>
+          </Animatable.View>
 
-              <Animatable.View
-                animation="fadeInUpBig"
-                delay={200}
-                style={{
-                  backgroundColor: "#e3e3e3", // Lighter background color
-                  borderRadius: wp(2),
-                  padding: wp(2),
-                  marginBottom: hp(1),
-                  marginLeft: wp(2),
-                  marginRight: wp(2),
-                  alignItems: "flex-start", // Align text to the left
-                  shadowColor: "#fff",
-                  shadowOffset: { width: 0, height: 5 },
-                  shadowOpacity: 0.3,
-                  shadowRadius: 8,
-                  elevation: 8,
-                  borderWidth: 1,
-                  borderColor: "#ccc", // Light border color
-                }}
-              >
-                <Text
-                  style={{
-                    fontSize: wp(4),
-                    fontWeight: "bold",
-                    color: "#333", // Darker text color
-                    marginBottom: hp(1),
-                  }}
-                >
-                  Email: {userData?.email}
-                </Text>
-              </Animatable.View>
-
-              <Animatable.View
-                animation="fadeInUpBig"
-                delay={200}
-                style={{
-                  backgroundColor: "#e3e3e3", // Lighter background color
-                  borderRadius: wp(2),
-                  padding: wp(2),
-                  marginBottom: hp(1),
-                  marginLeft: wp(2),
-                  marginRight: wp(2),
-                  alignItems: "flex-start", // Align text to the left
-                  shadowColor: "#fff",
-                  shadowOffset: { width: 0, height: 5 },
-                  shadowOpacity: 0.3,
-                  shadowRadius: 8,
-                  elevation: 8,
-                  borderWidth: 1,
-                  borderColor: "#ccc", // Light border color
-                }}
-              >
-                <Text
-                  style={{
-                    fontSize: wp(4),
-                    fontWeight: "bold",
-                    color: "#333", // Darker text color
-                    marginBottom: hp(2),
-                  }}
-                >
-                  Location Preferences:
-                </Text>
-                <View
-                  style={{
-                    flexWrap: "wrap",
-                    flexDirection: "row",
-                    alignItems: "center"
-                  }}
-                >
-                  <FlatList
-                    data={locationPreferences}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={({ item }) => <Text>{item}</Text>}
-                  />
-                </View>
-              </Animatable.View>
-
-              <Animatable.View
-                animation="fadeInUpBig"
-                delay={200}
-                style={{
-                  backgroundColor: "#e3e3e3", // Lighter background color
-                  borderRadius: wp(2),
-                  padding: wp(2),
-                  marginBottom: hp(1),
-                  marginLeft: wp(2),
-                  marginRight: wp(2),
-                  alignItems: "flex-start", // Align text to the left
-                  shadowColor: "#fff",
-                  shadowOffset: { width: 0, height: 5 },
-                  shadowOpacity: 0.3,
-                  shadowRadius: 8,
-                  elevation: 8,
-                  borderWidth: 1,
-                  borderColor: "#ccc", // Light border color
-                }}
-              >
-                <Text
-                  style={{
-                    fontSize: wp(4),
-                    fontWeight: "bold",
-                    color: "#333", // Darker text color
-                    marginBottom: hp(2),
-                  }}
-                >
-                  Category Preferences:
-                </Text>
-                <View
-                  style={{
-                    flexWrap: "wrap",
-                    flexDirection: "row",
-                    alignItems: "center"
-                  }}
-                >
-                  <FlatList
-                    data={categoryPreferences}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={({ item }) => <Text>{item}</Text>}
-                  />
-                </View>
-              </Animatable.View>
+          <Animatable.View
+            animation="fadeInUpBig"
+            delay={200}
+            style={{
+              backgroundColor: "#e3e3e3", // Lighter background color
+              borderRadius: wp(2),
+              padding: wp(2),
+              marginBottom: hp(1),
+              marginLeft: wp(2),
+              marginRight: wp(2),
+              alignItems: "flex-start", // Align text to the left
+              shadowColor: "#fff",
+              shadowOffset: { width: 0, height: 5 },
+              shadowOpacity: 0.3,
+              shadowRadius: 8,
+              elevation: 8,
+              borderWidth: 1,
+              borderColor: "#ccc", // Light border color
+            }}
+          >
+            <Text
+              style={{
+                fontSize: wp(4),
+                fontWeight: "bold",
+                color: "#333", // Darker text color
+                marginBottom: hp(2),
+              }}
+            >
+              Location Preferences:
+            </Text>
+            <View
+              style={{
+                flexWrap: "wrap",
+                flexDirection: "row",
+                alignItems: "center"
+              }}
+            >
+              <FlatList
+                data={locationPreferences}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({ item }) => <Text>{item}</Text>}
+              />
             </View>
-            <View className="flex">
-              <Animatable.View
-                animation="fadeInUpBig"
-                delay={200}
-                style={{
-                  marginBottom: hp(2),
-                  marginLeft: wp(5),
-                  marginRight: wp(5),
-                  alignItems: "flex-start", // Align text to the left
-                  shadowColor: "#fff",
-                  shadowOffset: { width: 0, height: 5 },
-                  shadowOpacity: 0.3,
-                  shadowRadius: 8,
-                  elevation: 8,
-                }}
-              >
-                <TouchableOpacity
-                  onPress={() => { navigation.navigate("UpdateInfo") }}
-                  className="py-2 px-4 bg-gray-400 ml-[40px]  rounded-xl"
-                >
-                  <Text className="text-xl font-bold pl-[10px] mr-[0px] text-black">Update Information</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={changePasswordHandler}
-                  className=" px-4 mt-[5px] bg-gray-400 py-2 rounded-xl ml-[40px] mr-[50px]"
-                >
-                  <Text className="text-xl font-bold text-center pl-[5px] mr-[12px] text-black">Change Password</Text>
-                </TouchableOpacity>
+          </Animatable.View>
 
-                <TouchableOpacity
-                  onPress={() => { navigation.navigate("Bookmarks") }}
-                  className="py-2 px-4 mt-[5px] bg-gray-400 ml-[40px] mr-[50px] rounded-xl"
-                >
-                  <Text className="text-xl font-bold pl-[18px] mr-[15px] text-black">Your BookMarks</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  onPress={handleLogout}
-                  className="py-2 px-4 mt-[5px] bg-gray-400 ml-[40px]  rounded-xl"
-                >
-                  <Text className="text-xl font-bold pl-[60px] mr-[60px] text-black">Logout</Text>
-                </TouchableOpacity>
-              </Animatable.View>
+          <Animatable.View
+            animation="fadeInUpBig"
+            delay={200}
+            style={{
+              backgroundColor: "#e3e3e3", // Lighter background color
+              borderRadius: wp(2),
+              padding: wp(2),
+              marginBottom: hp(1),
+              marginLeft: wp(2),
+              marginRight: wp(2),
+              alignItems: "flex-start", // Align text to the left
+              shadowColor: "#fff",
+              shadowOffset: { width: 0, height: 5 },
+              shadowOpacity: 0.3,
+              shadowRadius: 8,
+              elevation: 8,
+              borderWidth: 1,
+              borderColor: "#ccc", // Light border color
+            }}
+          >
+            <Text
+              style={{
+                fontSize: wp(4),
+                fontWeight: "bold",
+                color: "#333", // Darker text color
+                marginBottom: hp(2),
+              }}
+            >
+              Category Preferences:
+            </Text>
+            <View
+              style={{
+                flexWrap: "wrap",
+                flexDirection: "row",
+                alignItems: "center"
+              }}
+            >
+              <FlatList
+                data={categoryPreferences}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({ item }) => <Text>{item}</Text>}
+              />
             </View>
-          </ScrollView >
+          </Animatable.View>
+        </View>
+        <View className="flex-row justify-center items-center">
+          <Animatable.View
+            animation="fadeInUpBig"
+            delay={200}
+            style={{
+              marginBottom: hp(2),
+              marginLeft: wp(5),
+              marginRight: wp(5),
+              alignItems: "flex-start", // Align text to the left
+              shadowColor: "#fff",
+              shadowOffset: { width: 0, height: 5 },
+              shadowOpacity: 0.3,
+              shadowRadius: 8,
+              elevation: 8,
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => { navigation.navigate("UpdateInfo") }}
+              className="py-2 px-4 bg-gray-400 ml-[40px]  rounded-xl"
+            >
+              <Text className="text-xl font-bold pl-[10px] mr-[0px] text-black">Update Information</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={changePasswordHandler}
+              className=" px-4 mt-[5px] bg-gray-400 py-2 rounded-xl ml-[40px] mr-[50px]"
+            >
+              <Text className="text-xl font-bold text-center pl-[5px] mr-[12px] text-black">Change Password</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => { navigation.navigate("Bookmarks") }}
+              className="py-2 px-4 mt-[5px] bg-gray-400 ml-[40px] mr-[50px] rounded-xl"
+            >
+              <Text className="text-xl font-bold pl-[18px] mr-[15px] text-black">Your BookMarks</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={handleLogout}
+              className="py-2 px-4 mt-[5px] bg-gray-400 ml-[40px]  rounded-xl"
+            >
+              <Text className="text-xl font-bold pl-[60px] mr-[60px] text-black">Logout</Text>
+            </TouchableOpacity>
+          </Animatable.View>
+        </View>
+      </ScrollView >
     </ImageBackground>
   );
 }

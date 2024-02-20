@@ -111,7 +111,13 @@ export default function HomeScreen() {
                     >
                         <Image
                             source={require('../../assets/images/admin.png')}
-                            style={{ width: 70, height: 70, marginTop: 20, marginRight: 15, borderRadius: 50 }}
+                            style={{
+                                height: wp(20),
+                                width: wp(20),
+                                marginLeft: -25,
+                                marginBottom: -15,
+                                marginTop: 15,
+                            }}
                         />
                     </TouchableOpacity>
 
@@ -120,7 +126,14 @@ export default function HomeScreen() {
                     >
                         <Image
                             source={userData?.photoURL ? { uri: userData.photoURL } : require('../../assets/images/avatar.png')}
-                            style={{ width: 70, height: 70, marginTop: 20, marginRight: 15, borderRadius: 50 }}
+                            className="rounded-full"
+                            style={{
+                                height: wp(20),
+                                width: wp(20),
+                                marginLeft: -25,
+                                marginBottom: -15,
+                                marginTop: 15,
+                            }}
                         />
                     </TouchableOpacity>
                 </View>
