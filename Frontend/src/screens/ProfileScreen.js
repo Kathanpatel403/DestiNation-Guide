@@ -174,6 +174,12 @@ const ProfileScreen = () => {
       >
         <ChevronLeftIcon size={wp(7)} strokeWidth={4} color="black" />
       </TouchableOpacity>
+
+      <ScrollView
+        showsVerticalScrollIndicator={true}
+        nestedScrollEnabled={true}
+        style={{ borderStyle: "solid", borderWidth: 1, borderColor: "#5000ca", borderRadius: 5, marginLeft: 5, marginRight: 10 }}
+      >
       <View className="flex-row justify-center items-center">
         <TouchableOpacity onPress={handleImagePress}>
           <Image
@@ -192,12 +198,7 @@ const ProfileScreen = () => {
           />
         </TouchableOpacity>
       </View>
-
-      <ScrollView
-        showsVerticalScrollIndicator={true}
-        nestedScrollEnabled={true}
-        style={{ borderStyle: "solid", borderWidth: 1, borderColor: "#5000ca", borderRadius: 5, marginLeft: 5, marginRight: 10 }}
-      >
+      
         <View className="flex rounded-sm shadow-md">
           <Animatable.View
             animation="fadeInUpBig"

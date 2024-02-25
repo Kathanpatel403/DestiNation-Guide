@@ -23,6 +23,4 @@ class Place_Data(models.Model):
     Likes = models.IntegerField()
 
     class Meta:
-        db_table = 'PlaceData'    
-
-
+        db_table = 'PlaceData' 

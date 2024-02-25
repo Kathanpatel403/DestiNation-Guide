@@ -1,4 +1,3 @@
-
 export const fetchData = async (endpoint) => {
   try {
     const response = await fetch(`${BASE_URL}${endpoint}`);
@@ -10,4 +9,4 @@ export const fetchData = async (endpoint) => {
   }
 };
 
-export const BASE_URL = 'http://192.168.0.185:8000/';
+export const BASE_URL = 'http://192.168.21.141:8000/';

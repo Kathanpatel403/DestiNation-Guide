@@ -60,6 +60,7 @@ const Categories = () => {
           <Text style={{ fontSize: wp(4), color: theme.text }}>See all</Text>
         </TouchableOpacity>
       </View>
+      
       <ScrollView
         horizontal
         contentContainerStyle={{ paddingHorizontal: wp(5) }}

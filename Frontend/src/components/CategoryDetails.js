@@ -35,9 +35,12 @@ const CategoryDetails = () => {
     navigation.goBack();
   };
 
-  const handleCategoryPress = (categoryId) => {
+  const handleCategoryPress = (category) => {
     // Your logic for handling category press
-    console.log(`Category ${categoryId} pressed`);
+    console.log(`Category ${category} pressed`);
+    navigation.navigate("CategoryPlace", {
+      categories: category,
+    })
   };
 
   const fadeInAnimation = () => {
@@ -54,38 +57,27 @@ const CategoryDetails = () => {
       source={require("../../assets/images/home3.jpg")} // Change the path to your image
       style={{ flex: 1 }}
     >
+    <TouchableOpacity
+        onPress={() => navigation.goBack()}
+        style={{
+          padding: wp(4),
+          marginLeft: wp(2),
+          backgroundColor: "white",
+          borderRadius: wp(5),
+          marginRight: wp(82),
+          marginTop: wp(10),
+        }}
+      >
+        <ChevronLeftIcon size={wp(7)} strokeWidth={4} color="black" />
+      </TouchableOpacity>
+
       <View style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={{
-              padding: wp(1),
-              backgroundColor: theme.bgDark,
-              borderRadius: wp(5),
-            }}
-          >
-            <ChevronLeftIcon size={wp(7)} strokeWidth={4} color="black" />
-          </TouchableOpacity>
           <Text style={styles.headerText}>All Categories</Text>
           <View style={styles.headerPlaceholder} />
         </View>
-        <View className="mx-5 mb-4 ">
-          <View
-            className="flex-row items-center bg-neutral-100 rounded-full p-4 space-x-2 pl-6 "
-            style={{
-              borderWidth: 1,
-              borderColor: "#dbdbdb",
-            }}
-          >
-            <MagnifyingGlassIcon size={20} strokeWidth={3} color="black" />
-            <TextInput
-              placeholder="Search destination"
-              placeholderTextColor={"black"}
-              className="flex-1 text-base mb-1 pl-1 tracking-wider "
-            />
-          </View>
-        </View>
+        
         {/* Categories */}
         <ScrollView contentContainerStyle={styles.categoryContainer}>
           {categories.map((cat, index) => (
@@ -96,7 +88,7 @@ const CategoryDetails = () => {
               <TouchableOpacity
                 style={{ flex: 1 }}
                 onPress={() => {
-                  handleCategoryPress(cat.id);
+                  handleCategoryPress(cat.title);
                   fadeInAnimation();
                 }}
               >
@@ -122,13 +114,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     padding: 16,
-    marginTop: 30,
   },
 
   headerText: {
     fontSize: wp(5),
     fontWeight: "bold",
     color: "#000",
+    marginLeft: 120
   },
   headerPlaceholder: {
     width: wp(4),

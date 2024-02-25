@@ -70,7 +70,7 @@ export default function UserInformation() {
             source={require("../../assets/images/home3.jpg")}
             style={{ flex: 1 }}
         >
-            <View className="flex-1 ">
+            <View className="flex-1">
                 <SafeAreaView className="flex">
                     <View className="flex-row justify-center">
                         <Image

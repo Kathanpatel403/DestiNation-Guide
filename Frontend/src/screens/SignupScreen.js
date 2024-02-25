@@ -34,12 +34,10 @@ export default function SignUpScreen() {
           name: name,
         }).then(() => {
           console.log("User role set successfully.");
-        }).catch(() => {
+        }).catch((error) => {
           console.error("Error setting user role:", error);
         })
-
         ToastAndroid.show(`User created successfully!`, ToastAndroid.SHORT);
-
         navigation.navigate("Home");
       } catch (err) {
         ToastAndroid.show(`got error: ${err.message}`, ToastAndroid.SHORT);

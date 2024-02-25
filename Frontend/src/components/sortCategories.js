@@ -23,29 +23,13 @@ const Categories = () => {
     // Navigate to the category details page
     navigation.navigate("CategoryDetails", { categories: categoriesData });
   };
-  const fetchPlacesByCategory = async (category) => {
-    try {
-      const response = await fetch(`${BASE_URL}api/places/category/${category}`);
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const data = await response.json();
-      setPlaces(data.places);
-    } catch (error) {
-      console.error('Error fetching places:', error);
-    }
-  };
-
-  useEffect(() => {
-    // Example: Fetch places for the first category on component mount
-    if (categoriesData.length > 0) {
-      fetchPlacesByCategory(categoriesData[0].title);
-    }
-  }, []);
 
   const handleCategoryPress = (category) => {
     // Fetch places data based on the selected category
-    fetchPlacesByCategory(category);
+    console.log(`${category} pressed!`)
+    navigation.navigate("CategoryPlace", {
+      categories: category,
+    })
   };
 
   return (
@@ -91,8 +75,6 @@ const Categories = () => {
           </TouchableOpacity>
         ))}
       </ScrollView>
-
-     
     </View>
   );
 };
@@ -108,7 +90,7 @@ export default function SortCategories({ onSelectSortCategory }) {
     onSelectSortCategory(sort); // Pass selected sort category to parent component
   };
 
-  const sortCategoryData = ['All', 'Popular', 'Recommendation']; // Update available sort categories
+  const sortCategoryData = ['All', 'Popular', 'Recommended']; // Update available sort categories
 
   return (
     <View

@@ -23,6 +23,9 @@ import AdminMainScreen from "../screens/AdminMainScreen";
 import AdminRemovePlace from "../screens/AdminRemovePlace";
 import AdminUpdatePlace from "../screens/AdminUpdatePlace";
 import SearchPlaceScreen from "../screens/SearchPlaceScreen";
+import ReviewRatingScreen from "../screens/ReviewRatingScreen";
+import CategoryPlaceScreen from "../screens/CategoryPlaceScreen";
+import AllReviewRating from "../screens/AllReviewRating";
 
 const Stack = createNativeStackNavigator();
 
@@ -92,6 +95,21 @@ export default function AppNavigation() {
             name="Profile"
             options={{ headerShown: false }}
             component={ProfileScreen}
+          />
+          <Stack.Screen
+            name="ReviewRating"
+            options={{ headerShown: false }}
+            component={ReviewRatingScreen}
+          />
+          <Stack.Screen
+            name="AllReviewRating"
+            options={{ headerShown: false }}
+            component={AllReviewRating}
+          />
+          <Stack.Screen
+            name="CategoryPlace"
+            options={{ headerShown: false }}
+            component={CategoryPlaceScreen}
           />
           <Stack.Screen
             name="Settings"

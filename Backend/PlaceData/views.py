@@ -31,7 +31,7 @@ def get_recommendations(request, place_name):
         
         return Response({'recommendations': recommended_places_data})
     except Exception as e:
-        return Response({'error': str(e)}, status=500)
+        return JsonResponse({'error': str(e)}, status=500)
 
 
 def add_place(request):
@@ -42,7 +42,7 @@ def add_place(request):
         # Save other place details to the database
         
         # Dummy response for now
-        return JsonResponse({'message': 'Place added successfully'}, status=201)
+        return Response({'message': 'Place added successfully'}, status=201)
     else:
         return JsonResponse({'error': 'Method not allowed'}, status=405)
 
@@ -54,7 +54,7 @@ def get_place_details(request, place_name):
         serializer = PlaceDataSerializer(place)
         return Response({'place': serializer.data})
     except Place_Data.DoesNotExist:
-        return Response({'error': 'Place not found'}, status=404)
+        return JsonResponse({'error': 'Place not found'}, status=404)
     
 
 @api_view(['GET'])
@@ -64,30 +64,31 @@ def get_destinations_sorted_by_likes(request):
         serializer = PlaceDataSerializer(destinations, many=True)
         return Response({'destinations': serializer.data})
     except Exception as e:
-        return Response({'error': str(e)}, status=500)
+        return JsonResponse({'error': str(e)}, status=500)
 
-@api_view(['GET'])
-def get_places_by_category(request, category):
-    if request.method == 'GET':
-        # Query places based on the provided category
-        places = Place_Data.objects.filter(Category__icontains=category)
-        
-        # Serialize the places data
-        serialized_places = []
-        for place in places:
-            # Preprocess categories to remove leading and trailing spaces
-            categories = [cat.strip() for cat in place.Category]
-            # Check if the specified category is in the place's categories
-            if category.lower() in [cat.lower() for cat in categories]:
-                serialized_places.append({
-                    'name': place.Name,
-                    'category': place.Category,
-                    # Add other fields you want to include in the response
-                })
-        
-        return JsonResponse({'places': serialized_places}, status=200)
-    else:
-        return JsonResponse({'error': 'Method not allowed'}, status=405) 
+    
+@api_view(['POST'])
+def get_places_by_category(request):
+    try:
+        data = json.loads(request.body)
+        category = data.get('category', '')
+
+        matching_category = Place_Data.objects.filter(
+            models.Q(Category__icontains=category)
+        )
+        print(matching_category)
+        for cate in matching_category:
+            print("Place in category: ", cate.Name)
+        if matching_category.exists():
+            serializer = PlaceDataSerializer(matching_category, many=True)
+            serialized_data = serializer.data
+            return Response({'matching_category': serialized_data})
+        else:
+            return JsonResponse({'message': 'No matching category found'}, status=404, safe=False)
+    
+    except Exception as e:
+        print("Error:", e)
+        return JsonResponse({'error': str(e)}, safe=False)
 
 @api_view(['POST'])
 def get_searched_places(request):

@@ -122,6 +122,7 @@ export default function HomeScreen() {
             />
           </TouchableOpacity>
         </View>
+        
         <View className="mx-5">
           <TouchableOpacity onPress={() => { navigation.navigate("SearchPlace") }}>
             <View
