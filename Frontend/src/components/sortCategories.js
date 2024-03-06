@@ -80,8 +80,6 @@ const Categories = () => {
 };
 
 
-
-
 export default function SortCategories({ onSelectSortCategory }) {
   const [activeSort, setActiveSort] = useState('Popular');
 
@@ -150,14 +148,15 @@ const Destinations = ({ selectedSortCategory }) => {
     const fetchDestinations = async () => {
       try {
         let data;
-        if (selectedSortCategory === 'Recommendation') {
+        if (selectedSortCategory === 'Recommended') {
           // Fetch recommendations based on the selected sort category
-          const response = await fetchData(`api/recommendations/Inorbit Mall`);
+          const response = await fetchData(`api/recommendations/Adalaj Stepwell`);
           
           if (response && response.recommendations) {
             // Now, fetch details of each recommendation from the backend
             const recommendedPlaces = response.recommendations;
             data = recommendedPlaces;
+            setDestinationData(data.slice(0, 10));
           } else {
             throw new Error('Invalid response format for recommendations');
           }
@@ -166,6 +165,7 @@ const Destinations = ({ selectedSortCategory }) => {
           const response = await fetchData('api/destinations/sorted-by-likes');
           if (response && response.destinations) {
             data = response.destinations;
+            setDestinationData(data.slice(0, 10));
           } else {
             throw new Error('Invalid response format for destinations');
           }
@@ -174,12 +174,13 @@ const Destinations = ({ selectedSortCategory }) => {
           const response = await fetchData('api/destinations/');
           if (response && response.destinations) {
             data = response.destinations;
+            setDestinationData(data);
           } else {
             throw new Error('Invalid response format for destinations');
           }
         }
         // Limit the number of items to 10
-        setDestinationData(data.slice(0, 10));
+        
       } catch (error) {
         // Handle error, e.g., show an error message to the user
         console.error('Error fetching destinations:', error);

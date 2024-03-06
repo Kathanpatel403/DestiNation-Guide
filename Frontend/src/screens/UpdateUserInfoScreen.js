@@ -114,18 +114,12 @@ export default function UpdateUserInfoScreen() {
                 >
                     <ChevronLeftIcon size={wp(7)} strokeWidth={4} color="black" />
                 </TouchableOpacity>
-                <SafeAreaView className="flex mt-[-20px]">
-                    <View className="flex-row justify-center">
-                        <Image
-                            source={require("../../assets/images/logo.png")}
-                            style={{ width: 165, height: 110 }}
-                        />
-                    </View>
-                </SafeAreaView>
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-
+                    <View className="items-center mt-4">
+                        <Text className="font-bold text-xl">Update user Information</Text>
+                    </View>
                     <View
-                        className="flex-1 bg-white px-8 pt-8"
+                        className="flex-1 px-8 pt-8"
                         style={{ borderTopLeftRadius: 50, borderTopRightRadius: 50 }}
                     >
 

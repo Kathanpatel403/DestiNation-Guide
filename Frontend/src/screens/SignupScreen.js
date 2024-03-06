@@ -34,6 +34,7 @@ export default function SignUpScreen() {
           name: name,
         }).then(() => {
           console.log("User role set successfully.");
+          navigation.navigate("UserInformation")
         }).catch((error) => {
           console.error("Error setting user role:", error);
         })

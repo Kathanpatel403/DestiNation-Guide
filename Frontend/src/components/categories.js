@@ -12,6 +12,7 @@ import { BASE_URL } from "../services/api"
 const Categories = () => {
   const navigation = useNavigation();
   const [places, setPlaces] = useState([]);
+  
   const handleSeeAll = () => {
     // Navigate to the category details page
     navigation.navigate("CategoryDetails", { categories: categoriesData });

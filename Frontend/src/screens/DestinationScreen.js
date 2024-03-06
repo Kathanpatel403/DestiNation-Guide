@@ -174,9 +174,9 @@ export default function DestinationScreen(props) {
   }
 
   const handleReviewRatingPress = () => {
-    if (item && item.userReviewRating) {
+    if (item && item.Name) {
       navigation.navigate('AllReviewRating', {
-        userReviewRatingData: item.userReviewRating,
+        PlaceName: item.Name,
       })
     }
   }
@@ -312,15 +312,11 @@ export default function DestinationScreen(props) {
               </AnimatedText>
             </View>
           </Animatable.View>
+          
           <ScrollView
             showsVerticalScrollIndicator={false}
             style={{ padding: wp(5), paddingBottom: hp(1) }}
           >
-
-
-
-
-
             <Animatable.View
               animation="fadeInUpBig"
               delay={200}
@@ -345,10 +341,7 @@ export default function DestinationScreen(props) {
                   flex: 1,
                   borderRadius: wp(6), // Slightly increased border radius
                   padding: wp(4),
-
                   alignItems: 'center',
-
-
                 }}
               >
                 <AnimatedText

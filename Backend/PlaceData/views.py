@@ -161,3 +161,4 @@ def get_bookmarked_places(request):
         return Response({'bookmarked_places': serializer.data})
     except Exception as e:
         return JsonResponse({'error': str(e)})
+    

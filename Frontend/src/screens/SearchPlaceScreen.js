@@ -26,6 +26,7 @@ const SearchPlaceScreen = () => {
     const navigation = useNavigation();
     const [placename, setplacename] = useState("");
     const [searchedPlaces, setSearchedPlaces] = useState([]);
+    
     const handleSearch = async () => {
         console.log(placename);
         try {
@@ -45,6 +46,7 @@ const SearchPlaceScreen = () => {
 
             const data = await response.json();
             setSearchedPlaces(data.matching_places);
+            console.log("searched place screen data: ", searchedPlaces)
         } catch (error) {
             console.error('Error sending BookmarkedPlaces to backend:', error);
             ToastAndroid.show('Error sending BookmarkedPlaces to backend', ToastAndroid.SHORT);

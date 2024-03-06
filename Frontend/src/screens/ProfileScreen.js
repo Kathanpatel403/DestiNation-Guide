@@ -177,8 +177,8 @@ const ProfileScreen = () => {
 
       <ScrollView
         showsVerticalScrollIndicator={true}
-        nestedScrollEnabled={true}
-        style={{ borderStyle: "solid", borderWidth: 1, borderColor: "#5000ca", borderRadius: 5, marginLeft: 5, marginRight: 10 }}
+        nestedScrollEnabled={true}d
+        style={{marginLeft: 5, marginRight: 10 }}
       >
       <View className="flex-row justify-center items-center">
         <TouchableOpacity onPress={handleImagePress}>
@@ -290,7 +290,7 @@ const ProfileScreen = () => {
                 fontSize: wp(4),
                 fontWeight: "bold",
                 color: "#333", // Darker text color
-                marginBottom: hp(2),
+                marginBottom: hp(1),
               }}
             >
               Location Preferences:
@@ -335,7 +335,7 @@ const ProfileScreen = () => {
                 fontSize: wp(4),
                 fontWeight: "bold",
                 color: "#333", // Darker text color
-                marginBottom: hp(2),
+                marginBottom: hp(1),
               }}
             >
               Category Preferences:
@@ -373,29 +373,30 @@ const ProfileScreen = () => {
           >
             <TouchableOpacity
               onPress={() => { navigation.navigate("UpdateInfo") }}
-              className="py-2 px-4 bg-gray-400 ml-[40px]  rounded-xl"
+              className="py-2 px-4 bg-gray-400 ml-[40px] mt-3 rounded-xl"
             >
               <Text className="text-xl font-bold pl-[10px] mr-[0px] text-black">Update Information</Text>
             </TouchableOpacity>
+
             <TouchableOpacity
               onPress={changePasswordHandler}
-              className=" px-4 mt-[5px] bg-gray-400 py-2 rounded-xl ml-[40px] mr-[50px]"
+              className=" px-4 bg-gray-400 py-2 mt-3 rounded-xl ml-[40px] mr-[50px]"
             >
-              <Text className="text-xl font-bold text-center pl-[5px] mr-[12px] text-black">Change Password</Text>
+              <Text className="text-xl font-bold text-center pl-[5px] mr-[15px] text-black">Change Password</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               onPress={() => { navigation.navigate("Bookmarks") }}
-              className="py-2 px-4 mt-[5px] bg-gray-400 ml-[40px] mr-[50px] rounded-xl"
+              className="py-2 px-4 mt-3 bg-gray-400 ml-[40px] mr-[0px] rounded-xl"
             >
-              <Text className="text-xl font-bold pl-[18px] mr-[15px] text-black">Your BookMarks</Text>
+              <Text className="text-xl font-bold pl-[18px] mr-[16px] text-black">Your BookMarks</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               onPress={handleLogout}
-              className="py-2 px-4 mt-[5px] bg-gray-400 ml-[40px]  rounded-xl"
+              className="py-2 px-4 mt-3 bg-gray-400 ml-[40px]  rounded-xl items-center"
             >
-              <Text className="text-xl font-bold pl-[60px] mr-[60px] text-black">Logout</Text>
+              <Text className="text-xl font-bold pl-[60px] mr-[58px] text-black">Logout</Text>
             </TouchableOpacity>
           </Animatable.View>
         </View>

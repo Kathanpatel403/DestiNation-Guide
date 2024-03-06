@@ -45,7 +45,7 @@ const ReviewRatingScreen = ({ route }) => {
                     console.log("Reviews added to firestore successfully!");
                     ToastAndroid.show("Reviews added to firestore successfully!", ToastAndroid.SHORT);
                 } else {
-                    console.log("failed to add reviews on firestore!")                   
+                    console.log("failed to add reviews on firestore!")
                     ToastAndroid.show("failed to add reviews on firestore!", ToastAndroid.SHORT);
                 }
             }
@@ -79,8 +79,12 @@ const ReviewRatingScreen = ({ route }) => {
                     style={{ borderTopLeftRadius: 50, borderTopRightRadius: 50 }}
                     className="flex-1 px-8 pt-8"
                 >
-                    <View className="form space-y-2">
-                        <Text className="text-gray-700 ml-4">Give Ratings</Text>
+                    <View className="items-center">
+                        <Text className="font-bold text-2xl">User Review & Ratings</Text>
+                    </View>
+
+                    <View className="form space-y-2 mt-[30px]">
+                        <Text className="text-black text-lg font-semibold mb-[5px]">Give Ratings:</Text>
                         <StarRating
                             maxStars={5}
                             rating={rating}
@@ -88,18 +92,21 @@ const ReviewRatingScreen = ({ route }) => {
                             fullStarColor={'orange'}
                             emptyStarColor={'gray'}
                         />
-                        <Text>{`Selected Rating: ${rating}`}</Text>
-                        <Text className="text-gray-700 ml-4">Give Review</Text>
+                    </View>
+
+                    <Text className="mt-[20px]">{`Selected Rating: ${rating}`}</Text>
+
+                    <View className="mt-[20px]">
+                        <Text className="text-black text-lg font-semibold mb-[5px]">Give Review</Text>
                         <TextInput
                             className="p-4 bg-gray-100 text-gray-700 rounded-2xl"
-                            placeholder="Ratings"
+                            placeholder="Review"
                             value={review}
                             onChangeText={(value) => setreview(value)}
                         />
-                        <TouchableOpacity onPress={() => navigation.navigate("ForgotPassword")} className="flex items-end">
-                        </TouchableOpacity>
+                        
                         <TouchableOpacity
-                            className="py-3 bg-gray-400 rounded-xl"
+                            className="py-3 bg-gray-400 rounded-xl mt-[20px]"
                             onPress={handleReviewSubmit}
                         >
                             <Text className="text-xl font-bold text-center text-black">
