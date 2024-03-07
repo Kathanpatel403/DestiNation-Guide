@@ -8,6 +8,8 @@ import SignupPage from "./screens/SignupPage";
 import { auth } from "./config/firebase";
 import ForgotPassword from "./screens/ForgotPassword";
 import UserInformationForm from "./screens/UserInformationForm";
+import LandingPage from "./screens/LandingPage";
+
 function App() {
   return (
     <div className="App">
@@ -17,7 +19,8 @@ function App() {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/userinfo" element={<UserInformationForm />} />
-          <Route path="/" element={<HomeScreen />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/Home" element={<HomeScreen />} />
         </Routes>
       </Router>
     </div>

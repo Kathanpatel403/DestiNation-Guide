@@ -1,16 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import sortCategories from '../components/sortCategories'
 
 function HomeScreen(props) {
     return (
         <div>
-            
-
-            <br />
-            <br />
-            <br />
-
-            <h2> Welcome to home screen </h2>
+            <sortCategories />
         </div>
     )
 }

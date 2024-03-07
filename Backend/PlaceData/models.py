@@ -22,6 +22,6 @@ class Place_Data(models.Model):
     TIP = models.IntegerField()
     Likes = models.IntegerField()
     userReviewRating = ArrayField(models.CharField(max_length=255), null=True, blank=True)
-
+    
     class Meta:
         db_table = 'PlaceData' 

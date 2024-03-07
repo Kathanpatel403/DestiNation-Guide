@@ -9,8 +9,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import StarRating from 'react-native-star-rating';
 import { auth, firestore } from "../../config/firebase";
-import { doc, getDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
-import { BASE_URL } from "../services/api"
+import { doc, getDoc, setDoc} from "firebase/firestore";
 
 const ReviewRatingScreen = ({ route }) => {
     const navigation = useNavigation();
@@ -25,25 +24,23 @@ const ReviewRatingScreen = ({ route }) => {
     const handleReviewSubmit = async () => {
         try {
             const user = auth.currentUser;
-
             if (user) {
                 const uid = user.uid;
                 const userRoleRef = doc(firestore, "userRoles", uid);
 
                 const userSnapshot = await getDoc(userRoleRef);
                 const userData = userSnapshot.data();
-                const userReviewRating = {
-                    Place_id: Place_id,
-                    Placename: Placename,
-                    UserRatings: rating,
-                    UserReview: review
-                }
                 if (userData) {
-                    await updateDoc(userRoleRef, {
-                        userReviewRatings: userReviewRating
-                    });
-                    console.log("Reviews added to firestore successfully!");
-                    ToastAndroid.show("Reviews added to firestore successfully!", ToastAndroid.SHORT);
+                    await setDoc(userRoleRef, {
+                        ReviewRating: {
+                            [Placename]: {
+                                Review: review,
+                                Rating: rating,
+                            },
+                        },
+                    }, { merge: true })
+                    console.log('Review added successfully!');
+                    ToastAndroid.show("Reivew added to database successfully!", ToastAndroid.SHORT)
                 } else {
                     console.log("failed to add reviews on firestore!")
                     ToastAndroid.show("failed to add reviews on firestore!", ToastAndroid.SHORT);
@@ -104,7 +101,7 @@ const ReviewRatingScreen = ({ route }) => {
                             value={review}
                             onChangeText={(value) => setreview(value)}
                         />
-                        
+
                         <TouchableOpacity
                             className="py-3 bg-gray-400 rounded-xl mt-[20px]"
                             onPress={handleReviewSubmit}

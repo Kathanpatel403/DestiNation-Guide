@@ -7,6 +7,8 @@ from django.http import JsonResponse
 from .Recommendation import give_rec
 import json
 from django.db import models
+from django.views import View
+from django.views.decorators.csrf import csrf_exempt
 
 @api_view(['GET'])
 def get_all_destinations(request):
@@ -15,12 +17,13 @@ def get_all_destinations(request):
     serializer = PlaceDataSerializer(destinations, many=True)
     return Response({'destinations': serializer.data})
 
+
 @api_view(['GET'])
 def get_recommendations(request, place_name):
     try:
         # Get recommendations for the given place
         recommendations = give_rec(place_name)
-        
+
         # Fetch details of each recommendation from the database
         recommended_places_data = []
         for recommendation in recommendations:
@@ -28,7 +31,7 @@ def get_recommendations(request, place_name):
             if place_data:
                 serializer = PlaceDataSerializer(place_data)
                 recommended_places_data.append(serializer.data)
-        
+
         return Response({'recommendations': recommended_places_data})
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
@@ -40,7 +43,7 @@ def add_place(request):
         # Example:
         place_name = request.POST.get('name')
         # Save other place details to the database
-        
+
         # Dummy response for now
         return Response({'message': 'Place added successfully'}, status=201)
     else:
@@ -55,18 +58,19 @@ def get_place_details(request, place_name):
         return Response({'place': serializer.data})
     except Place_Data.DoesNotExist:
         return JsonResponse({'error': 'Place not found'}, status=404)
-    
+
 
 @api_view(['GET'])
 def get_destinations_sorted_by_likes(request):
     try:
-        destinations = Place_Data.objects.order_by('-Likes')[:10]  # Sort destinations by Likes in descending order and limit to 10
+        # Sort destinations by Likes in descending order and limit to 10
+        destinations = Place_Data.objects.order_by('-Likes')[:10]
         serializer = PlaceDataSerializer(destinations, many=True)
         return Response({'destinations': serializer.data})
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
 
-    
+
 @api_view(['POST'])
 def get_places_by_category(request):
     try:
@@ -85,10 +89,11 @@ def get_places_by_category(request):
             return Response({'matching_category': serialized_data})
         else:
             return JsonResponse({'message': 'No matching category found'}, status=404, safe=False)
-    
+
     except Exception as e:
         print("Error:", e)
         return JsonResponse({'error': str(e)}, safe=False)
+
 
 @api_view(['POST'])
 def get_searched_places(request):
@@ -118,7 +123,8 @@ def get_searched_places(request):
     except Exception as e:
         print("Error:", e)
         return JsonResponse({'error': str(e)}, safe=False)
-    
+
+
 @api_view(["POST"])
 def delete_place(request):
     if request.method == 'POST':
@@ -133,7 +139,7 @@ def delete_place(request):
                 place_data = Place_Data.objects.get(Name=place_name)
             else:
                 return JsonResponse({'error': 'Place_id or Name not provided'}, status=400)
-            print("after place data and value is: ",place_data)
+            print("after place data and value is: ", place_data)
 
             # Delete the document
             place_data.delete()
@@ -145,6 +151,7 @@ def delete_place(request):
 
     return JsonResponse({'error': 'Method not allowed'}, status=405)
 
+
 @api_view(['POST'])
 def get_bookmarked_places(request):
     try:
@@ -152,13 +159,15 @@ def get_bookmarked_places(request):
         bookmarked_places_ids = data.get('BookmarkedPlaces', [])
 
         # Convert Place_id values to integers for querying
-        bookmarked_places_ids = [int(place_id) for place_id in bookmarked_places_ids]
+        bookmarked_places_ids = [int(place_id)
+            for place_id in bookmarked_places_ids]
 
         # Query places with matching Place_id
-        bookmarked_places = Place_Data.objects.filter(Place_id__in=bookmarked_places_ids)
+        bookmarked_places = Place_Data.objects.filter(
+            Place_id__in=bookmarked_places_ids)
         serializer = PlaceDataSerializer(bookmarked_places, many=True)
 
         return Response({'bookmarked_places': serializer.data})
     except Exception as e:
         return JsonResponse({'error': str(e)})
-    
+
