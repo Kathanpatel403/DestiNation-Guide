@@ -5,15 +5,15 @@ import './card.css';
 import HomeHeader from './Headers';
  // Import the details component
 
-const Recommendationcard = () => {
+const Alldesti = () => {
   const [places, setPlaces] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/recommendations/Gir%20national%20park');
+        const response = await axios.get('http://localhost:8000/api/destinations/');
         console.log(response);
-        setPlaces(response.data.recommendations);
+        setPlaces(response.data.destinations);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -24,8 +24,8 @@ const Recommendationcard = () => {
 
   return (
     <>
-     
-      <h1 className='mt-10 -mb-3 text-center  bg-gradient-to-r from-slate-300 to-slate-400 text-black text-4xl rounded-lg p-4 shadow-md transform' style={{ marginLeft: '500px',width:'500px' }}>Recommended Destinations</h1>
+      <HomeHeader />
+      <h1 className='mt-10 -mb-3 text-center w-96 bg-gradient-to-r from-slate-300 to-slate-400 text-black text-4xl rounded-lg p-4 shadow-md transform' style={{ marginLeft: '580px' }}>ALL Destinations</h1>
       <div className="wrapper">
         {places && places.length > 0 && places.map((place, index) => (
           <div className="card" key={index}>
@@ -50,4 +50,4 @@ const Recommendationcard = () => {
   );
 }
 
-export default Recommendationcard;
+export default Alldesti;

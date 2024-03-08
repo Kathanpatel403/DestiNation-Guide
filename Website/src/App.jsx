@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+// import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+
+import { Routes, Route as ReactRoute } from 'react-router-dom';
 import HomeScreen from "./screens/HomeScreen";
 import LoginPage from "./screens/LoginPage";
 import SignupPage from "./screens/SignupPage";
@@ -10,6 +13,7 @@ import UserInformationForm from "./screens/UserInformationForm";
 import PopularCard from "./component/PopularCard";
 import CategoryDetails from "./component/categorydetails";
 import PlaceDetails from "./component/PlaceDetails";
+import Alldesti from "./component/alldestination";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -35,7 +39,7 @@ function App() {
       <Router>
         <Routes>
           {/* Redirect to login if user is not authenticated */}
-          {!user && <Route path="/" element={<Navigate to="/login" />} />}
+          {/* {!user && <Route path="/" element={<Navigate to="/login" />} />} */}
           
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
@@ -43,9 +47,12 @@ function App() {
           <Route path="/userinfo" element={<UserInformationForm />} />
           <Route path="/" element={<HomeScreen />} />
           <Route path="/place/:placeName" element={<PlaceDetails />}/>
-          <Route path="/destinations/" element={<PopularCard />} /> {/* Add this route */}
-          <Route path="/category/:categoryTitle" component={CategoryDetails} />
-
+          <Route path="/destinations/" element={<Alldesti />} /> {/* Add this route */}
+        
+          
+        <ReactRoute exact path="/" element={<HomeScreen />} /> {/* Use Route component with element prop */}
+        <ReactRoute path="/category/:categoryTitle" element={<CategoryDetails />} /> {/* Use Route component with element prop */}
+      
         </Routes>
       </Router>
     </div>

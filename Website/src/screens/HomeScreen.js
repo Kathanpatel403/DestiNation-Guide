@@ -1,7 +1,7 @@
 import React from 'react';
 import Headers from '../component/Headers';
-
-import Destinations from '../component/RecommendationCard';
+import PopularCard from '../component/PopularCard';
+import RecommendationCard from '../component/RecommendationCard';
 import Category from '../component/category';
 import './HomeScreen.css'; // Import CSS file for styling
 
@@ -10,7 +10,8 @@ function HomeScreen(props) {
         <div className="home-screen">
             <Headers/>
             <Category/>
-            <Destinations/>
+            <PopularCard/>
+            <RecommendationCard/>
             
         </div>
     );

@@ -147,3 +147,20 @@
   font-weight: bolder; /* Adjust font size for heading */
   color: #333;
 }
+.map-button {
+  background-color: #dedede; /* Grey background color */
+  color: #333; /* White text color */
+  border: none; /* Remove border */
+ 
+  font-size: 16px; /* Set font size */
+  cursor: pointer; /* Change cursor to pointer on hover */
+ margin-top: 10px;
+ margin-left: 45%;
+  padding: 20px; /* Add padding */
+  border-radius: 10px; /* Add border radius */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+}
+
+.map-button:hover {
+  background-color: #888888; /* Darker grey background color on hover */
+}

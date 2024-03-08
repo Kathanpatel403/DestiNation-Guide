@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Embedded Map</title>
+    <!-- Load the Google Maps JavaScript API with your API key -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASmakjcNRwYmIBwIGHsTBMuTcpiKibQpI"></script>
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Container for the map -->
+    <div id="map"></div>
+
+    <script>
+        // Initialize the map
+        function initMap() {
+            // Center coordinates (example: New York City)
+            var center = { lat: 40.7128, lng: -74.0060 };
+            // Create a new map instance
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: center, // Set the center of the map
+                zoom: 12 // Set the zoom level
+            });
+        }
+    </script>
+
+    <!-- Call the initMap function when the page loads -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key='AIzaSyASmakjcNRwYmIBwIGHsTBMuTcpiKibQpI'&callback=initMap"></script>
+</body>
+</html>

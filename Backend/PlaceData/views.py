@@ -76,18 +76,9 @@ def get_places_by_category(request, category):
         
         # Serialize the places data
         serialized_places = []
-        for place in places:
-            # Preprocess categories to remove leading and trailing spaces
-            categories = [cat.strip() for cat in place.Category]
-            # Check if the specified category is in the place's categories
-            if category.lower() in [cat.lower() for cat in categories]:
-                serialized_places.append({
-                    'name': place.Name,
-                    'category': place.Category,
-                    # Add other fields you want to include in the response
-                })
+        serialized_places = PlaceDataSerializer(places, many=True)
         
-        return JsonResponse({'places': serialized_places}, status=200)
+        return Response({'places': serialized_places.data})
     else:
         return JsonResponse({'error': 'Method not allowed'}, status=405) 
 
