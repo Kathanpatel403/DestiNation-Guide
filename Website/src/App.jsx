@@ -9,6 +9,8 @@ import { auth } from "./config/firebase";
 import ForgotPassword from "./screens/ForgotPassword";
 import UserInformationForm from "./screens/UserInformationForm";
 import LandingPage from "./screens/LandingPage";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -20,9 +22,10 @@ function App() {
           <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/userinfo" element={<UserInformationForm />} />
           <Route path="/" element={<LandingPage />} />
-          <Route path="/Home" element={<HomeScreen />} />
+          <Route path="/home" element={<HomeScreen />} />
         </Routes>
       </Router>
+      <ToastContainer />
     </div>
   );
 }

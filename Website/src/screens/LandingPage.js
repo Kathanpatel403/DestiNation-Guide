@@ -1,9 +1,9 @@
 import React from "react";
 
 export default function LandingPage() {
-    return(
-        <div>
-            This is landing page.
-        </div>
-    )
+  return (
+    <div>
+      This is landing page.
+    </div>
+  )
 }

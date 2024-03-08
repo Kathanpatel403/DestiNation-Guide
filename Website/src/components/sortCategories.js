@@ -18,4 +18,4 @@ function sortCategories() {
   )
 }
 
-export default sortCategories
+export default sortCategories;
