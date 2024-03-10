@@ -1,0 +1,137 @@
+body {
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  min-width: 95%;
+  margin: -8px;
+  padding: 20px;
+  /* Adjust padding as needed */
+  /* Add any additional styles as needed */
+  /* overflow: hidden; Hide overflow */
+}
+
+nav {
+  background: #c4cad9;
+  border-color: black;
+  border-radius: 20px;
+
+  /* marbogin:20px ; */
+  box-shadow: 1px 25px 20px -20px rgba(0, 0, 0, 0.4);
+}
+
+.container {
+  margin-top: -30px;
+}
+
+nav ul li {
+  list-style: none;
+  display: inline-block;
+  padding: 15px 35px;
+  margin: 5px;
+  font-size: 18px;
+  font-weight: 500;
+  color: black;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+  transition: color 0.5s;
+}
+
+nav ul li::after {
+  content: "";
+  background: #edf4ff;
+  width: 100%;
+  height: 100%;
+  border-radius: 30px;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  opacity: 0;
+  transition: top 0.5s, opacity 0.5s;
+}
+
+nav ul li:hover {
+  color: black;
+}
+
+nav ul li:hover::after {
+  top: 50%;
+  opacity: 1;
+}
+
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0;
+  /* Add your desired background color */
+  padding: 20px;
+
+}
+
+.logo-and-text {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  margin-right: 10px;
+
+  height: 50px;
+  /* Adjust height as needed */
+}
+
+.animated-text {
+  font-size: 24px;
+  /* Adjust font size as needed */
+  display: inline-block;
+}
+
+.animated-text span {
+  animation: wave 0.5s infinite alternate;
+}
+
+.profile-link {
+  position: relative;
+  display: inline-block;
+  /* Ensure the link takes the size of the image */
+}
+
+.profile-link:hover img::after {
+  content: "";
+  background: #edf4ff;
+  width: 100%;
+  height: 100%;
+  border-radius: 30px;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  opacity: 0;
+  transition: top 0.5s, opacity 0.5s;
+}
+
+.profile-link:hover img::after {
+  top: 0;
+  opacity: 1;
+}
+
+
+
+@keyframes wave {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}

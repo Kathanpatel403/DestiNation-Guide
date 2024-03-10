@@ -1,0 +1,8 @@
+.home-screen {
+   overflow: visible;
+}
+
+.home-screen::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+}
