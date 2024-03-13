@@ -1,17 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth, firestore } from "../config/firebase";
-import { doc, updateDoc } from 'firebase/firestore';
 import logo from '../assets/images/logo.png';
 import background from "../assets/images/background.jpg";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Headers from '../components/Headers';
+import { signOut, sendPasswordResetEmail } from "firebase/auth";
+import 'react-toastify/dist/ReactToastify.css';
+import { auth, firestore, storage } from "../config/firebase";
+import { getFirestore, doc, getDoc, updateDoc, setDoc, collection, arrayUnion, arrayRemove } from "firebase/firestore";
 
 export default function UpdateUserInformation() {
   const navigate = useNavigate();
   const [locations, setLocations] = useState(['']);
   const [categories, setCategories] = useState(['']);
-  const [name, setName] = useState(['']);
+  const [name, setName] = useState(['']); const [userData, setUserData] = useState(null);
+  const [locationPreferences, setLocationPreferences] = useState([]);
+  const [categoryPreferences, setCategoryPreferences] = useState([]);
 
   const addLocationField = () => {
     setLocations([...locations, '']);
@@ -104,91 +109,293 @@ export default function UpdateUserInformation() {
     }
   }
 
+  const changePasswordHandler = async () => {
+    const user = auth.currentUser;
+    if (user) {
+      const uid = user.uid;
+      const userRoleRef = doc(firestore, "userRoles", uid);
+
+      try {
+        const docSnapshot = await getDoc(userRoleRef);
+
+        if (docSnapshot.exists()) {
+          const email = docSnapshot.data().email;
+          await sendPasswordResetEmail(auth, email)
+            .then(() => {
+              toast.success(`Password reset link sent successfully!`, {
+                position: 'bottom-right',
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
+              console.log('Password reset link sent successfully!')
+            })
+            .catch((error) => {
+              toast.success(`Error occured while sending link: ${error}`, {
+                position: 'bottom-right',
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
+              console.error(`Error occurred: ${error.message}`)
+            })
+        } else {
+          toast.success(`User data not found`, {
+            position: 'bottom-right',
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        }
+      } catch (error) {
+        toast.success(`Error fetching user data: ${error}`, {
+          position: 'bottom-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        console.error("Error fetching user data:", error);
+      }
+    }
+  }
+
+  const handleUserReviewRating = () => {
+    navigate("/userreviewrating")
+  }
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth)
+        .then(() =>
+          console.log("Successfully logged out!"));
+      toast.success(`Logged out successfully!`, {
+        position: 'bottom-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      navigate("/login");
+    } catch (error) {
+      toast.success(`Error logging out: ${error}`, {
+        position: 'bottom-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      console.error("Error logging out:", error);
+    }
+  };
+
+  const fetchUserData = async () => {
+    const user = auth.currentUser;
+
+    if (user) {
+      const uid = user.uid;
+      const userRoleRef = doc(firestore, "userRoles", uid);
+
+      try {
+        const docSnapshot = await getDoc(userRoleRef);
+
+        if (docSnapshot.exists()) {
+          const data = docSnapshot.data();
+          setUserData(data);
+          setLocationPreferences(data.LocationPreference || []);
+          setCategoryPreferences(data.CategoryPreference || []);
+
+        } else {
+          toast.success('User data not found', {
+            position: 'bottom-right',
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        }
+      } catch (error) {
+        toast.success(`Error fetching data! ${error}`, {
+          position: 'bottom-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        console.error("Error fetching user data:", error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchUserData();
+    const intervalId = setInterval(() => {
+      fetchUserData();
+    }, 2000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  const handlebookmarks = () => {
+    console.log("handling bookmarks")
+  }
 
   return (
-    <div className="flex flex-row items-center justify-center  bg-cover bg-center bg-no-repeat min-h-screen overflow-hidden"
-      style={{
-        backgroundImage: `url(${background})`,
-      }}>
+    <>
       <div>
-        <div className="">
-          <img src={logo} alt="logo image" className="w-[220px] h-[220px] ml-[120px]" />
+        <div>
+          <Headers />
         </div>
+        <div className="flex">
+          <div className="flex flex-col items-center justify-center w-4/12 p-4 border-r border-gray-500">
 
-        <div className="p-8 bg-white rounded-lg shadow-xl w-[450px] mt-[-30px]">
-          <h1 className="text-2xl font-bold mb-4 ml-[80px]">Update User's Information</h1>
+            <div className="mb-6">
+              <button
+                onClick={() => { navigate("/profile") }}
+                className="text-white py-2 px-4 rounded-md overflow-hidden transform transition-all duration-300 ease-in-out bg-gray-600 hover:scale-105 hover:bg-gray-800 hover:shadow-md group"
+              >
+                Profile
+                <span className="absolute top-0 left-0 w-full h-full bg-white opacity-0 transition-all duration-300 ease-in-out group-hover:opacity-50"></span>
+              </button>
+            </div>
 
-          <div className=" bg-white px-8 pt-8" style={{ borderTopLeftRadius: 50, borderTopRightRadius: 50 }}>
-            <div className="form space-y-2">
+            <div className="mb-6">
+              <button
+                onClick={handleUserReviewRating}
+                className="text-white py-2 px-4 rounded-md overflow-hidden transform transition-all duration-300 ease-in-out bg-gray-600 hover:scale-105 hover:bg-gray-800 hover:shadow-md group"
+              >
+                User's All Reviews
+                <span className="absolute top-0 left-0 w-full h-full bg-white opacity-0 transition-all duration-300 ease-in-out group-hover:opacity-50"></span>
+              </button>
+            </div>
 
-              <label className="text-gray-700 ml-4">Name</label>
-              <input
-                className="p-4 bg-gray-100 text-gray-700 rounded-2xl mb-3"
-                placeholder={`Name`}
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
+            <div className="mb-6">
+              <button
+                onClick={() => { navigate("/bookmarks") }}
+                className="text-white py-2 px-4 rounded-md overflow-hidden transform transition-all duration-300 ease-in-out bg-gray-600 hover:scale-105 hover:bg-gray-800 hover:shadow-md group"
+              >
+                Bookmarks
+                <span className="absolute top-0 left-0 w-full h-full bg-white opacity-0 transition-all duration-300 ease-in-out group-hover:opacity-50"></span>
+              </button>
+            </div>
+
+            <div className="mb-6">
+              <button
+                onClick={changePasswordHandler}
+                className="text-white py-2 px-4 rounded-md overflow-hidden transform transition-all duration-300 ease-in-out bg-gray-600 hover:scale-105 hover:bg-gray-800 hover:shadow-md group"
+              >
+                Change Password
+                <span className="absolute top-0 left-0 w-full h-full bg-white opacity-0 transition-all duration-300 ease-in-out group-hover:opacity-50"></span>
+              </button>
+            </div>
+
+            <div className="mb-6">
+              <button
+                onClick={handleLogout}
+                className="text-white py-2 px-4 rounded-md overflow-hidden transform transition-all duration-300 ease-in-out bg-gray-600 hover:scale-105 hover:bg-gray-800 hover:shadow-md group"
+              >
+                Logout
+                <span className="absolute top-0 left-0 w-full h-full bg-white opacity-0 transition-all duration-300 ease-in-out group-hover:opacity-50"></span>
+              </button>
+            </div>
+          </div>
 
 
-              <div>
-                <label className="text-gray-700 ml-4">Location Preferences</label>
-                {locations.map((location, index) => (
-                  <input
-                    key={index}
-                    className="p-4 bg-gray-100 text-gray-700 rounded-2xl mb-3"
-                    placeholder={`Location ${index + 1}`}
-                    value={location}
-                    onChange={(e) => handleLocationChange(index, e.target.value)}
-                  />
-                ))}
+          <div className="flex flex-col items-center justify-center w-8/12 p-4">
+            <h1 className='mt-10 -mb-3 text-center w-96 bg-gradient-to-r from-slate-300 to-slate-400 text-black text-4xl rounded-lg p-4 shadow-md transform' style={{ marginLeft: '50px' }}>Update information</h1>
+
+            <div className="wrapper">
+              <div className="form space-y-2">
+
+                <label className="text-gray-700 ml-4">Use's new Name</label>
+                <input
+                  className="p-4 bg-gray-100 text-gray-700 rounded-2xl mb-3"
+                  placeholder={`Name`}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+
 
                 <div>
-                  <button
-                    onClick={addLocationField}
-                    className="text-white py-2 px-4 rounded-md overflow-hidden transform  bg-gray-600  hover:bg-gray-800 hover:shadow-md group"
-                  >
-                    Add location
-                    <span className="absolute top-0 left-0 w-full h-full bg-white opacity-0 group-hover:opacity-50"></span>
-                  </button>
-                </div>
-              </div>
+                  <label className="text-gray-700 ml-4">Location Preferences</label>
+                  {locations.map((location, index) => (
+                    <input
+                      key={index}
+                      className="p-4 bg-gray-100 text-gray-700 rounded-2xl mb-3"
+                      placeholder={`Location ${index + 1}`}
+                      value={location}
+                      onChange={(e) => handleLocationChange(index, e.target.value)}
+                    />
+                  ))}
 
-              <div>
-                <label className="text-gray-700 ml-4">Category Preferences</label>
-                {categories.map((category, index) => (
-                  <input
-                    key={index}
-                    className="p-4 bg-gray-100 text-gray-700 rounded-2xl mb-3"
-                    placeholder={`Category ${index + 1}`}
-                    value={category}
-                    onChange={(e) => handleCategoryChange(index, e.target.value)}
-                  />
-                ))}
+                  <div>
+                    <button
+                      onClick={addLocationField}
+                      className="text-white py-2 px-4 rounded-md overflow-hidden transform  bg-gray-600  hover:bg-gray-800 hover:shadow-md group"
+                    >
+                      Add location
+                      <span className="absolute top-0 left-0 w-full h-full bg-white opacity-0 group-hover:opacity-50"></span>
+                    </button>
+                  </div>
+                </div>
 
                 <div>
+                  <label className="text-gray-700 ml-4">Category Preferences</label>
+                  {categories.map((category, index) => (
+                    <input
+                      key={index}
+                      className="p-4 bg-gray-100 text-gray-700 rounded-2xl mb-3"
+                      placeholder={`Category ${index + 1}`}
+                      value={category}
+                      onChange={(e) => handleCategoryChange(index, e.target.value)}
+                    />
+                  ))}
+
+                  <div>
+                    <button
+                      onClick={addCategoryField}
+                      className="text-white py-2 px-4 rounded-md overflow-hidden transform  bg-gray-600  hover:bg-gray-800 hover:shadow-md group"
+                    >
+                      Add categorie
+                      <span className="absolute top-0 left-0 w-full h-full bg-white opacity-0 group-hover:opacity-50"></span>
+                    </button>
+                  </div>
+                </div>
+
+                <div className="mt-6">
                   <button
-                    onClick={addCategoryField}
-                    className="text-white py-2 px-4 rounded-md overflow-hidden transform  bg-gray-600  hover:bg-gray-800 hover:shadow-md group"
+                    onClick={handleInformation}
+                    className="text-white py-2 px-4 rounded-md overflow-hidden transform transition-all duration-300 ease-in-out bg-gray-600 hover:scale-105 hover:bg-gray-800 hover:shadow-md group"
                   >
-                    Add categorie
-                    <span className="absolute top-0 left-0 w-full h-full bg-white opacity-0 group-hover:opacity-50"></span>
+                    Submit Information
+                    <span className="absolute top-0 left-0 w-full h-full bg-white opacity-0 transition-all duration-300 ease-in-out group-hover:opacity-50"></span>
                   </button>
                 </div>
-              </div>
-
-              <div className="mt-6">
-                <button
-                  onClick={handleInformation}
-                  className="text-white py-2 px-4 rounded-md overflow-hidden transform transition-all duration-300 ease-in-out bg-gray-600 hover:scale-105 hover:bg-gray-800 hover:shadow-md group"
-                >
-                  Submit Information
-                  <span className="absolute top-0 left-0 w-full h-full bg-white opacity-0 transition-all duration-300 ease-in-out group-hover:opacity-50"></span>
-                </button>
               </div>
             </div>
           </div>
         </div>
+
       </div>
-    </div>
+    </>
   )
 }

@@ -22,6 +22,7 @@ import { auth } from "./config/firebase";
 import SearchPlace from "./screens/SearchPlace";
 import OneReviewRating from "./screens/OneReviewRating";
 import AllReviewRating from "./screens/AllReviewRating";
+import RecommendedPlaces from "./screens/RecommendedPlaces";
 
 
 function App() {
@@ -61,6 +62,8 @@ function App() {
           <Route path="/searchplace" element={<SearchPlace />} />
           <Route path="/give-review" element={<OneReviewRating />} />
           <Route path="/all-reviews" element={<AllReviewRating />} />
+          <Route path="/popular" element={<PopularCard />} />
+          <Route path="/recommended" element={<RecommendedPlaces />} />
 
           <ReactRoute exact path="/" element={<HomeScreen />} /> {/* Use Route component with element prop */}
           <ReactRoute path="/category/:categoryTitle" element={<CategoryDetails />} /> {/* Use Route component with element prop */}

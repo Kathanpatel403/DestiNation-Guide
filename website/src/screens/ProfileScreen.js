@@ -237,7 +237,7 @@ export default function ProfileScreen() {
   }
 
   return (
-    <div className="bg-cover bg-center bg-no-repeat min-h-screen overflow-hidden" style={{ backgroundImage: `url(${background})` }}>
+    <div>
       <div>
         <Headers />
       </div>
@@ -412,10 +412,7 @@ export default function ProfileScreen() {
               </div>
             </div>
 
-
-
           </div>
-
 
         </div>
       </div>

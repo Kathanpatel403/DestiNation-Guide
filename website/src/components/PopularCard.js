@@ -33,6 +33,9 @@ const PopularCard = () => {
 
   return (
     <>
+    <div>
+      <HomeHeader />
+    </div>
       <h1
         className="mt-10 -mb-3 text-center w-96 bg-gradient-to-r from-slate-300 to-slate-400 text-black text-4xl rounded-lg p-4 shadow-md transform"
         style={{ marginLeft: "580px" }}

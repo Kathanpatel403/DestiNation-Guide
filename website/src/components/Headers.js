@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, Navigate, useNavigate, useNavigationType } from 'react-router-dom'; // Import Link from react-router-dom
 import './header.css';
 import logo from '../assets/images/logo.png';
@@ -65,7 +65,7 @@ const HomeHeader = () => {
   const handleSearchNavigation = () => {
     // Perform any search-related tasks with the searchValue
     console.log('Performing search with:', searchValue);
-    navigate("/searchplace", { state: { placeName: searchValue }});
+    navigate("/searchplace", { state: { placeName: searchValue } });
   };
 
   return (
@@ -82,35 +82,43 @@ const HomeHeader = () => {
       <div className="container">
         <nav className="flex items-center">
           <ul className="flex space-x-5">
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/destinations">All Destinations</Link></li>
-            <li><Link to="/bookmarks">Bookmark</Link></li>
-            <li className="relative flex items-center ml-[100px]">
-        <FaSearch className="absolute left-11 text-gray-500 mt-[-40px] mb-[-40px]" />
-        <input
-          type="text"
-          placeholder="Search..."
-          className="pl-8 border p-2 rounded-l-md focus:outline-none"
-          value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
-        />
-        <button
-          type="button"
-          className="p-2 bg-gray-200 rounded-r-md absolute right-10"
-          onClick={handleSearchNavigation}
-        >
-          <FaArrowRight className="text-gray-500" />
-        </button>
-      </li>
-            <li style={{ marginLeft: 'auto' }}>
-              <Link to="/profile" className="profile-link">
-                <img
-                  src={userData?.photoURL || a} 
-                  alt="Profile"
-                  className="w-20 h-20  rounded-full"
+            <li style={{marginTop: '28px', fontWeight: '600'}}><Link to="/">Home</Link></li>
+            <li style={{marginTop: '28px', fontWeight: '600'}}><Link to="/popular">Popular Places</Link></li>
+            <li style={{marginTop: '28px', fontWeight: '600'}}><Link to="/recommended">Recommended Places</Link></li>
+
+            <li className="flex items-center justify-center mt-[48px] h-[15px] w-[400px]">
+              <div className="relative ml-[300px] mr-[-300px] cursor-pointer">
+                <FaSearch className="absolute left-1 text-gray-500 mt-[15px] ml-[7px]" />
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  className="pl-12 border p-2 rounded-l-md focus:outline-none"
+                  style={{ width: "calc(100% - 30px)" }}
+                  value={searchValue}
+                  onChange={(e) => setSearchValue(e.target.value)}
                 />
-              </Link>
+                <button
+                  type="button"
+                  className="p-2 rounded-r-md absolute right-0 mt-[7px] mr-[30px] h-[40px] w-[40px] cursor-pointer"
+                  onClick={handleSearchNavigation}
+                >
+                  <FaArrowRight className="text-gray-500" />
+                </button>
+              </div>
             </li>
+
+            <div className="profile-section">
+              <li>
+                <Link to="/profile" className="profile-link flex items-center">
+                  <img
+                    src={userData?.photoURL || a}
+                    alt="Profile"
+                    className="w-20 h-20 rounded-full"
+                  />
+                </Link>
+              </li>
+            </div>
+
           </ul>
         </nav>
       </div>

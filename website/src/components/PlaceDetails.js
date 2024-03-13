@@ -7,15 +7,12 @@ import 'leaflet/dist/leaflet.css'; // Import Leaflet CSS
 import { MapContainer, TileLayer, Marker, Popup, Icon } from 'react-leaflet'; // Import Leaflet components
 import L from 'leaflet';
 import image from '../assets/images/logo.png'
-import { FaSearch, FaArrowRight, FaHeart } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 import { auth, firestore, storage } from "../config/firebase";
 import {
-  getFirestore,
   doc,
   getDoc,
   updateDoc,
-  setDoc,
-  collection,
   arrayUnion,
   arrayRemove,
 } from "firebase/firestore";
@@ -37,6 +34,7 @@ const PlaceDetails = () => {
     iconUrl: image, // URL to the custom icon image
     iconSize: [120, 120], // Size of the icon
   });
+  
   useEffect(() => {
     const fetchPlaceDetails = async () => {
       try {
@@ -209,80 +207,18 @@ const PlaceDetails = () => {
 
   return (
     <>
-      <div style={{ width: '98%', marginLeft: '12px' }}>
-        <HomeHeader />
-      </div>
       <div>
+        <div>
+          <HomeHeader />
+        </div>
         {place ? (
-          <div>
-            <h1 className='mt-10 text-3xl text-center mb-6'>{place.Name}</h1>
-            {/* Carousel */}
-            <div className='carousel-container'>
-              {place.Image.map((image, index) => (
-                <img
-                  key={index}
-                  src={image}
-                  alt={`Image ${index}`}
-                  style={{
-                    position: 'absolute',
-                    top: '0',
-                    left: `${index === currentIndex ? '0' : '-100%'}`,
-                    transition: 'left 1s',
-                    width: '95%',
-                    height: '97%',
-                    margin: 15,
-                    objectFit: 'cover',
-                    borderRadius: 10
-                  }}
-                />
-              ))}
-              <div>
-                <button onClick={() => handlebookmarks(place.Place_id)}>
-                  <FaHeart
-                    className="fas fa-heart heart-icon"
-                    color={isFavourite ? "red" : "gray"}
-                  ></FaHeart>
-                </button>
-              </div>
-            </div>
+          <div className="flex">
 
+            <div className="flex flex-col items-center w-4/12 p-4 border-r border-gray-500">
 
-            <div className='main-div'>
-              <p className='text-xl description'>
-                <span className='description-heading'>Description</span><br />
-                {place.LongDescription}
-              </p>
-              <p className='location'><span className='location-heading'>Location:</span> {place.City},{place.State},{place.Country}({place.latitude},{place.longitude})</p>
-              <p className='Timing'><span className='Timings-h'>Timings:</span> {place.Timings}</p>
-              <p className='Fee'><span className='Fee-h'>Fee:</span> {place.Fee}</p>
-              <p className='Feelink'><span style={{ fontWeight: 'bolder', color: 'black' }}>FeeLink:</span> <a href={place.FeeLink} target="_blank" rel="noopener noreferrer">Click Here</a></p>
-              <p className='BMTV' style={{ fontWeight: 'bolder', color: 'black' }}><span className='BMTV-h'>BMTV:</span> {place.BMTV}</p>
               <div>
-                <h2 className='Activities' style={{ fontWeight: 'bolder', color: 'black' }}>Activities:</h2>
-                <ul className='Activities'>
-                  {Array.isArray(place.Activities) ? (
-                    place.Activities.map((Activities, index) => (
-                      <li key={index}>{Activities}</li>
-                    ))
-                  ) : (
-                    <li>{place.Category}</li>
-                  )}
-                </ul>
-              </div>
-              <div>
-                <h2 className='Amenities' style={{ fontWeight: 'bolder', color: 'black' }}>Amenities:</h2>
-                <ul className='Amenities'>
-                  {Array.isArray(place.Amenities) ? (
-                    place.Amenities.map((Amenities, index) => (
-                      <li key={index}>{Amenities}</li>
-                    ))
-                  ) : (
-                    <li>{place.Category}</li>
-                  )}
-                </ul>
-              </div>
-              <div><h2 className='Amenities' style={{ fontWeight: 'bolder', color: 'black' }}>Map</h2>
-                <MapContainer center={[place.latitude, place.longitude]} zoom={16} style={{ height: '500px' }}>
+                <h2 className='Amenities' style={{ fontWeight: 'bolder', color: 'black', width: '400px' }}>Map</h2>
+                <MapContainer center={[place.latitude, place.longitude]} zoom={16} style={{ height: '450px' }}>
                   <TileLayer
 
                     url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
@@ -295,6 +231,7 @@ const PlaceDetails = () => {
                 </MapContainer>
                 <button onClick={redirectToMapWithDirections} className='map-button'>Get Direction</button>
               </div>
+
               <div>
                 <button onClick={() => { navigate("/give-review", { state: { placeName: place.Name } }) }} className='map-button'>Give Review</button>
               </div>
@@ -303,13 +240,87 @@ const PlaceDetails = () => {
                 <button onClick={() => { navigate("/all-reviews", { state: { placeName: place.Name } }) }} className='map-button'>See all Review</button>
               </div>
             </div>
+
+
+            <div className="flex flex-col items-center justify-center w-8/12 p-4">
+
+              <h1 className='mt-10 mb-7 text-center w-96 bg-gradient-to-r from-slate-300 to-slate-400 text-black text-4xl rounded-lg p-4 shadow-md transform' style={{ marginLeft: '50px' }}>{place.Name}</h1>
+              <div className='carousel-container'>
+                {place.Image.map((image, index) => (
+                  <img
+                    key={index}
+                    src={image}
+                    alt={`Image ${index}`}
+                    style={{
+                      position: 'absolute',
+                      top: '0',
+                      left: `${index === currentIndex ? '0' : '-100%'}`,
+                      transition: 'left 1s',
+                      width: '95%',
+                      height: '97%',
+                      margin: 15,
+                      objectFit: 'cover',
+                      borderRadius: 10
+                    }}
+                  />
+                ))}
+                <div>
+                  <button onClick={() => handlebookmarks(place.Place_id)}>
+                    <FaHeart
+                      className="fas fa-heart heart-icon"
+                      color={isFavourite ? "red" : "gray"}
+                    ></FaHeart>
+                  </button>
+                </div>
+              </div>
+
+              <div className='main-div'>
+                <p className='text-xl description'>
+                  <span className='description-heading'>Description</span><br />
+                  {place.LongDescription}
+                </p>
+                <p className='location'><span className='location-heading'>Location:</span> {place.City},{place.State},{place.Country}({place.latitude},{place.longitude})</p>
+                <p className='Timing'><span className='Timings-h'>Timings:</span> {place.Timings}</p>
+                <p className='Fee'><span className='Fee-h'>Fee:</span> {place.Fee}</p>
+                <p className='Feelink'><span style={{ fontWeight: 'bolder', color: 'black' }}>FeeLink:</span> <a href={place.FeeLink} target="_blank" rel="noopener noreferrer">Click Here</a></p>
+                <p className='BMTV' style={{ fontWeight: 'bolder', color: 'black' }}><span className='BMTV-h'>BMTV:</span> {place.BMTV}</p>
+
+                <div>
+                  <h2 className='Activities' style={{ fontWeight: 'bolder', color: 'black' }}>Activities:</h2>
+                  <ul className='Activities'>
+                    {Array.isArray(place.Activities) ? (
+                      place.Activities.map((Activities, index) => (
+                        <li key={index}>{Activities}</li>
+                      ))
+                    ) : (
+                      <li>{place.Category}</li>
+                    )}
+                  </ul>
+                </div>
+
+                <div>
+                  <h2 className='Amenities' style={{ fontWeight: 'bolder', color: 'black' }}>Amenities:</h2>
+                  <ul className='Amenities'>
+                    {Array.isArray(place.Amenities) ? (
+                      place.Amenities.map((Amenities, index) => (
+                        <li key={index}>{Amenities}</li>
+                      ))
+                    ) : (
+                      <li>{place.Category}</li>
+                    )}
+                  </ul>
+                </div>
+
+              </div>
+
+            </div>
           </div>
-        ) : (
-          <p>Loading...</p>
-        )}
+          ) : (
+            <p>Loading...</p>
+          )}
       </div>
     </>
-  );
-};
+  )
+}
 
 export default PlaceDetails;
