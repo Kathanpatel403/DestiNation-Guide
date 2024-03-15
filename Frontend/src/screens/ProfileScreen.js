@@ -393,6 +393,13 @@ const ProfileScreen = () => {
             </TouchableOpacity>
 
             <TouchableOpacity
+              onPress={() => { navigation.navigate("UserReviewRating") }}
+              className="py-2 px-4 mt-3 bg-gray-400 ml-[40px] mr-[0px] rounded-xl"
+            >
+              <Text className="text-xl font-bold pl-[18px] mr-[16px] text-black">User all reviews</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
               onPress={handleLogout}
               className="py-2 px-4 mt-3 bg-gray-400 ml-[40px]  rounded-xl items-center"
             >

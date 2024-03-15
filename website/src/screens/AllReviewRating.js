@@ -12,7 +12,7 @@ import { firestore } from "../config/firebase";
 import { getDocs, collection, query, where } from "firebase/firestore";
 import HomeHeader from '../components/Headers';
 import axios from 'axios';
-import 'leaflet/dist/leaflet.css'; 
+import 'leaflet/dist/leaflet.css';
 import { MapContainer, TileLayer, Marker, Popup, Icon } from 'react-leaflet';
 import L from 'leaflet';
 import image from '../assets/images/logo.png'

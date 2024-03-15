@@ -26,6 +26,7 @@ import SearchPlaceScreen from "../screens/SearchPlaceScreen";
 import ReviewRatingScreen from "../screens/ReviewRatingScreen";
 import CategoryPlaceScreen from "../screens/CategoryPlaceScreen";
 import AllReviewRating from "../screens/AllReviewRating";
+import UserAllReviewRating from "../screens/UserAllReviewRating";
 
 const Stack = createNativeStackNavigator();
 
@@ -100,6 +101,11 @@ export default function AppNavigation() {
             name="ReviewRating"
             options={{ headerShown: false }}
             component={ReviewRatingScreen}
+          />
+          <Stack.Screen
+            name="UserReviewRating"
+            options={{ headerShown: false }}
+            component={UserAllReviewRating}
           />
           <Stack.Screen
             name="AllReviewRating"
