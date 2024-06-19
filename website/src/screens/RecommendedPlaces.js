@@ -7,10 +7,11 @@ import background from "../assets/images/background.jpg";
 export default function RecommendedPlaces() {
     return (
         <div>
-            <div>
+            <div className='fixed z-10'>
                 <HomeHeader />
             </div>
-            <Recommendationcard />
+            <div style={{paddingTop:'200px'}}>
+            <Recommendationcard /></div>
         </div>
     )
 }

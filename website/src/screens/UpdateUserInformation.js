@@ -9,6 +9,11 @@ import { signOut, sendPasswordResetEmail } from "firebase/auth";
 import 'react-toastify/dist/ReactToastify.css';
 import { auth, firestore, storage } from "../config/firebase";
 import { getFirestore, doc, getDoc, updateDoc, setDoc, collection, arrayUnion, arrayRemove } from "firebase/firestore";
+import { FaUser, FaRegComment, FaBookmark, FaLock, FaSignOutAlt } from 'react-icons/fa';
+import './profile.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMapMarkerAlt, faPlus, faCheck,faUser} from '@fortawesome/free-solid-svg-icons';
+
 
 export default function UpdateUserInformation() {
   const navigate = useNavigate();
@@ -262,137 +267,150 @@ export default function UpdateUserInformation() {
   return (
     <>
       <div>
-        <div>
+        <div className="fixed z-10">
           <Headers />
         </div>
-        <div className="flex">
-          <div className="flex flex-col items-center justify-center w-4/12 p-4 border-r border-gray-500">
+        <div className="flex" style={{
+          paddingTop:'200px'
+        }}>
+        <div className="flex flex-col items-center justify-center w-4/12 p-4 border-r border-gray-500">
+        <div className="mb-6">
+          <button
+            onClick={() => { navigate("/profile") }}
+            className="profile-button"
+          >
+            <FaUser className="icon" />
+            Profile
+          </button>
+        </div>
 
-            <div className="mb-6">
-              <button
-                onClick={() => { navigate("/profile") }}
-                className="text-white py-2 px-4 rounded-md overflow-hidden transform transition-all duration-300 ease-in-out bg-gray-600 hover:scale-105 hover:bg-gray-800 hover:shadow-md group"
-              >
-                Profile
-                <span className="absolute top-0 left-0 w-full h-full bg-white opacity-0 transition-all duration-300 ease-in-out group-hover:opacity-50"></span>
-              </button>
-            </div>
+        <div className="mb-6">
+          <button
+            onClick={() => { navigate("/userreviewrating") }}
+            className="profile-button"
+          >
+            <FaRegComment className="icon" />
+            User's All Reviews
+          </button>
+        </div>
 
-            <div className="mb-6">
-              <button
-                onClick={handleUserReviewRating}
-                className="text-white py-2 px-4 rounded-md overflow-hidden transform transition-all duration-300 ease-in-out bg-gray-600 hover:scale-105 hover:bg-gray-800 hover:shadow-md group"
-              >
-                User's All Reviews
-                <span className="absolute top-0 left-0 w-full h-full bg-white opacity-0 transition-all duration-300 ease-in-out group-hover:opacity-50"></span>
-              </button>
-            </div>
+        <div className="mb-6">
+          <button
+            onClick={() => { navigate("/bookmarks") }}
+            className="profile-button"
+          >
+            <FaBookmark className="icon" />
+            Bookmarks
+          </button>
+        </div>
 
-            <div className="mb-6">
-              <button
-                onClick={() => { navigate("/bookmarks") }}
-                className="text-white py-2 px-4 rounded-md overflow-hidden transform transition-all duration-300 ease-in-out bg-gray-600 hover:scale-105 hover:bg-gray-800 hover:shadow-md group"
-              >
-                Bookmarks
-                <span className="absolute top-0 left-0 w-full h-full bg-white opacity-0 transition-all duration-300 ease-in-out group-hover:opacity-50"></span>
-              </button>
-            </div>
+        <div className="mb-6">
+          <button
+            onClick={() => { navigate("/changepassword") }}
+            className="profile-button"
+          >
+            <FaLock className="icon" />
+            Change Password
+          </button>
+        </div>
 
-            <div className="mb-6">
-              <button
-                onClick={changePasswordHandler}
-                className="text-white py-2 px-4 rounded-md overflow-hidden transform transition-all duration-300 ease-in-out bg-gray-600 hover:scale-105 hover:bg-gray-800 hover:shadow-md group"
-              >
-                Change Password
-                <span className="absolute top-0 left-0 w-full h-full bg-white opacity-0 transition-all duration-300 ease-in-out group-hover:opacity-50"></span>
-              </button>
-            </div>
-
-            <div className="mb-6">
-              <button
-                onClick={handleLogout}
-                className="text-white py-2 px-4 rounded-md overflow-hidden transform transition-all duration-300 ease-in-out bg-gray-600 hover:scale-105 hover:bg-gray-800 hover:shadow-md group"
-              >
-                Logout
-                <span className="absolute top-0 left-0 w-full h-full bg-white opacity-0 transition-all duration-300 ease-in-out group-hover:opacity-50"></span>
-              </button>
-            </div>
-          </div>
-
-
-          <div className="flex flex-col items-center justify-center w-8/12 p-4">
-            <h1 className='mt-10 -mb-3 text-center w-96 bg-gradient-to-r from-slate-300 to-slate-400 text-black text-4xl rounded-lg p-4 shadow-md transform' style={{ marginLeft: '50px' }}>Update information</h1>
-
-            <div className="wrapper">
-              <div className="form space-y-2">
-
-                <label className="text-gray-700 ml-4">Use's new Name</label>
-                <input
-                  className="p-4 bg-gray-100 text-gray-700 rounded-2xl mb-3"
-                  placeholder={`Name`}
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
+        <div className="mb-6">
+          <button
+            onClick={handleLogout}
+            className="profile-button"
+          >
+            <FaSignOutAlt className="icon" />
+            Logout
+          </button>
+        </div>
+      </div>
 
 
-                <div>
-                  <label className="text-gray-700 ml-4">Location Preferences</label>
-                  {locations.map((location, index) => (
-                    <input
-                      key={index}
-                      className="p-4 bg-gray-100 text-gray-700 rounded-2xl mb-3"
-                      placeholder={`Location ${index + 1}`}
-                      value={location}
-                      onChange={(e) => handleLocationChange(index, e.target.value)}
-                    />
-                  ))}
+      <div className="flex flex-col items-center justify-center w-8/12 p-4">
+  <h1 className='mt-10 -mb-3 text-center w-96 bg-gradient-to-r from-slate-300 to-slate-400 text-black text-4xl rounded-lg p-4 shadow-md transform' style={{ marginLeft: '10px' }}>Update information</h1>
 
-                  <div>
-                    <button
-                      onClick={addLocationField}
-                      className="text-white py-2 px-4 rounded-md overflow-hidden transform  bg-gray-600  hover:bg-gray-800 hover:shadow-md group"
-                    >
-                      Add location
-                      <span className="absolute top-0 left-0 w-full h-full bg-white opacity-0 group-hover:opacity-50"></span>
-                    </button>
-                  </div>
-                </div>
+  <div className="profile-info-container">
+    <div className="form space-y-2">
 
-                <div>
-                  <label className="text-gray-700 ml-4">Category Preferences</label>
-                  {categories.map((category, index) => (
-                    <input
-                      key={index}
-                      className="p-4 bg-gray-100 text-gray-700 rounded-2xl mb-3"
-                      placeholder={`Category ${index + 1}`}
-                      value={category}
-                      onChange={(e) => handleCategoryChange(index, e.target.value)}
-                    />
-                  ))}
+      <label className="text-gray-700 ml-4">
+        <FontAwesomeIcon icon={faUser} className="mr-2" />
+        User's new Name
+      </label>
+      <input
+        className="p-4 bg-gray-100 text-gray-700 rounded-2xl mb-3"
+        placeholder={`Name`}
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
 
-                  <div>
-                    <button
-                      onClick={addCategoryField}
-                      className="text-white py-2 px-4 rounded-md overflow-hidden transform  bg-gray-600  hover:bg-gray-800 hover:shadow-md group"
-                    >
-                      Add categorie
-                      <span className="absolute top-0 left-0 w-full h-full bg-white opacity-0 group-hover:opacity-50"></span>
-                    </button>
-                  </div>
-                </div>
+      <div>
+        <label className="text-gray-700 ml-4">
+          <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-2" />
+          Location Preferences
+        </label>
+        {locations.map((location, index) => (
+          <input
+            key={index}
+            className="p-4 bg-gray-100 text-gray-700 rounded-2xl mb-3"
+            placeholder={`Location ${index + 1}`}
+            value={location}
+            onChange={(e) => handleLocationChange(index, e.target.value)}
+          />
+        ))}
 
-                <div className="mt-6">
-                  <button
-                    onClick={handleInformation}
-                    className="text-white py-2 px-4 rounded-md overflow-hidden transform transition-all duration-300 ease-in-out bg-gray-600 hover:scale-105 hover:bg-gray-800 hover:shadow-md group"
-                  >
-                    Submit Information
-                    <span className="absolute top-0 left-0 w-full h-full bg-white opacity-0 transition-all duration-300 ease-in-out group-hover:opacity-50"></span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div>
+          <button
+            onClick={addLocationField}
+            className="text-white py-2 px-4 rounded-md overflow-hidden transform  bg-gray-600  hover:bg-gray-800 hover:shadow-md group"
+          >
+            <FontAwesomeIcon icon={faPlus} className="mr-2" />
+            Add location
+            <span className="absolute top-0 left-0 w-full h-full bg-white opacity-0 group-hover:opacity-50"></span>
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <label className="text-gray-700 ml-4">
+          <FontAwesomeIcon icon={faCheck} className="mr-2" />
+          Category Preferences
+        </label>
+        {categories.map((category, index) => (
+          <input
+            key={index}
+            className="p-4 bg-gray-100 text-gray-700 rounded-2xl mb-3"
+            placeholder={`Category ${index + 1}`}
+            value={category}
+            onChange={(e) => handleCategoryChange(index, e.target.value)}
+          />
+        ))}
+
+        <div>
+          <button
+            onClick={addCategoryField}
+            className="text-white py-2 px-4 rounded-md overflow-hidden transform  bg-gray-600  hover:bg-gray-800 hover:shadow-md group"
+          >
+            <FontAwesomeIcon icon={faPlus} className="mr-2" />
+            Add category
+            <span className="absolute top-0 left-0 w-full h-full bg-white opacity-0 group-hover:opacity-50"></span>
+          </button>
+        </div>
+      </div>
+
+      <div className="mt-6">
+        <button
+          onClick={handleInformation}
+          className="text-white py-2 px-4 rounded-md overflow-hidden transform transition-all duration-300 ease-in-out bg-gray-600 hover:scale-105 hover:bg-gray-500 hover:shadow-md group"
+        >
+          <FontAwesomeIcon icon={faCheck} className="mr-2" />
+          Submit Information
+          <span className="absolute top-0 left-0 w-full h-full bg-white opacity-0 transition-all duration-300 ease-in-out group-hover:opacity-50"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
         </div>
 
       </div>

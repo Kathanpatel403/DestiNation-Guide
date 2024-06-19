@@ -27,8 +27,10 @@ const CategoryDetails = () => {
 
   return (
     <>
+    <div className='fixed z-10'>
     <HomeHeader/>
-     <h1 className='mt-10 -mb-3 text-center w-96 bg-gradient-to-r from-slate-300 to-slate-400 text-black text-4xl rounded-lg p-4 shadow-md transform' style={{ marginLeft: '580px' }}>{categoryTitle} Destinations</h1>
+    </div>
+<div style={{paddingTop:'200px'}}>     <h1 className='mt-10 -mb-3 text-center w-96 bg-gradient-to-r from-slate-300 to-slate-400 text-black text-4xl rounded-lg p-4 shadow-md transform' style={{ marginLeft: '580px' }}>{categoryTitle} Destinations</h1>
       <div className="wrapper">
         {places && places.length > 0 && places.map((place, index) => (
           <div className="card" key={index}>
@@ -45,6 +47,7 @@ const CategoryDetails = () => {
             </div>
           </div>
         ))}
+      </div>
       </div>
     </>
   );

@@ -12,7 +12,10 @@ import { Link } from 'react-router-dom';
 import Headers from '../components/Headers';
 import { signOut, sendPasswordResetEmail } from "firebase/auth";
 import { FaSearch, FaArrowRight, FaHeart } from 'react-icons/fa';
-
+import './profile.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMapMarkerAlt, faPlus, faCheck,faUser} from '@fortawesome/free-solid-svg-icons';
+import { FaUser, FaRegComment, FaBookmark, FaLock, FaSignOutAlt } from 'react-icons/fa';
 export default function BookmarkPage() {
     const [bookmarkedPlaces, setBookmarkedPlaces] = useState([]);
     const [userData, setUserData] = useState(null);
@@ -28,7 +31,7 @@ export default function BookmarkPage() {
 
         return () => clearInterval(intervalId);
     }, []);
-
+   
     const fetchBookmarkedPlacesFromFirestore = async () => {
         const user = auth.currentUser;
 
@@ -211,65 +214,64 @@ export default function BookmarkPage() {
     }
 
     return (
-        <div>
-            <div>
+        <div  className="header-wrapper">
+            <div className="fixed z-10  ">
                 <Headers />
             </div>
-            <div className="flex">
-                <div className="flex flex-col items-center justify-center w-4/12 p-4 border-r border-gray-500">
+            <div className="flex pt-64 content">
+            <div className="flex flex-col items-center justify-center w-4/12 p-4 fixed z-10">
+        <div className=" mb-6">
+          <button
+            onClick={() => { navigate("/profile") }}
+            className="profile-button"
+          >
+            <FaUser className="icon" />
+            Profile
+          </button>
+        </div>
 
-                    <div className="mb-6">
-                        <button
-                            onClick={() => { navigate("/updateuserinfo") }}
-                            className="text-white py-2 px-4 rounded-md overflow-hidden transform transition-all duration-300 ease-in-out bg-gray-600 hover:scale-105 hover:bg-gray-800 hover:shadow-md group"
-                        >
-                            Update Information
-                            <span className="absolute top-0 left-0 w-full h-full bg-white opacity-0 transition-all duration-300 ease-in-out group-hover:opacity-50"></span>
-                        </button>
-                    </div>
+        <div className="mb-6">
+          <button
+            onClick={() => { navigate("/userreviewrating") }}
+            className="profile-button"
+          >
+            <FaRegComment className="icon" />
+            User's All Reviews
+          </button>
+        </div>
 
-                    <div className="mb-6">
-                        <button
-                            onClick={handleUserReviewRating}
-                            className="text-white py-2 px-4 rounded-md overflow-hidden transform transition-all duration-300 ease-in-out bg-gray-600 hover:scale-105 hover:bg-gray-800 hover:shadow-md group"
-                        >
-                            User's All Reviews
-                            <span className="absolute top-0 left-0 w-full h-full bg-white opacity-0 transition-all duration-300 ease-in-out group-hover:opacity-50"></span>
-                        </button>
-                    </div>
+        <div className="mb-6">
+          <button
+            onClick={() => { navigate("/bookmarks") }}
+            className="profile-button"
+          >
+            <FaBookmark className="icon" />
+            Bookmarks
+          </button>
+        </div>
 
-                    <div className="mb-6">
-                        <button
-                            onClick={() => { navigate("/bookmarks") }}
-                            className="text-white py-2 px-4 rounded-md overflow-hidden transform transition-all duration-300 ease-in-out bg-gray-600 hover:scale-105 hover:bg-gray-800 hover:shadow-md group"
-                        >
-                            Bookmarks
-                            <span className="absolute top-0 left-0 w-full h-full bg-white opacity-0 transition-all duration-300 ease-in-out group-hover:opacity-50"></span>
-                        </button>
-                    </div>
+        <div className="mb-6">
+          <button
+            onClick={() => { navigate("/changepassword") }}
+            className="profile-button"
+          >
+            <FaLock className="icon" />
+            Change Password
+          </button>
+        </div>
 
-                    <div className="mb-6">
-                        <button
-                            onClick={changePasswordHandler}
-                            className="text-white py-2 px-4 rounded-md overflow-hidden transform transition-all duration-300 ease-in-out bg-gray-600 hover:scale-105 hover:bg-gray-800 hover:shadow-md group"
-                        >
-                            Change Password
-                            <span className="absolute top-0 left-0 w-full h-full bg-white opacity-0 transition-all duration-300 ease-in-out group-hover:opacity-50"></span>
-                        </button>
-                    </div>
+        <div className="mb-6">
+          <button
+            onClick={handleLogout}
+            className="profile-button"
+          >
+            <FaSignOutAlt className="icon" />
+            Logout
+          </button>
+        </div>
+      </div>
 
-                    <div className="mb-6">
-                        <button
-                            onClick={handleLogout}
-                            className="text-white py-2 px-4 rounded-md overflow-hidden transform transition-all duration-300 ease-in-out bg-gray-600 hover:scale-105 hover:bg-gray-800 hover:shadow-md group"
-                        >
-                            Logout
-                            <span className="absolute top-0 left-0 w-full h-full bg-white opacity-0 transition-all duration-300 ease-in-out group-hover:opacity-50"></span>
-                        </button>
-                    </div>
-                </div>
-
-                <div>
+                <div className="ml-96">
                     <h1 className='mt-10 -mb-3 text-center w-96 bg-gradient-to-r from-slate-300 to-slate-400 text-black text-4xl rounded-lg p-4 shadow-md transform' style={{ marginLeft: '450px' }}>Bookmarked Places</h1>
                     <div className="wrapper">
                         {bookmarkedPlaces.map((place, index) => (

@@ -46,10 +46,7 @@ function ForgotPassword() {
 
   return (
     <div className="flex flex-row items-center justify-center  h-screen bg-cover bg-center bg-no-repeat min-h-screen"
-      style={{
-        backgroundImage: `url(${background})`,
-
-      }}>
+      >
       <div>
         <div className="">
           <img src={logo} alt="logo image" className="w-[220px] h-[220px] ml-[120px] mt-[-100px]" />

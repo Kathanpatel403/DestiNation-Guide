@@ -4,7 +4,7 @@
   height: 450px;
   /* Adjust height as needed */
   position: relative;
-  margin-left: 28%;
+  margin-left: 2%;
   overflow: hidden;
   border: 2px solid transparent;
   /* Add transparent border */
@@ -20,7 +20,7 @@
 }
 
 .description {
-  margin-top: 30px;
+  margin-top: 150px;
   font-size: 1.3rem;
   /* Adjust font size */
   line-height: 1.5;
@@ -73,7 +73,7 @@
 
 .main-div {
   width: 80%;
-  margin-left: 10%;
+  margin-left: 2%;
 }
 
 .Fee {
@@ -91,6 +91,7 @@
   border-radius: 10px;
   /* Add border radius */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 470px;
 }
 
 .Timing {
@@ -145,7 +146,7 @@
 }
 
 .Activities {
-  margin-top: 30px;
+  margin-top: 15px;
   font-size: 1.3rem;
   /* Adjust font size */
   line-height: 1.5;
@@ -162,7 +163,7 @@
 }
 
 .Amenities {
-  margin-top: 30px;
+  margin-top: 15px;
   font-size: 1.3rem;
   /* Adjust font size */
   line-height: 1.5;
@@ -222,9 +223,9 @@
 }
 
 .map-button {
-  background-color: #dedede;
+  background-color: #ffffff;
   /* Grey background color */
-  color: #333;
+  color: #000000;
   /* White text color */
   border: none;
   /* Remove border */
@@ -234,15 +235,16 @@
   cursor: pointer;
   /* Change cursor to pointer on hover */
   margin-top: 10px;
-  margin-left: 45%;
+  margin-left: 30%;
   padding: 20px;
   /* Add padding */
   border-radius: 10px;
   /* Add border radius */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 200px;
 }
 
 .map-button:hover {
-  background-color: #888888;
+  background-color: #e8e8e8;
   /* Darker grey background color on hover */
 }

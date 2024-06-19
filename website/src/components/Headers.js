@@ -68,26 +68,55 @@ const HomeHeader = () => {
     navigate("/searchplace", { state: { placeName: searchValue } });
   };
 
+  const handleScroll = () => {
+    const header = document.querySelector('.fixed');
+    const content = document.querySelector('.content');
+  
+    if (window.scrollY > header.offsetHeight) {
+      header.classList.add('glassy');
+      content.classList.add('scroll-offset');
+    } else {
+      header.classList.remove('glassy');
+      content.classList.remove('scroll-offset');
+    }
+  };
+  
+  window.addEventListener('scroll', handleScroll);
+
   return (
     <>
       <div className="logo-and-text">
-        <img src={logo} alt="logo" style={{ marginTop: "-30px", marginLeft: "-50px", height: "200px", width: "200px" }} />
-        <h4 className="animated-text ml-96" style={{
-          fontSize: 48, marginTop: -40
-        }} >
-          <span>D</span><span>e</span><span>s</span><span>t</span><span>i</span><span>n</span><span>a</span><span>t</span><span>i</span><span>o</span><span>n</span><span> </span><span>G</span><span>u</span><span>i</span><span>d</span><span>e</span>
-        </h4>
+        <img src={logo} alt="logo" style={{ marginTop: "-30px", marginLeft: "-30px", height: "200px", width: "200px" }} />
+        <h4 className="animated-text">
+  <span>D</span>
+  <span>e</span>
+  <span>s</span>
+  <span>t</span>
+  <span>i</span>
+  <span>n</span>
+  <span>a</span>
+  <span>t</span>
+  <span>i</span>
+  <span>o</span>
+  <span>n</span>
+  <span> </span>
+  <span>G</span>
+  <span>u</span>
+  <span>i</span>
+  <span>d</span>
+  <span>e</span>
+</h4>
       </div>
 
       <div className="container">
         <nav className="flex items-center">
           <ul className="flex space-x-5">
-            <li style={{marginTop: '28px', fontWeight: '600'}}><Link to="/">Home</Link></li>
-            <li style={{marginTop: '28px', fontWeight: '600'}}><Link to="/popular">Popular Places</Link></li>
-            <li style={{marginTop: '28px', fontWeight: '600'}}><Link to="/recommended">Recommended Places</Link></li>
+            <li style={{marginTop: '28px', fontWeight: '600',width:'150px'}}><Link to="/">Home</Link></li>
+            <li style={{marginTop: '28px', fontWeight: '600',width:'250px'}}><Link to="/popular">Popular Places</Link></li>
+            <li style={{marginTop: '28px', fontWeight: '600',width:'350px'}}><Link to="/recommended">Recommended Places</Link></li>
 
-            <li className="flex items-center justify-center mt-[48px] h-[15px] w-[400px]">
-              <div className="relative ml-[300px] mr-[-300px] cursor-pointer">
+            <li className="flex items-center justify-center mt-[48px] h-[15px] w-[1 00px]">
+              <div className="relative ml-[50px] mr-[-300px] cursor-pointer">
                 <FaSearch className="absolute left-1 text-gray-500 mt-[15px] ml-[7px]" />
                 <input
                   type="text"
@@ -107,7 +136,9 @@ const HomeHeader = () => {
               </div>
             </li>
 
-            <div className="profile-section">
+            <div className="profile-section" style={{
+              marginTop:'37px',marginLeft:'150px'
+            }}>
               <li>
                 <Link to="/profile" className="profile-link flex items-center">
                   <img

@@ -10,8 +10,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Link, useNavigate } from "react-router-dom";
 import logo from '../assets/images/logo.png';
 import Headers from '../components/Headers';
+import { FaUserEdit, FaRegComment, FaBookmark, FaLock, FaSignOutAlt } from 'react-icons/fa';
+import './profile.css'
 
 
+
+import { useHistory } from 'react-router-dom';
 export default function ProfileScreen() {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
@@ -235,65 +239,70 @@ export default function ProfileScreen() {
   const handleUserReviewRating = () => {
     navigate("/userreviewrating")
   }
+ 
+
+  
+
 
   return (
     <div>
-      <div>
+      <div className='fixed z-10'>
         <Headers />
       </div>
-      <div className="flex">
-        <div className="flex flex-col items-center justify-center w-4/12 p-4 border-r border-gray-500">
-
-          <div className="mb-6">
-            <button
-              onClick={() => { navigate("/updateuserinfo") }}
-              className="text-white py-2 px-4 rounded-md overflow-hidden transform transition-all duration-300 ease-in-out bg-gray-600 hover:scale-105 hover:bg-gray-800 hover:shadow-md group"
-            >
-              Update Information
-              <span className="absolute top-0 left-0 w-full h-full bg-white opacity-0 transition-all duration-300 ease-in-out group-hover:opacity-50"></span>
-            </button>
-          </div>
-
-          <div className="mb-6">
-            <button
-              onClick={handleUserReviewRating}
-              className="text-white py-2 px-4 rounded-md overflow-hidden transform transition-all duration-300 ease-in-out bg-gray-600 hover:scale-105 hover:bg-gray-800 hover:shadow-md group"
-            >
-              User's All Reviews
-              <span className="absolute top-0 left-0 w-full h-full bg-white opacity-0 transition-all duration-300 ease-in-out group-hover:opacity-50"></span>
-            </button>
-          </div>
-
-          <div className="mb-6">
-            <button
-              onClick={() => { navigate("/bookmarks") }}
-              className="text-white py-2 px-4 rounded-md overflow-hidden transform transition-all duration-300 ease-in-out bg-gray-600 hover:scale-105 hover:bg-gray-800 hover:shadow-md group"
-            >
-              Bookmarks
-              <span className="absolute top-0 left-0 w-full h-full bg-white opacity-0 transition-all duration-300 ease-in-out group-hover:opacity-50"></span>
-            </button>
-          </div>
-
-          <div className="mb-6">
-            <button
-              onClick={changePasswordHandler}
-              className="text-white py-2 px-4 rounded-md overflow-hidden transform transition-all duration-300 ease-in-out bg-gray-600 hover:scale-105 hover:bg-gray-800 hover:shadow-md group"
-            >
-              Change Password
-              <span className="absolute top-0 left-0 w-full h-full bg-white opacity-0 transition-all duration-300 ease-in-out group-hover:opacity-50"></span>
-            </button>
-          </div>
-
-          <div className="mb-6">
-            <button
-              onClick={handleLogout}
-              className="text-white py-2 px-4 rounded-md overflow-hidden transform transition-all duration-300 ease-in-out bg-gray-600 hover:scale-105 hover:bg-gray-800 hover:shadow-md group"
-            >
-              Logout
-              <span className="absolute top-0 left-0 w-full h-full bg-white opacity-0 transition-all duration-300 ease-in-out group-hover:opacity-50"></span>
-            </button>
-          </div>
+      <div className="flex" style={{
+        paddingTop:'200px'
+      }}>
+      <div className="flex flex-col items-center justify-center w-4/12 p-4 border-r border-gray-500">
+        <div className="mb-6">
+          <button
+            onClick={() => { navigate("/updateuserinfo") }}
+            className="profile-button"
+          >
+            <FaUserEdit className="icon" />
+            Update Information
+          </button>
         </div>
+
+        <div className="mb-6">
+          <button
+            onClick={() => { navigate("/userreviewrating") }}
+            className="profile-button"
+          >
+            <FaRegComment className="icon" />
+            User's All Reviews
+          </button>
+        </div>
+
+        <div className="mb-6">
+          <button
+            onClick={() => { navigate("/bookmarks") }}
+            className="profile-button"
+          >
+            <FaBookmark className="icon" />
+            Bookmarks
+          </button>
+        </div>
+
+        <div className="mb-6">
+          <button
+            onClick={() => { navigate("/changepassword") }}
+            className="profile-button"
+          >
+            <FaLock className="icon" />
+            Change Password
+          </button>
+        </div>
+
+        <div className="mb-6">
+          <button
+            onClick={handleLogout}
+            className="profile-button"
+          >
+            <FaSignOutAlt className="icon" />
+            Logout
+          </button>
+        </div>
+      </div>
 
         {/* Second Half (70% width) */}
         <div className="flex flex-col items-center justify-center w-8/12 p-4">
@@ -302,8 +311,9 @@ export default function ProfileScreen() {
           <img
             src={userData?.photoURL || avatar}
             alt="Profile"
-            style={{ width: '150px', height: '150px', borderRadius: '100%', cursor: 'pointer', marginBottom: '15px', marginTop: '50px' }}
+            
             onClick={handleImageClick}
+            className='profile-image'
           />
           <input
             type="file"
@@ -313,106 +323,36 @@ export default function ProfileScreen() {
             onChange={handleImageChange}
           />
 
-          <div className="border border-gray-600 p-5 rounded-xl ">
-            <div
-              style={{
-                backgroundColor: "#e3e3e3", // Lighter background color
-                borderRadius: '5px',
-                padding: '5px',
-                marginBottom: '5px',
-                marginLeft: '5px',
-                marginRight: '5px',
-                alignItems: "flex-start", // Align text to the left
-                shadowColor: "#fff",
-                shadowOffset: { width: 0, height: 5 },
-                shadowOpacity: 0.3,
-                shadowRadius: 8,
-                elevation: 8,
-                borderWidth: 1,
-                borderColor: "#ccc", // Light border color
-              }}>
-              <div>Name: {userData?.name}</div>
-            </div>
+<div className="profile-info-container">
+  <div className='profile-info bg-glass'>
+    Name: {userData?.name}
+  </div>
+  <div className='profile-info bg-glass'>
+    Email: {userData?.email}
+  </div>
+  <div className='profile-info bg-glass'>
+    Location Preferences:
+  </div>
+  <div className='preferences-container'>
+    {locationPreferences.map((location, index) => (
+      <div key={index} className='preference-item bg-glass'>
+        {location}
+      </div>
+    ))}
+  </div>
+  <div className='profile-info bg-glass'>
+    Category Preferences:
+  </div>
+  <div className='preferences-container'>
+    {categoryPreferences.map((category, index) => (
+      <div key={index} className='preference-item bg-glass'>
+        {category}
+      </div>
+    ))}
+  </div>
+</div>
 
-            <div
-              style={{
-                backgroundColor: "#e3e3e3", // Lighter background color
-                borderRadius: '5px',
-                padding: '5px',
-                marginBottom: '5px',
-                marginLeft: '5px',
-                marginRight: '5px',
-                alignItems: "flex-start", // Align text to the left
-                shadowColor: "#fff",
-                shadowOffset: { width: 0, height: 5 },
-                shadowOpacity: 0.3,
-                shadowRadius: 8,
-                elevation: 8,
-                borderWidth: 1,
-                borderColor: "#ccc", // Light border color
-              }}>
-              <div>Email: {userData?.email}</div>
-            </div>
 
-            <div
-              style={{
-                backgroundColor: "#e3e3e3", // Lighter background color
-                borderRadius: '5px',
-                padding: '5px',
-                marginBottom: '5px',
-                marginLeft: '5px',
-                marginRight: '5px',
-                alignItems: "flex-start", // Align text to the left
-                shadowColor: "#fff",
-                shadowOffset: { width: 0, height: 5 },
-                shadowOpacity: 0.3,
-                shadowRadius: 8,
-                elevation: 8,
-                borderWidth: 1,
-                borderColor: "#ccc", // Light border color
-              }}>
-              <div style={{ fontSize: '1 rem', color: '#333' }}>
-                Location Preferences:
-              </div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'column', alignItems: 'flex-start' }}>
-                {locationPreferences.map((location, index) => (
-                  <p key={index} style={{ marginRight: '1rem' }}>
-                    {location}
-                  </p>
-                ))}
-              </div>
-            </div>
-
-            <div
-              style={{
-                backgroundColor: "#e3e3e3", // Lighter background color
-                borderRadius: '5px',
-                padding: '5px',
-                marginBottom: '5px',
-                marginLeft: '5px',
-                marginRight: '5px',
-                alignItems: "flex-start", // Align text to the left
-                shadowColor: "#fff",
-                shadowOffset: { width: 0, height: 5 },
-                shadowOpacity: 0.3,
-                shadowRadius: 8,
-                elevation: 8,
-                borderWidth: 1,
-                borderColor: "#ccc", // Light border color
-              }}>
-              <div style={{ fontSize: '1 rem', color: '#333' }}>
-                Category Preferences:
-              </div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'column', alignItems: 'flex-start' }}>
-                {categoryPreferences.map((category, index) => (
-                  <p key={index} style={{ marginRight: '1rem' }}>
-                    {category}
-                  </p>
-                ))}
-              </div>
-            </div>
-
-          </div>
 
         </div>
       </div>

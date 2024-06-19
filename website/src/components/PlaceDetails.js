@@ -1,13 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
-import axios from 'axios';
-import './PlaceDetails.css';
-import HomeHeader from './Headers';
-import 'leaflet/dist/leaflet.css'; // Import Leaflet CSS
-import { MapContainer, TileLayer, Marker, Popup, Icon } from 'react-leaflet'; // Import Leaflet components
-import L from 'leaflet';
-import image from '../assets/images/logo.png'
+import React, { useState, useEffect, useRef } from "react";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
+import axios from "axios";
+import { MapContainer, TileLayer, Marker, Popup, Icon } from "react-leaflet";
 import { FaHeart } from "react-icons/fa";
+import "./PlaceDetails.css";
+import HomeHeader from "./Headers";
+import "leaflet/dist/leaflet.css";
+import L from "leaflet";
 import { auth, firestore, storage } from "../config/firebase";
 import {
   doc,
@@ -16,8 +15,9 @@ import {
   arrayUnion,
   arrayRemove,
 } from "firebase/firestore";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import image from "../assets/images/logo.png";
 
 const PlaceDetails = () => {
   const navigate = useNavigate();
@@ -29,20 +29,21 @@ const PlaceDetails = () => {
   const [isFavourite, toggleFavourite] = useState(false);
   const placeId = location.state.placeId;
 
-
   const customIcon = new L.Icon({
-    iconUrl: image, // URL to the custom icon image
-    iconSize: [120, 120], // Size of the icon
+    iconUrl: image,
+    iconSize: [120, 120],
   });
-  
+
   useEffect(() => {
     const fetchPlaceDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/places/${placeName}`);
-        setPlace(response.data.place); // Assuming the response contains a 'place' property
-        console.log("Place details fetched from backend: ", place)
+        const response = await axios.get(
+          `http://localhost:8000/api/places/${placeName}`
+        );
+        setPlace(response.data.place);
+        console.log("Place details fetched from backend: ", place);
       } catch (error) {
-        console.error('Error fetching place details:', error);
+        console.error("Error fetching place details:", error);
       }
     };
 
@@ -53,7 +54,7 @@ const PlaceDetails = () => {
     const startCarousel = () => {
       intervalRef.current = setInterval(() => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % place.Image.length);
-      }, 3000); // Change image every 3 seconds
+      }, 3000);
     };
 
     const stopCarousel = () => {
@@ -69,39 +70,34 @@ const PlaceDetails = () => {
   const redirectToMapWithDirections = () => {
     const { latitude, longitude } = place;
     if (latitude && longitude) {
-      // Check if geolocation is supported
       if ("geolocation" in navigator) {
-        // Get user's current location
-        navigator.geolocation.getCurrentPosition(position => {
-          const { latitude: userLat, longitude: userLng } = position.coords;
-          // Construct the URL with directions from user's location to the destination
-          const url = `https://www.google.com/maps/dir/${userLat},${userLng}/${latitude},${longitude}`;
-          // Open the URL in a new tab
-          window.open(url, '_blank');
-        }, error => {
-          console.error('Error getting user location:', error);
-          // If there's an error getting user's location, fallback to opening the map without directions
-          openMapWithoutDirections();
-        });
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude: userLat, longitude: userLng } = position.coords;
+            const url = `https://www.google.com/maps/dir/${userLat},${userLng}/${latitude},${longitude}`;
+            window.open(url, "_blank");
+          },
+          (error) => {
+            console.error("Error getting user location:", error);
+            openMapWithoutDirections();
+          }
+        );
       } else {
-        console.error('Geolocation is not supported');
-        // If geolocation is not supported, fallback to opening the map without directions
+        console.error("Geolocation is not supported");
         openMapWithoutDirections();
       }
     } else {
-      console.error('Latitude and longitude not available');
+      console.error("Latitude and longitude not available");
     }
   };
 
   const openMapWithoutDirections = () => {
     const { latitude, longitude } = place;
     if (latitude && longitude) {
-      // Construct the URL without directions
       const url = `https://www.google.com/maps?q=${latitude},${longitude}`;
-      // Open the URL in a new tab
-      window.open(url, '_blank');
+      window.open(url, "_blank");
     } else {
-      console.error('Latitude and longitude not available');
+      console.error("Latitude and longitude not available");
     }
   };
 
@@ -113,7 +109,6 @@ const PlaceDetails = () => {
         if (user) {
           const uid = user.uid;
           const userRoleRef = doc(firestore, "userRoles", uid);
-
           const userSnapshot = await getDoc(userRoleRef);
           const userData = userSnapshot.data();
 
@@ -122,7 +117,7 @@ const PlaceDetails = () => {
             userData.BookmarkedPlaces &&
             userData.BookmarkedPlaces.includes(placeId)
           ) {
-            console.log("place is already in bookmarks!")
+            console.log("place is already in bookmarks!");
             toggleFavourite(!isFavourite);
           }
         }
@@ -141,7 +136,6 @@ const PlaceDetails = () => {
       if (user) {
         const uid = user.uid;
         const userRoleRef = doc(firestore, "userRoles", uid);
-
         const userSnapshot = await getDoc(userRoleRef);
         const userData = userSnapshot.data();
 
@@ -155,7 +149,7 @@ const PlaceDetails = () => {
           });
           console.log("Bookmark removed from firestore successfully!");
           toast.success(`Bookmarks removed successfully!`, {
-            position: 'bottom-right',
+            position: "bottom-right",
             autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: true,
@@ -170,7 +164,7 @@ const PlaceDetails = () => {
           });
           console.log("bookmark added to firestore successfully!");
           toast.success(`Bookmark added successfully!`, {
-            position: 'bottom-right',
+            position: "bottom-right",
             autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: true,
@@ -182,7 +176,7 @@ const PlaceDetails = () => {
         }
       } else {
         toast.success(`User data not found!`, {
-          position: 'bottom-right',
+          position: "bottom-right",
           autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -193,7 +187,7 @@ const PlaceDetails = () => {
       }
     } catch (error) {
       toast.success(`Error fetching user data: ${error}`, {
-        position: 'bottom-right',
+        position: "bottom-right",
         autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -203,64 +197,42 @@ const PlaceDetails = () => {
       });
       console.error("Error fetching user data:", error);
     }
-  }
+  };
 
   return (
     <>
       <div>
-        <div>
+        <div className="fixed z-10">
           <HomeHeader />
         </div>
+        <div style={{
+          paddingTop:'200px'
+        }}>
         {place ? (
           <div className="flex">
-
-            <div className="flex flex-col items-center w-4/12 p-4 border-r border-gray-500">
-
-              <div>
-                <h2 className='Amenities' style={{ fontWeight: 'bolder', color: 'black', width: '400px' }}>Map</h2>
-                <MapContainer center={[place.latitude, place.longitude]} zoom={16} style={{ height: '450px' }}>
-                  <TileLayer
-
-                    url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-                  />
-                  <Marker position={[place.latitude, place.longitude]} icon={customIcon}>
-                    <Popup>
-                      {place.Name}
-                    </Popup>
-                  </Marker>
-                </MapContainer>
-                <button onClick={redirectToMapWithDirections} className='map-button'>Get Direction</button>
-              </div>
-
-              <div>
-                <button onClick={() => { navigate("/give-review", { state: { placeName: place.Name } }) }} className='map-button'>Give Review</button>
-              </div>
-
-              <div>
-                <button onClick={() => { navigate("/all-reviews", { state: { placeName: place.Name } }) }} className='map-button'>See all Review</button>
-              </div>
-            </div>
-
-
             <div className="flex flex-col items-center justify-center w-8/12 p-4">
-
-              <h1 className='mt-10 mb-7 text-center w-96 bg-gradient-to-r from-slate-300 to-slate-400 text-black text-4xl rounded-lg p-4 shadow-md transform' style={{ marginLeft: '50px' }}>{place.Name}</h1>
-              <div className='carousel-container'>
+              <h1
+                className="mt-10 mb-7 text-center w-96 bg-gradient-to-r from-slate-300 to-slate-400 text-black text-4xl rounded-lg p-4 shadow-md transform"
+                style={{ marginLeft: "50px" }}
+              >
+                {place.Name}
+              </h1>
+              <div className="carousel-container">
                 {place.Image.map((image, index) => (
                   <img
                     key={index}
                     src={image}
                     alt={`Image ${index}`}
                     style={{
-                      position: 'absolute',
-                      top: '0',
-                      left: `${index === currentIndex ? '0' : '-100%'}`,
-                      transition: 'left 1s',
-                      width: '95%',
-                      height: '97%',
-                      margin: 15,
-                      objectFit: 'cover',
-                      borderRadius: 10
+                      position: "absolute",
+                      top: "0",
+                      left: `${index === currentIndex ? "0" : "-100%"}`,
+                      transition: "left 1s",
+                      width: "95%",
+                      height: "97%",
+                      margin: 17,
+                      objectFit: "cover",
+                      borderRadius: 10,
                     }}
                   />
                 ))}
@@ -273,54 +245,143 @@ const PlaceDetails = () => {
                   </button>
                 </div>
               </div>
-
-              <div className='main-div'>
-                <p className='text-xl description'>
-                  <span className='description-heading'>Description</span><br />
-                  {place.LongDescription}
+              <div className="main-div">
+                <p className="Timing">
+                  <span className="Timings-h">Timings:-</span> {place.Timings}
                 </p>
-                <p className='location'><span className='location-heading'>Location:</span> {place.City},{place.State},{place.Country}({place.latitude},{place.longitude})</p>
-                <p className='Timing'><span className='Timings-h'>Timings:</span> {place.Timings}</p>
-                <p className='Fee'><span className='Fee-h'>Fee:</span> {place.Fee}</p>
-                <p className='Feelink'><span style={{ fontWeight: 'bolder', color: 'black' }}>FeeLink:</span> <a href={place.FeeLink} target="_blank" rel="noopener noreferrer">Click Here</a></p>
-                <p className='BMTV' style={{ fontWeight: 'bolder', color: 'black' }}><span className='BMTV-h'>BMTV:</span> {place.BMTV}</p>
-
+                <p className="Feelink">
+                  <span style={{ fontWeight: "bolder", color: "black" }}>
+                    FeeLink:-
+                  </span>{" "}
+                  <a
+                    href={place.FeeLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Click Here
+                  </a>
+                </p>
+                <p
+                  className="BMTV"
+                  style={{ fontWeight: "bolder", color: "black" }}
+                >
+                  <span className="BMTV-h">BMTV:-</span> {place.BMTV}
+                </p>
                 <div>
-                  <h2 className='Activities' style={{ fontWeight: 'bolder', color: 'black' }}>Activities:</h2>
-                  <ul className='Activities'>
-                    {Array.isArray(place.Activities) ? (
-                      place.Activities.map((Activities, index) => (
-                        <li key={index}>{Activities}</li>
-                      ))
-                    ) : (
-                      <li>{place.Category}</li>
-                    )}
-                  </ul>
+                  <h2
+                    className="Amenities"
+                    style={{ fontWeight: "bolder", color: "black" }}
+                  >
+                    Amenities:-
+                    <ul className="Amenities">
+                      {Array.isArray(place.Amenities) ? (
+                        place.Amenities.map((Amenities, index) => (
+                          <li key={index}>{Amenities}</li>
+                        ))
+                      ) : (
+                        <li>{place.Category}</li>
+                      )}
+                    </ul>
+                  </h2>
                 </div>
-
                 <div>
-                  <h2 className='Amenities' style={{ fontWeight: 'bolder', color: 'black' }}>Amenities:</h2>
-                  <ul className='Amenities'>
-                    {Array.isArray(place.Amenities) ? (
-                      place.Amenities.map((Amenities, index) => (
-                        <li key={index}>{Amenities}</li>
-                      ))
-                    ) : (
-                      <li>{place.Category}</li>
-                    )}
-                  </ul>
+                  <h2
+                    className="Activities"
+                    style={{ fontWeight: "bolder", color: "black" }}
+                  >
+                    Activities:-
+                    <ul className="Activities">
+                      {Array.isArray(place.Activities) ? (
+                        place.Activities.map((Activities, index) => (
+                          <li key={index}>{Activities}</li>
+                        ))
+                      ) : (
+                        <li>{place.Category}</li>
+                      )}
+                    </ul>
+                  </h2>
                 </div>
-
               </div>
-
+            </div>
+            <div className="flex flex-col items-center w-4/12 p-5 mr-10  ">
+              <p className="text-xl description">
+                <span className="description-heading">Description:-</span>
+                <br />
+                {place.LongDescription}
+              </p>
+              <p className="location">
+                <span className="location-heading">Location:-</span>{" "}
+                {place.City},{place.State},{place.Country}({place.latitude},
+                {place.longitude})
+              </p>
+              <p className="Fee">
+                <span className="Fee-h">Fee:-</span> {place.Fee}
+              </p>
+              <div>
+                <h2
+                  className="Amenities"
+                  style={{
+                    fontWeight: "bolder",
+                    color: "black",
+                    width: "400px",
+                    zIndex:'-100'
+                  }}
+                >
+                  Map
+                  <MapContainer
+                    center={[place.latitude, place.longitude]}
+                    zoom={16}
+                    style={{ height: "450px",zIndex:1}}
+                  >
+                    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                    <Marker
+                      position={[place.latitude, place.longitude]}
+                      icon={customIcon}
+                    >
+                      <Popup>{place.Name}</Popup>
+                    </Marker>
+                  </MapContainer>
+                </h2>
+                <button
+                  onClick={redirectToMapWithDirections}
+                  className="map-button ml-24 "
+                >
+                  Get Direction
+                </button>
+              </div>
+              <div>
+                <button
+                  onClick={() => {
+                    navigate("/give-review", {
+                      state: { placeName: place.Name },
+                    });
+                  }}
+                  className="map-button ml-0"
+                >
+                  Give Review
+                </button>
+              </div>
+              <div>
+                <button
+                  onClick={() => {
+                    navigate("/all-reviews", {
+                      state: { placeName: place.Name },
+                    });
+                  }}
+                  className="map-button ml-0"
+                >
+                  See all Review
+                </button>
+              </div>
             </div>
           </div>
-          ) : (
-            <p>Loading...</p>
-          )}
+        ) : (
+          <p>Loading...</p>
+        )}
+        </div>
       </div>
     </>
-  )
-}
+  );
+};
 
 export default PlaceDetails;

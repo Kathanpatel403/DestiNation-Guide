@@ -1,79 +1,59 @@
-body {
+/* Global styles */
+body{
+  background-image: url('../assets/images/webback.jpg');
+  background-attachment:  fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background-size: cover;
   background-repeat: no-repeat;
-  min-height: 100vh;
-  min-width: 95%;
-  margin: -8px;
-  padding: 20px;
-  /* Adjust padding as needed */
-  /* Add any additional styles as needed */
-  /* overflow: hidden; Hide overflow */
-}
-
-nav {
-  background: #c4cad9;
-  border-color: black;
-  border-radius: 20px;
-  height: 80px;
-  /* marbogin:20px ; */
-  box-shadow: 1px 25px 20px -20px rgba(0, 0, 0, 0.4);
-}
-
-.container {
-  margin-top: -30px;
-}
-
-nav ul li {
-  list-style: none;
-  display: inline-block;
-  padding: 15px 35px;
-  margin: 5px;
-  font-size: 23px;
-  font-weight: 500;
-  color: black;
-  cursor: pointer;
-  position: relative;
-  /* z-index: 2; */
-  /* transition: color 0.5s; */
-  margin-top: 50px;
   
 }
 
-nav ul li::after {
-  content: "";
-  /* background: #edf4ff; */
-  width: 100%;
-  height: 100%;
-  border-radius: 30px;
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  /* transform: translate(-50%, -50%); */
-  /* z-index: -1; */
-  /* opacity: 0; */
-  /* transition: top 0.5s, opacity 0.5s; */
+/* Navigation bar styles */
+nav {
+  background-color: #efefef;
+  border-radius: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  height: 85px;
+  color: black;
+  width: 97%;
+  margin-left: 25px;
+}
+
+.container {
+  margin-top: -40px;
+}
+
+nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  width: 2094px;  
+}
+
+nav ul li {
+  margin: 5px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #000000;
+  cursor: pointer;
+  position: relative;
+  padding: 20px 30px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+
 }
 
 nav ul li:hover {
-  color: black;
+    animation: navItemHover 0.4s ease forwards;
+    font-size:20px /* Add animation on hover */
 }
 
-nav ul li:hover::after {
-  top: 50%;
-  opacity: 1;
-}
-
-
-.header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f0f0f0;
-  /* Add your desired background color */
-  padding: 20px;
-
-}
-
+/* Logo and text styles */
 .logo-and-text {
   display: flex;
   align-items: center;
@@ -81,59 +61,86 @@ nav ul li:hover::after {
 
 .logo {
   margin-right: 10px;
-
   height: 50px;
-  /* Adjust height as needed */
 }
 
-.animated-text {
-  font-size: 24px;
-  /* Adjust font size as needed */
-  display: inline-block;
-}
 
-.animated-text span {
-  animation: wave 0.5s infinite alternate;
-}
 
+/* Profile link styles */
 .profile-link {
   position: relative;
   display: inline-block;
   margin-top: -40px;
-  margin-left: 220px;
-  /* Ensure the link takes the size of the image */
+  margin-left: 120px;
 }
 
 .profile-link:hover img::after {
-  content: "";
-  background: #edf4ff;
+ 
   width: 20%;
   height: 20%;
-  border-radius: 30px;
+  border-radius: 50%;
   position: absolute;
   top: 100%;
   left: 50%;
-  /* transform: translate(-50%, -50%); */
-  /* z-index: -1; */
-  /* opacity: 0; */
-  /* transition: top 0.5s, opacity 0.5s; */
 }
 
-/* .profile-link:hover img::after {
-  top: 0;
-  opacity: 1;
-} */
 
-@keyframes wave {
+
+@keyframes navItemHover {
   0% {
     transform: translateY(0);
   }
-
   50% {
     transform: translateY(-5px);
   }
-
   100% {
     transform: translateY(0);
   }
+}
+
+
+.glassy {
+  background-color: rgba(255, 255, 255, 0.329); /* Adjust opacity as needed */
+  backdrop-filter: blur(10px); /* Apply the glassy effect */
+  
+}
+/* Keyframes for glow animation */
+@keyframes glow {
+  0% { text-shadow: 0 0 5px #ff6600 , 0 0 10px #ff6600, 0 0 15px #ff6600; }
+  50% { text-shadow: 0 0 10px #ff6600, 0 0 20px #ff6600, 0 0 30px #ff6600; }
+  100% { text-shadow: 0 0 5px #ff6600, 0 0 10px #ff6600, 0 0 15px #ff6600; }
+}
+
+/* Keyframes for pulsating animation */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Apply both glow and pulsating animations to each letter */
+.animated-text span {
+  display: inline-block;
+  animation: glow 1s infinite alternate, pulse 2s infinite ease-in-out,swing 2s infinite;
+}
+
+/* Adjust the margin and font size as needed */
+.animated-text {
+  margin-left: 450px;
+  font-size: 48px;
+}
+
+@keyframes swing {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(15deg); }
+  50% { transform: rotate(0deg); }
+  75% { transform: rotate(-15deg); }
+  100% { transform: rotate(0deg); }
+}
+body {
+  overflow: visible;
+}
+body::-webkit-scrollbar {
+   width: 0;
+   background: transparent;
 }
